@@ -521,15 +521,40 @@
       padding-right: 4px;
     }
 
-    .repo-cards-grid::-webkit-scrollbar {
-      width: 4px;
-    }
-    .repo-cards-grid::-webkit-scrollbar-track {
-      background: transparent;
-    }
     .repo-cards-grid::-webkit-scrollbar-thumb {
       background: var(--color-border);
       border-radius: 4px;
+    }
+
+    .matrix-stats-banner {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    
+    .matrix-stats-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .matrix-stats-pill {
+      font-size: 10px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+      background: var(--color-bg-page);
+      border: 1px solid var(--color-border);
+      padding: 2px 6px;
+      border-radius: var(--radius-xs);
+      color: var(--color-text-primary);
     }
 
     .repo-compact-card {
@@ -1122,16 +1147,15 @@
         <!-- Stats -->
         <div class="header-stats">
           <div class="h-stat-item">
-            <span class="h-stat-val">1</span>
+            <span class="h-stat-val" id="header-active-charts">1</span>
             <span class="h-stat-lbl" data-i18n="statCharts">Active Charts</span>
           </div>
           <div class="h-stat-item">
-            <span class="h-stat-val">10</span>
+            <span class="h-stat-val" id="header-source-projects">13</span>
             <span class="h-stat-lbl" data-i18n="navProjects">Source Projects</span>
           </div>
-          <div class="h-stat-item">
-            <span class="h-stat-val">A+</span>
-            <span class="h-stat-lbl">SecOps</span>
+          <div class="h-stat-item" id="header-secops-card">
+            <!-- Renders dynamically -->
           </div>
         </div>
       </div>
@@ -1195,6 +1219,10 @@ helm repo update</code>
               <button class="filter-btn" id="f-ts" onclick="setLanguageFilter('TypeScript', this)">TS</button>
               <button class="filter-btn" id="f-shell" onclick="setLanguageFilter('Shell', this)">Shell</button>
             </div>
+          </div>
+
+          <div class="matrix-stats-banner" id="matrix-stats-banner">
+            <!-- Dynamically populated summary statistics -->
           </div>
 
           <div class="repo-cards-grid" id="projects-list-container">
@@ -1360,7 +1388,11 @@ helm repo update</code>
         noProjects: "No projects match search.",
         noCharts: "No charts match search.",
         pConnectedNotice: "This project is distributed as a Helm chart:",
-        linkToChartBtn: "Go to Helm Chart"
+        linkToChartBtn: "Go to Helm Chart",
+        totalLabel: "Total Repositories",
+        starsLabel: "Total Stars",
+        forksLabel: "Total Forks",
+        langDistLabel: "Language Mix"
       },
       zh: {
         navCharts: "Helm 镜像包",
@@ -1413,7 +1445,11 @@ helm repo update</code>
         noProjects: "未找到匹配的原生项目。",
         noCharts: "未找到匹配的 Helm 镜像包。",
         pConnectedNotice: "此项目已打包并在 Helm 软件源发布：",
-        linkToChartBtn: "前往 Helm 镜像包"
+        linkToChartBtn: "前往 Helm 镜像包",
+        totalLabel: "仓库总数",
+        starsLabel: "星标总数",
+        forksLabel: "分支总数",
+        langDistLabel: "语言分布"
       }
     };
 
@@ -1456,6 +1492,8 @@ helm repo update</code>
       renderDetailsPanelProject();
       
       updateHelmCommand();
+      updateHeaderStats();
+      renderProjectsSummaryStats();
     }
 
     // Projects Data Source
@@ -1463,30 +1501,30 @@ helm repo update</code>
       roma: {
         name: "roma",
         lang: "Go",
-        stars: "1.2k",
-        forks: "185",
-        issues: "4",
+        stars: 4,
+        forks: 0,
+        issues: 0,
         desc: {
-          zh: "基于 Go 语言的 AI 驱动、超轻量级跳板机/堡垒机服务，提供安全、智能的远程接入与通道审计。",
-          en: "An AI-powered, ultra-lightweight jump server (bastion host) built with Go. Provides secure remote access with native AI integration."
+          zh: "基于 Go 语言的 AI 驱动、超轻量级跳板机/堡垒机服务，提供安全、智能的远程接入，集成 Model Context Protocol (MCP)。",
+          en: "An AI-powered, ultra-lightweight jump server (bastion host) built with Go. Provides secure remote access with Model Context Protocol (MCP)."
         },
         features: {
           zh: [
             "AI 辅助命令智能自动补全与异动扫描",
-            "超轻量静态编译，无外部二进制依赖",
+            "通过 Model Context Protocol (MCP) 原生集成 AI 开发能力",
             "原生的 SSH/SFTP 连接代理与终端会话录像审计",
-            "完备的 RBAC 角色权限控制以及双因子 MFA 动态认证"
+            "完备的 RBAC 角色权限控制"
           ],
           en: [
             "AI-assisted command autocomplete and anomaly detection",
-            "Ultra-lightweight binary with zero external dependencies",
+            "Native AI integration through Model Context Protocol (MCP)",
             "Native SSH/SFTP proxying and terminal session recording",
-            "Role-based access control (RBAC) and Multi-Factor Auth (MFA)"
+            "Role-based access control (RBAC)"
           ]
         },
         install: {
           "Go Install": "go install github.com/binrchq/roma@latest",
-          "Git Clone": "git clone https://github.com/binrchq/roma.git\\ncd roma && go build -o roma main.go",
+          "Git Clone": "git clone https://github.com/binrchq/roma.git\ncd roma && go build -o roma main.go",
           "Docker": "docker pull ghcr.io/binrchq/roma:latest"
         },
         github: "https://github.com/binrchq/roma",
@@ -1496,9 +1534,9 @@ helm repo update</code>
       headcni: {
         name: "headcni",
         lang: "Go",
-        stars: "980",
-        forks: "142",
-        issues: "8",
+        stars: 2,
+        forks: 0,
+        issues: 0,
         desc: {
           zh: "结合 Headscale 与 Tailscale 功能的 Kubernetes CNI 插件，通过 WireGuard 提供模块化的 Pod 加密覆盖网络。",
           en: "Kubernetes CNI plugin combining Headscale and Tailscale functions for modular, scalable networks using WireGuard encryption."
@@ -1518,7 +1556,7 @@ helm repo update</code>
           ]
         },
         install: {
-          "Helm Install": "helm repo add binrc https://charts.binrc.com\\nhelm install headcni binrc/headcni",
+          "Helm Install": "helm repo add binrc https://charts.binrc.com\nhelm install headcni binrc/headcni",
           "Git Clone": "git clone https://github.com/binrchq/headcni.git"
         },
         github: "https://github.com/binrchq/headcni",
@@ -1526,54 +1564,22 @@ helm repo update</code>
         isHelm: true,
         helmChartName: "headcni"
       },
-      KubePVCWarmer: {
-        name: "KubePVCWarmer",
-        lang: "Go",
-        stars: "430",
-        forks: "58",
-        issues: "2",
-        desc: {
-          zh: "Kubernetes 原生的 PVC 预热解决方案，通过智能缓存和 OverlayFS 技术加速容器启动。",
-          en: "Kubernetes-native PVC pre-warming solution using smart caching and OverlayFS to accelerate container start times."
-        },
-        features: {
-          zh: [
-            "在 Pod 调度前，提前在节点对 Persistent Volume Claims 缓存预热",
-            "直接使用 OverlayFS 挂载，彻底免去数据全量拷贝耗时",
-            "采用 Kubernetes 原生 Operator 架设与调度",
-            "兼容各种云环境 CSI 驱动 (AWS EBS, GCP PD, Ceph, NFS)"
-          ],
-          en: [
-            "Pre-warms persistent volume claims before Pod scheduling",
-            "Uses OverlayFS to avoid unnecessary copy overhead",
-            "Integrates as a native Kubernetes Operator",
-            "Supports major CSI providers (AWS EBS, GCP PD, Ceph, NFS)"
-          ]
-        },
-        install: {
-          "kubectl Apply": "kubectl apply -f https://raw.githubusercontent.com/binrchq/KubePVCWarmer/main/deploy/operator.yaml",
-          "Git Clone": "git clone https://github.com/binrchq/KubePVCWarmer.git"
-        },
-        github: "https://github.com/binrchq/KubePVCWarmer",
-        issues: "https://github.com/binrchq/KubePVCWarmer/issues",
-        isHelm: false
-      },
       mtconsole: {
         name: "mtconsole",
         lang: "Go",
-        stars: "195",
-        forks: "22",
-        issues: "1",
+        stars: 1,
+        forks: 0,
+        issues: 0,
         desc: {
-          zh: "简洁易用的无需登录的机房网络维护终端界面程序，专为边缘服务器和节点现场网络维护设计。",
-          en: "Clean and easy-to-use datacentre network maintenance terminal program requiring no login, designed for local node troubleshooting."
+          zh: "简洁易用的无需登录的机房网络维护终端界面程序，专为现场边缘服务器故障排查设计。",
+          en: "Clean and easy-to-use datacentre network maintenance terminal program requiring no login."
         },
         features: {
           zh: [
             "无需登录即可拉取本地基础网络层指标数据",
             "只读安全终端控制台，防止误触操作导致配置漂移",
             "基于 Bubbletea TUI 框架构建的交互式操作界面",
-            "实时查询接口、系统路由、及 DNS 可用性状态"
+            "实时查询接口、系统路由及 DNS 可用性状态"
           ],
           en: [
             "No login required for local network metrics retrieval",
@@ -1593,19 +1599,19 @@ helm repo update</code>
       sysinfokeeper: {
         name: "sysinfokeeper",
         lang: "Go",
-        stars: "320",
-        forks: "41",
-        issues: "3",
+        stars: 0,
+        forks: 0,
+        issues: 0,
         desc: {
-          zh: "硬件资产自动盘点与变更追踪工具，使用 SQLite 本地数据库并自动执行 30 天变更保留。",
-          en: "Linux/Unix CLI that inventories hardware, tracks changes, and stores history in SQLite with automatic 30-day retention."
+          zh: "硬件资产自动盘点与变更追踪工具，使用 SQLite 本地数据库并自动执行历史保留。",
+          en: "Linux/Unix CLI that inventories hardware, tracks changes, and stores history in SQLite with 30-day retention."
         },
         features: {
           zh: [
             "自动化对服务器 CPU、RAM、硬盘及网卡等核心资产盘点",
             "每次运行比对基线变更，记录资产升级与变动轨迹",
             "本地化免配置 SQLite 数据持久化存储",
-            "内置自动的数据清扫逻辑，默认支持 30 天周期历史存储"
+            "默认支持 30 天周期历史存储"
           ],
           en: [
             "Detailed hardware inventory (CPU, RAM, Disks, Network cards)",
@@ -1622,84 +1628,49 @@ helm repo update</code>
         issues: "https://github.com/binrchq/sysinfokeeper/issues",
         isHelm: false
       },
-      "database-clis": {
-        name: "Database CLIs",
-        lang: "Go",
-        stars: "850",
-        forks: "95",
-        issues: "5",
-        desc: {
-          zh: "基于 Go 语言构建的轻量级数据库命令行工具集，统一常用数据库的即时查询与交互管理。",
-          en: "A comprehensive suite of lightweight CLI utilities for clickhouse, mysql, elasticsearch, mssql, mongodb, redis, and postgres."
-        },
-        features: {
-          zh: [
-            "分别发布针对 MySQL, Redis, PG, MongoDB, MSSQL, ClickHouse, ES 的独立工具",
-            "原生集成了交互式自动联想与历史命令复用",
-            "颜色语法区分的高性能表格化列布局，适合在终端中浏览数据",
-            "静态编译无任何 runtime 依赖，即拿即用"
-          ],
-          en: [
-            "Dedicated clients for MySQL, Redis, PG, MongoDB, MSSQL, ClickHouse, ES",
-            "Rich history management and autocomplete in terminal",
-            "Color-coded tabular output and query formatting",
-            "Zero external runtime dependencies, standalone static binaries"
-          ]
-        },
-        install: {
-          "Redis CLI": "go install github.com/binrchq/redis-cli@latest",
-          "MySQL CLI": "go install github.com/binrchq/mysql-cli@latest",
-          "ClickHouse CLI": "go install github.com/binrchq/clickhouse-cli@latest"
-        },
-        github: "https://github.com/binrchq",
-        issues: "https://github.com/binrchq/redis-cli/issues",
-        isHelm: false
-      },
       snowflakeid: {
         name: "snowflakeid",
         lang: "Go",
-        stars: "280",
-        forks: "30",
-        issues: "0",
+        stars: 0,
+        forks: 1,
+        issues: 0,
         desc: {
-          zh: "高性能 Snowflake 唯一 ID 生成器，针对全局分布式环境优化，生成支持 Base32 编码的有序字符串。",
-          en: "High-performance Go implementation of Snowflake ID generator with custom headers and Base32-encoded ordered strings."
+          zh: "分布式唯一 ID 生成器，支持自定义 Header 和 Base32 编码的有序字符串输出。",
+          en: "Go implementation of Snowflake ID generator with custom headers and Base32-encoded ordered strings."
         },
         features: {
           zh: [
-            "线程安全的无锁化原子算法，满足极致吞吐量需求",
+            "线程安全的无锁化原子算法，满足高吞吐量需求",
             "支持 Base32 编码及自定义字典映射，规避非安全字符",
-            "紧凑的 64 位整型承载，支持毫秒级高精度反解析",
-            "天然适配容器化集群分布式自动分配 node_id"
+            "高精度时间戳承载，支持分布式自动分配"
           ],
           en: [
             "Thread-safe lock-free high-performance ID generation",
             "Supports Base32 and custom alphabet encoding",
-            "Compact 64-bit representation with millisecond precision",
-            "Compatible with distributed coordination settings"
+            "High precision timestamps for distributed allocation"
           ]
         },
         install: {
           "Go Get": "go get github.com/binrchq/snowflakeid"
         },
         github: "https://github.com/binrchq/snowflakeid",
-        issues: "",
+        issues: "https://github.com/binrchq/snowflakeid/issues",
         isHelm: false
       },
       yamlc: {
         name: "yamlc",
         lang: "Go",
-        stars: "150",
-        forks: "18",
-        issues: "1",
+        stars: 0,
+        forks: 0,
+        issues: 0,
         desc: {
           zh: "支持多种注释风格和灵活配置参数的 Golang YAML 结构体与配置文件生成器。",
-          en: "A powerful Go YAML generator supporting multiple comment styles and flexible struct configurations."
+          en: "Go YAML generator supporting multiple comment styles and flexible struct configurations."
         },
         features: {
           zh: [
-            "利用 struct 结构体 tags 参数全自动输出带有格式的 yaml 代码",
-            "在修改配置文件时，原地增量解析并安全地保留原有的注释行",
+            "利用 struct 结构体 tags 参数自动输出带有格式的 yaml 代码",
+            "原地增量解析并安全地保留原有的注释行",
             "支持自定义标签映射与驼峰/蛇形变量名转换"
           ],
           en: [
@@ -1712,62 +1683,58 @@ helm repo update</code>
           "Go Get": "go get github.com/binrchq/yamlc"
         },
         github: "https://github.com/binrchq/yamlc",
-        issues: "",
+        issues: "https://github.com/binrchq/yamlc/issues",
         isHelm: false
       },
       outformat: {
         name: "outformat",
         lang: "Go",
-        stars: "110",
-        forks: "12",
-        issues: "0",
+        stars: 0,
+        forks: 0,
+        issues: 0,
         desc: {
-          zh: "轻量级 Golang 输出格式化工具库，支持将任意结构体转换为 JSON, JSON-Lines, 表格等格式输出。",
+          zh: "轻量级 Golang 输出格式化工具库，支持将结构体转换为 JSON, JSON-Lines, 表格等格式输出。",
           en: "Lightweight Golang output formatting utility library supporting human-readable, json, json-lines, table output."
         },
         features: {
           zh: [
-            "极其轻量的依赖包大小，支持对复杂嵌套的结构化数据优雅打印",
+            "极其轻量的依赖包大小，支持对复杂结构化数据优雅打印",
             "终端环境下自动列宽比对的高性能文本表格格式化输出",
-            "原生集成对流式 JSON 以及 json-lines (NDJSON) 输出格式",
-            "一键式方法包装，无需繁复的初始化构建"
+            "原生集成对流式 JSON 以及 json-lines 输出格式支持"
           ],
           en: [
             "Format structural outputs in terminal",
             "Support standard Table formatting with auto-column width",
-            "JSON and JSON-Lines (NDJSON) streaming support",
-            "Lightweight footprint with zero dependencies"
+            "JSON and JSON-Lines streaming support"
           ]
         },
         install: {
           "Go Get": "go get github.com/binrchq/outformat"
         },
         github: "https://github.com/binrchq/outformat",
-        issues: "",
+        issues: "https://github.com/binrchq/outformat/issues",
         isHelm: false
       },
       "auth-sdk": {
         name: "auth-sdk",
         lang: "TypeScript",
-        stars: "340",
-        forks: "45",
-        issues: "2",
+        stars: 0,
+        forks: 0,
+        issues: 0,
         desc: {
           zh: "用于接入 binrc 统一身份认证中心的 TypeScript / JavaScript 客户端 SDK 开发包。",
-          en: "Official SDK and utility library for integrating applications with the binrc authentication and SSO management center."
+          en: "Official TS/JS SDK for integrating applications with the binrc authentication and SSO management center."
         },
         features: {
           zh: [
             "极简标准的 OAuth2 / OIDC 安全协议封装库",
             "内置支持静默的 access_token 自动续签与自定义隔离存储适配器",
-            "完美的 TypeScript 类型支持，支持同构运行在 Node.js 和浏览器侧",
-            "提供 JWT token 解密与权限 Scope 范围拦截校验辅助函数"
+            "完美的 TypeScript 类型支持，支持同构运行在 Node.js 和浏览器侧"
           ],
           en: [
             "Lightweight OAuth2 / OIDC client library",
             "Automatic silent token renewal and storage adapters",
-            "Full TypeScript typings and browser/node compatibility",
-            "Built-in token validation and scope checking"
+            "Full TypeScript typings and browser/node compatibility"
           ]
         },
         install: {
@@ -1777,6 +1744,151 @@ helm repo update</code>
         },
         github: "https://github.com/binrchq/auth-sdk",
         issues: "https://github.com/binrchq/auth-sdk/issues",
+        isHelm: false
+      },
+      "roma-web": {
+        name: "roma-web",
+        lang: "JavaScript",
+        stars: 1,
+        forks: 0,
+        issues: 0,
+        desc: {
+          zh: "ROMA 堡垒机的网页管理界面控制台。",
+          en: "Web frontend console interface for ROMA jump server."
+        },
+        features: {
+          zh: [
+            "基于 Web 的安全终端连接管理",
+            "与 ROMA 堡垒机核心服务无缝对接",
+            "直观的多节点和凭据管理面板"
+          ],
+          en: [
+            "Web-based secure terminal session management",
+            "Seamless connection with ROMA core services",
+            "Intuitive UI for nodes and credentials management"
+          ]
+        },
+        install: {
+          "NPM Run": "git clone https://github.com/binrchq/roma-web.git\ncd roma-web && npm install && npm run dev"
+        },
+        github: "https://github.com/binrchq/roma-web",
+        issues: "https://github.com/binrchq/roma-web/issues",
+        isHelm: false
+      },
+      "mysql-cli": {
+        name: "mysql-cli",
+        lang: "Go",
+        stars: 0,
+        forks: 0,
+        issues: 0,
+        desc: {
+          zh: "专为 MySQL 数据库打造的高效、轻量级终端命令行交互工具。",
+          en: "Lightweight and interactive command-line interface database client for MySQL."
+        },
+        features: {
+          zh: [
+            "语法着色与自动完成的即时查询",
+            "结构化结果的高性能表格化展示",
+            "零运行依赖的纯静态编译二进制"
+          ],
+          en: [
+            "Syntax highlighting and autocomplete query execution",
+            "Tabular layout optimized for terminal representation",
+            "Zero runtime dependencies static compilation"
+          ]
+        },
+        install: {
+          "Go Install": "go install github.com/binrchq/mysql-cli@latest"
+        },
+        github: "https://github.com/binrchq/mysql-cli",
+        issues: "https://github.com/binrchq/mysql-cli/issues",
+        isHelm: false
+      },
+      "redis-cli": {
+        name: "redis-cli",
+        lang: "Go",
+        stars: 0,
+        forks: 0,
+        issues: 0,
+        desc: {
+          zh: "基于 Go 语言构建的 Redis 数据库命令行交互查询工具。",
+          en: "Lightweight command-line interface client for Redis database workflows."
+        },
+        features: {
+          zh: [
+            "交互式命令自动补全与历史记录",
+            "直观的 Key-Value 结构化检索与类型识别",
+            "零依赖静态编译，一键启动"
+          ],
+          en: [
+            "Interactive command autocompletion and command history",
+            "Visual key-value search with type-specific decoding",
+            "Zero runtime dependencies static compilation"
+          ]
+        },
+        install: {
+          "Go Install": "go install github.com/binrchq/redis-cli@latest"
+        },
+        github: "https://github.com/binrchq/redis-cli",
+        issues: "https://github.com/binrchq/redis-cli/issues",
+        isHelm: false
+      },
+      "postgres-cli": {
+        name: "postgres-cli",
+        lang: "Go",
+        stars: 0,
+        forks: 0,
+        issues: 0,
+        desc: {
+          zh: "专为 PostgreSQL 数据库开发的高效终端交互客户端。",
+          en: "Lightweight and interactive command-line interface database client for PostgreSQL."
+        },
+        features: {
+          zh: [
+            "语法着色的交互式命令行 SQL 查询",
+            "自适应终端大小的高性能表格数据输出",
+            "原生 Go 实现，完美跨平台"
+          ],
+          en: [
+            "Syntax highlighted query execution in database prompt",
+            "Auto-fitting table results display for readability",
+            "Native Go cross-platform static binary"
+          ]
+        },
+        install: {
+          "Go Install": "go install github.com/binrchq/postgres-cli@latest"
+        },
+        github: "https://github.com/binrchq/postgres-cli",
+        issues: "https://github.com/binrchq/postgres-cli/issues",
+        isHelm: false
+      },
+      "mongodb-cli": {
+        name: "mongodb-cli",
+        lang: "Go",
+        stars: 1,
+        forks: 0,
+        issues: 0,
+        desc: {
+          zh: "用于 MongoDB 文档数据库的轻量级交互控制台客户端。",
+          en: "Interactive CLI database client for MongoDB document query and management."
+        },
+        features: {
+          zh: [
+            "内置对 JSON 格式的文档打印与格式化美化",
+            "快捷的集合检索与简易查询命令",
+            "无需臃肿依赖，轻量快速"
+          ],
+          en: [
+            "Pretty-printing of MongoDB documents in JSON representation",
+            "Quick collection scanning and query methods",
+            "No bloated GUI client needed, lightning fast run"
+          ]
+        },
+        install: {
+          "Go Install": "go install github.com/binrchq/mongodb-cli@latest"
+        },
+        github: "https://github.com/binrchq/mongodb-cli",
+        issues: "https://github.com/binrchq/mongodb-cli/issues",
         isHelm: false
       }
     };
@@ -2049,6 +2161,7 @@ helm repo update</code>
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderProjectList();
+      renderProjectsSummaryStats();
     }
 
     function filterProjectsList() {
@@ -2379,6 +2492,81 @@ helm repo update</code>
       }
       
       printStep();
+    }
+
+    // Dynamic stats and SecOps header controllers
+    function updateHeaderStats() {
+      const activeChartsCount = Object.keys(chartsData).length;
+      document.getElementById('header-active-charts').innerText = activeChartsCount;
+
+      const sourceProjectsCount = Object.keys(projectsData).length;
+      document.getElementById('header-source-projects').innerText = sourceProjectsCount;
+
+      const secopsCard = document.getElementById('header-secops-card');
+      if (secopsCard) {
+        const secopsText = activeLang === 'zh' ? '已审计' : 'Audited';
+        secopsCard.innerHTML = `
+          <span class="h-stat-val" style="color: var(--color-success); font-size: 14.5px; font-weight: 700; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.05); padding: 2px 6px; border-radius: var(--radius-sm);">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>${secopsText}</span>
+          </span>
+          <span class="h-stat-lbl">SecOps</span>
+        `;
+      }
+    }
+
+    function renderProjectsSummaryStats() {
+      const banner = document.getElementById('matrix-stats-banner');
+      if (!banner) return;
+
+      let totalProjects = 0;
+      let totalStars = 0;
+      let totalForks = 0;
+      const langCounts = {};
+
+      Object.keys(projectsData).forEach(key => {
+        const proj = projectsData[key];
+        const langMatch = (currentLangFilter === 'all' || proj.lang === currentLangFilter);
+        if (langMatch) {
+          totalProjects++;
+          
+          let starsVal = 0;
+          if (typeof proj.stars === 'number') {
+            starsVal = proj.stars;
+          } else {
+            starsVal = parseFloat(proj.stars) * (proj.stars.includes('k') ? 1000 : 1);
+          }
+          totalStars += starsVal;
+
+          let forksVal = 0;
+          if (typeof proj.forks === 'number') {
+            forksVal = proj.forks;
+          } else {
+            forksVal = parseFloat(proj.forks) * (proj.forks.includes('k') ? 1000 : 1);
+          }
+          totalForks += forksVal;
+
+          langCounts[proj.lang] = (langCounts[proj.lang] || 0) + 1;
+        }
+      });
+
+      const langDistribution = Object.keys(langCounts)
+        .map(lang => `${lang}: ${langCounts[lang]}`)
+        .join(' | ');
+
+      const langData = locales[activeLang];
+
+      banner.innerHTML = `
+        <div class="matrix-stats-row">
+          <span>${langData.totalLabel}: <strong>${totalProjects}</strong></span>
+          <span>${langData.starsLabel}: <strong>${totalStars}</strong></span>
+          <span>${langData.forksLabel}: <strong>${totalForks}</strong></span>
+        </div>
+        <div class="matrix-stats-row" style="font-size: 10px; color: var(--color-text-muted); border-top: 1px dashed var(--color-border); padding-top: 6px; margin-top: 2px;">
+          <span>${langData.langDistLabel}:</span>
+          <span class="matrix-stats-pill">${langDistribution}</span>
+        </div>
+      `;
     }
 
     // Initialize Page on DOM Loaded
