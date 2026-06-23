@@ -689,28 +689,11 @@
               </h3>
               <span class="project-card-badge">Go</span>
             </div>
-            <p class="project-card-desc">Super lightweight jumpserver (bastion host) service designed for simple access management and secure routing.<br>使用 Go 开发的超轻量级跳板机服务，旨在提供极简的安全接入与维护审计通道。</p>
+            <p class="project-card-desc">An AI-powered, ultra-lightweight jump server (bastion host) built with Go.<br>基于 Go 语言开发的 AI 驱动、超轻量级跳板机/堡垒机服务，提供安全、智能的远程接入与通道审计审计。</p>
             <div class="project-card-tags">
               <span class="tag tag-blue">Bastion</span>
+              <span class="tag">AI-powered</span>
               <span class="tag">Security</span>
-              <span class="tag">audit-log</span>
-            </div>
-          </div>
-
-          <!-- mtconsole -->
-          <div class="project-card">
-            <div class="project-card-header">
-              <h3 class="project-card-title">
-                <span class="status-dot online"></span>
-                <span>mtconsole</span>
-              </h3>
-              <span class="project-card-badge">Python / Go</span>
-            </div>
-            <p class="project-card-desc">A simple, easy-to-use network maintenance terminal interface for real-time monitoring and debugging.<br>一个简洁易用的网络维护终端界面，方便工程师进行实时的链路诊断、监控与命令控制。</p>
-            <div class="project-card-tags">
-              <span class="tag tag-blue">Terminal UI</span>
-              <span class="tag">Networking</span>
-              <span class="tag">debug-tools</span>
             </div>
           </div>
 
@@ -721,9 +704,9 @@
                 <span class="status-dot online"></span>
                 <span>headcni</span>
               </h3>
-              <span class="project-card-badge">Go / C</span>
+              <span class="project-card-badge">Go</span>
             </div>
-            <p class="project-card-desc">Kubernetes CNI plugin combining Headscale and Tailscale functions for WireGuard-encrypted pod networks.<br>融合了 Headscale 与 Tailscale 特性的 Kubernetes CNI 插件，通过 WireGuard 搭建安全的 Pod 加密网络。</p>
+            <p class="project-card-desc">Kubernetes CNI plugin combining Headscale and Tailscale functions for modular, scalable networks.<br>结合 Headscale 与 Tailscale 功能的 Kubernetes CNI 插件，通过 WireGuard 提供模块化的 Pod 加密覆盖网络。</p>
             <div class="project-card-tags">
               <span class="tag tag-blue">CNI</span>
               <span class="tag tag-success">WireGuard</span>
@@ -731,37 +714,139 @@
             </div>
           </div>
 
-          <!-- Experimental: Traffic Scheduler -->
+          <!-- KubePVCWarmer -->
           <div class="project-card">
             <div class="project-card-header">
               <h3 class="project-card-title">
-                <span class="status-dot experiment"></span>
-                <span>Traffic Scheduler</span>
+                <span class="status-dot online"></span>
+                <span>KubePVCWarmer</span>
               </h3>
-              <span class="project-card-badge">Experiment</span>
+              <span class="project-card-badge">Go</span>
             </div>
-            <p class="project-card-desc">Experimental systems for adaptive network traffic scheduling and congestion control optimization.<br>实验性项目，专注于自适应网络流量调度与边缘计算环境下的拥塞控制优化。</p>
+            <p class="project-card-desc">Kubernetes-native PVC pre-warming solution using smart caching and OverlayFS to accelerate container start times.<br>Kubernetes 原生的 PVC 预热解决方案，通过智能缓存和 OverlayFS 技术加速容器启动。</p>
             <div class="project-card-tags">
-              <span class="tag">eBPF</span>
-              <span class="tag">Scheduling</span>
-              <span class="tag">adaptive-routing</span>
+              <span class="tag tag-blue">Kubernetes</span>
+              <span class="tag tag-success">OverlayFS</span>
+              <span class="tag">PVC-Warm</span>
             </div>
           </div>
 
-          <!-- Experimental: Face expression systems -->
+          <!-- mtconsole -->
           <div class="project-card">
             <div class="project-card-header">
               <h3 class="project-card-title">
-                <span class="status-dot experiment"></span>
-                <span>Expression Drive</span>
+                <span class="status-dot online"></span>
+                <span>mtconsole</span>
               </h3>
-              <span class="project-card-badge">Experiment</span>
+              <span class="project-card-badge">Go</span>
             </div>
-            <p class="project-card-desc">Experimental models and interfaces driven by real-time facial expression mapping for human-computer interaction.<br>基于实时面部表情映射驱动的交互实验，探索下一代人机协同界面的表达与控制可能。</p>
+            <p class="project-card-desc">Clean and easy-to-use datacentre network maintenance terminal program requiring no login.<br>简洁易用的无需登录的机房网络维护终端界面程序，专为边缘服务器和节点现场网络维护设计。</p>
             <div class="project-card-tags">
-              <span class="tag">CV</span>
-              <span class="tag">AI</span>
-              <span class="tag">human-interface</span>
+              <span class="tag tag-blue">Terminal-UI</span>
+              <span class="tag">DevOps</span>
+              <span class="tag">Networking</span>
+            </div>
+          </div>
+
+          <!-- sysinfokeeper -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot online"></span>
+                <span>sysinfokeeper</span>
+              </h3>
+              <span class="project-card-badge">Go</span>
+            </div>
+            <p class="project-card-desc">Linux/Unix CLI that inventories hardware, tracks changes, and stores history in SQLite with a 30-day retention.<br>硬件资产自动盘点与变更追踪工具，使用 SQLite 本地数据库并自动执行 30 天变更保留。</p>
+            <div class="project-card-tags">
+              <span class="tag tag-blue">CLI</span>
+              <span class="tag">System-Inventory</span>
+              <span class="tag">SQLite</span>
+            </div>
+          </div>
+
+          <!-- DB CLIs -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot online"></span>
+                <span>Database CLIs</span>
+              </h3>
+              <span class="project-card-badge">Go</span>
+            </div>
+            <p class="project-card-desc">A comprehensive suite of CLI utilities for Postgres, Redis, MySQL, MongoDB, ClickHouse, SQL Server, and Elasticsearch.<br>基于 Go 语言构建的轻量级数据库命令行工具集，统一常用数据库的即时查询与交互管理。</p>
+            <div class="project-card-tags">
+              <span class="tag tag-blue">Database-CLI</span>
+              <span class="tag">SQL-Tools</span>
+              <span class="tag">DevOps</span>
+            </div>
+          </div>
+
+          <!-- snowflakeid -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot online"></span>
+                <span>snowflakeid</span>
+              </h3>
+              <span class="project-card-badge">Go</span>
+            </div>
+            <p class="project-card-desc">High-performance Go implementation of Snowflake ID generator with custom headers and Base32-encoded ordered strings.<br>高性能 Snowflake 唯一 ID 生成器，针对全局分布式环境优化，生成支持 Base32 编码的有序字符串。</p>
+            <div class="project-card-tags">
+              <span class="tag tag-blue">Snowflake-ID</span>
+              <span class="tag">Distributed</span>
+              <span class="tag">Base32</span>
+            </div>
+          </div>
+
+          <!-- yamlc -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot online"></span>
+                <span>yamlc</span>
+              </h3>
+              <span class="project-card-badge">Go</span>
+            </div>
+            <p class="project-card-desc">A powerful Go YAML generator supporting multiple comment styles and flexible configuration options.<br>支持多种注释风格和灵活配置参数的 Golang YAML 结构体与配置文件生成器。</p>
+            <div class="project-card-tags">
+              <span class="tag tag-blue">YAML-Generator</span>
+              <span class="tag">Library</span>
+              <span class="tag">DevTools</span>
+            </div>
+          </div>
+
+          <!-- outformat -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot online"></span>
+                <span>outformat</span>
+              </h3>
+              <span class="project-card-badge">Go</span>
+            </div>
+            <p class="project-card-desc">Lightweight Golang output formatting utility library supporting human-readable, json, json-lines, table output.<br>轻量级 Golang 输出格式化工具库，支持将任意结构体转换为 JSON, JSON-Lines, 表格等格式输出。</p>
+            <div class="project-card-tags">
+              <span class="tag tag-blue">Formatter</span>
+              <span class="tag">Golang-Lib</span>
+              <span class="tag">Utility</span>
+            </div>
+          </div>
+
+          <!-- auth-sdk -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot online"></span>
+                <span>auth-sdk</span>
+              </h3>
+              <span class="project-card-badge">TypeScript</span>
+            </div>
+            <p class="project-card-desc">Official SDK and utility library for integrating applications with the binrc authentication and SSO management center.<br>用于接入 binrc 统一身份认证中心的 TypeScript / JavaScript 客户端 SDK 开发包。</p>
+            <div class="project-card-tags">
+              <span class="tag tag-blue">Auth-SDK</span>
+              <span class="tag">TypeScript</span>
+              <span class="tag">SSO</span>
             </div>
           </div>
         </div>
