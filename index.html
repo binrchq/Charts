@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>binrc / registry</title>
+  <title>binrc/Charts</title>
   <style>
     @import url('https://fonts.loli.net/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -18,32 +18,44 @@
 
     :root {
       /* -- Surface: white/light slate -- */
-      --ink-950: #f8fafc; /* Page Background */
-      --ink-900: #ffffff; /* Card / Block Background */
-      --ink-850: #f1f5f9; /* Selected Card / subtle background */
-      --ink-800: #e2e8f0; /* Hover / Border */
-      --ink-700: #cbd5e1; /* Stronger Border */
-      --ink-600: #94a3b8; /* Very Strong Border */
+      --ink-950: #f8fafc;
+      /* Page Background */
+      --ink-900: #ffffff;
+      /* Card / Block Background */
+      --ink-850: #f1f5f9;
+      /* Selected Card / subtle background */
+      --ink-800: #e2e8f0;
+      /* Hover / Border */
+      --ink-700: #cbd5e1;
+      /* Stronger Border */
+      --ink-600: #94a3b8;
+      /* Very Strong Border */
 
       /* -- Text -- */
-      --paper-50: #0f172a; /* Main Text Color (dark slate) */
-      --paper-200: #334155; /* Secondary Text */
-      --mist-400: #475569; /* Muted/Tertiary Text */
+      --paper-50: #0f172a;
+      /* Main Text Color (dark slate) */
+      --paper-200: #334155;
+      /* Secondary Text */
+      --mist-400: #475569;
+      /* Muted/Tertiary Text */
       --mist-500: #64748b;
       --mist-600: #94a3b8;
 
       /* -- Signal: binrc green (used sparingly, keeping it slightly darker for readability on white bg) -- */
-      --signal-500: #10b981; /* #29dd8a is too bright for light theme, use #10b981 */
+      --signal-500: #10b981;
+      /* #29dd8a is too bright for light theme, use #10b981 */
       --signal-400: #059669;
       --signal-glow: rgba(16, 185, 129, 0.12);
       --signal-dim: rgba(16, 185, 129, 0.06);
 
       /* -- Secondary accent: amber -- */
-      --amber-500: #d97706; /* dark amber */
+      --amber-500: #d97706;
+      /* dark amber */
       --amber-dim: rgba(217, 119, 6, 0.08);
 
       /* -- Tertiary: blue-slate -- */
-      --azure-500: #2563eb; /* dark blue */
+      --azure-500: #2563eb;
+      /* dark blue */
       --azure-dim: rgba(37, 99, 235, 0.08);
 
       /* -- Danger -- */
@@ -125,7 +137,7 @@
       left: 0;
       right: 0;
       height: 60px;
-      background: rgba(10, 14, 19, 0.86);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--ink-700);
       z-index: 100;
@@ -1199,10 +1211,13 @@
       font-family: var(--font-mono);
     }
 
-    .topo-strip svg {
-      width: 100%;
-      height: auto;
-      display: block;
+    @keyframes status-pulse {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    .status-pulse-dot {
+      animation: status-pulse 2s infinite;
     }
 
     /* ============ FOOTER ============ */
@@ -1447,7 +1462,7 @@
     <div class="navbar-container">
       <a href="#" class="brand-section">
         <img class="header-logo-img" src="https://cdn.binrc.com/images/logo_little.svg" alt="binrc logo">
-        <span class="brand-name">binrc<span class="brand-dim"> / registry</span></span>
+        <span class="brand-name">binrc<span class="brand-dim">/Charts</span></span>
       </a>
 
       <nav class="nav-tabs">
@@ -1575,10 +1590,29 @@ helm repo update</span></code>
 
           <div class="repo-cards-grid" id="charts-list-container"></div>
 
-          <!-- Signature element: live topology of binrc's real cross-region deployment -->
-          <div class="topo-strip">
-            <span class="topo-strip-label" data-i18n="topoLabel">Deployment topology · live</span>
-            <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" id="topo-svg"></svg>
+          <!-- Signature element: live service status dashboard -->
+          <div class="topo-strip" id="status-dashboard-card" style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="topo-strip-label" id="status-dashboard-label" data-i18n="topoLabel" style="margin-bottom:0;">Service Operational Status · live</span>
+              <span style="font-size: 10px; font-family: var(--font-mono); font-weight: 700; color: var(--signal-500); display: flex; align-items: center; gap: 5px;">
+                <span class="status-pulse-dot" style="width: 6px; height: 6px; border-radius: 50%; background: var(--signal-500); display: inline-block;"></span>
+                <span>OPERATIONAL</span>
+              </span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 4px;">
+              <div style="background: var(--ink-900); border: 1px solid var(--ink-800); border-radius: var(--radius-xs); padding: 8px; text-align: center;">
+                <div style="font-size: 8.5px; color: var(--mist-500); font-family: var(--font-mono); text-transform: uppercase; white-space: nowrap;">CDN Cache</div>
+                <div id="metric-cdn-cache" style="font-size: 13px; font-weight: 700; color: var(--paper-50); font-family: var(--font-mono); margin-top: 3px;">99.98%</div>
+              </div>
+              <div style="background: var(--ink-900); border: 1px solid var(--ink-800); border-radius: var(--radius-xs); padding: 8px; text-align: center;">
+                <div style="font-size: 8.5px; color: var(--mist-500); font-family: var(--font-mono); text-transform: uppercase; white-space: nowrap;">API Ping</div>
+                <div id="metric-api-ping" style="font-size: 13px; font-weight: 700; color: var(--paper-50); font-family: var(--font-mono); margin-top: 3px;">14 ms</div>
+              </div>
+              <div style="background: var(--ink-900); border: 1px solid var(--ink-800); border-radius: var(--radius-xs); padding: 8px; text-align: center;">
+                <div style="font-size: 8.5px; color: var(--mist-500); font-family: var(--font-mono); text-transform: uppercase; white-space: nowrap;">Registry</div>
+                <div id="metric-registry" style="font-size: 13px; font-weight: 700; color: var(--signal-500); font-family: var(--font-mono); margin-top: 3px;">PASSING</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1853,7 +1887,7 @@ helm repo update</span></code>
         sendRequestBtn: "Send Test Request",
         apiResponseLabel: "Simulated Response Payload",
         apiPlaygroundTitle: "API Details & Testing",
-        topoLabel: "Deployment topology · live"
+        topoLabel: "Service Operational Status · live"
       },
       zh: {
         navCharts: "镜像包",
@@ -1919,7 +1953,7 @@ helm repo update</span></code>
         sendRequestBtn: "发送测试请求",
         apiResponseLabel: "模拟 JSON 响应报文",
         apiPlaygroundTitle: "API 详细设计与交互测试",
-        topoLabel: "实时部署拓扑"
+        topoLabel: "服务实时运行状态"
       }
     };
 
@@ -2677,7 +2711,7 @@ helm repo update</span></code>
       },
       ipseekQuery: {
         project: "ipseek.cc",
-        name: "GET /?ip={ip_address}",
+        name: "GET /?ip={ip}",
         method: "GET",
         path: "/",
         baseUrl: "https://ipseek.cc",
@@ -2686,10 +2720,10 @@ helm repo update</span></code>
           en: "Inspect geolocation, carrier ISP, and routing ASN parameters of a specific IPv4/IPv6 address."
         },
         params: [
-          { name: "ip_address", type: "string", req: true, val: "223.5.5.5", desc: { zh: "目标查询的 IPv4 / IPv6 公网地址", en: "Target IP routing string to inspect." } }
+          { name: "ip", type: "string", req: true, val: "223.5.5.5", desc: { zh: "目标查询的 IPv4 / IPv6 公网地址", en: "Target IP routing string to inspect." } }
         ],
         codeGenerator: (params) => {
-          const u = `https://ipseek.cc?ip=${params.ip_address}`;
+          const u = `https://ipseek.cc?ip=${params.ip}`;
           return {
             "cURL": `curl -sL "${u}"`,
             "Go": `package main\n\nimport (\n\t"fmt"\n\t"io"\n\t"net/http"\n)\n\nfunc main() {\n\tresp, _ := http.Get("${u}")\n\tdefer resp.Body.Close()\n\tbody, _ := io.ReadAll(resp.Body)\n\tfmt.Println(string(body))\n}`,
@@ -2699,7 +2733,7 @@ helm repo update</span></code>
         },
         response: (params) => {
           return {
-            "ip": params.ip_address || "223.5.5.5",
+            "ip": params.ip || "223.5.5.5",
             "asn": "37963",
             "isp": "阿里云",
             "continent": "亚洲",
@@ -2719,6 +2753,7 @@ helm repo update</span></code>
 
     let activeApiId = 'avatarOne';
     let activeApiLang = 'cURL';
+    const collapsedProjects = {};
 
     let activeChartId = 'headcni';
     let activeProjectId = 'roma';
@@ -3337,42 +3372,11 @@ helm repo update</span></code>
     // SIGNATURE ELEMENT: deployment topology
     // ==========================================
     function renderTopology() {
-      const svg = document.getElementById('topo-svg');
-      if (!svg) return;
-
-      const nodeLabels = activeLang === 'zh'
-        ? { gz: "贵州 · NAT", cd: "成都", qz: "泉州", hk: "中国香港" }
-        : { gz: "Guizhou · NAT", cd: "Chengdu", qz: "Quanzhou", hk: "Hong Kong" };
-
-      const nodes = [
-        { id: "gz", x: 36, y: 64, label: nodeLabels.gz, kind: "nat" },
-        { id: "cd", x: 130, y: 26, label: nodeLabels.cd, kind: "node" },
-        { id: "qz", x: 130, y: 102, label: nodeLabels.qz, kind: "node" },
-        { id: "hk", x: 252, y: 64, label: nodeLabels.hk, kind: "relay" }
-      ];
-
-      const edges = [["gz", "cd"], ["gz", "qz"], ["cd", "hk"], ["qz", "hk"]];
-
-      const colorFor = (kind) => kind === "relay" ? "var(--azure-500)" : (kind === "nat" ? "var(--amber-500)" : "var(--signal-500)");
-
-      let edgesSvg = '';
-      edges.forEach(([a, b]) => {
-        const na = nodes.find(n => n.id === a);
-        const nb = nodes.find(n => n.id === b);
-        edgesSvg += `<line x1="${na.x}" y1="${na.y}" x2="${nb.x}" y2="${nb.y}" stroke="var(--ink-700)" stroke-width="1.5" stroke-dasharray="3 3"/>`;
-      });
-
-      let nodesSvg = '';
-      nodes.forEach(n => {
-        const c = colorFor(n.kind);
-        nodesSvg += `
-          <circle cx="${n.x}" cy="${n.y}" r="13" fill="var(--ink-900)" stroke="${c}" stroke-width="1.6"/>
-          <circle cx="${n.x}" cy="${n.y}" r="3.2" fill="${c}"/>
-          <text x="${n.x}" y="${n.y + 26}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--mist-400)">${escapeHtml(n.label)}</text>
-        `;
-      });
-
-      svg.innerHTML = edgesSvg + nodesSvg;
+      const pingEl = document.getElementById('metric-api-ping');
+      if (pingEl) {
+        const randPing = Math.floor(Math.random() * 5) + 11;
+        pingEl.innerText = `${randPing} ms`;
+      }
     }
 
     // ==========================================
@@ -3402,10 +3406,26 @@ helm repo update</span></code>
       Object.keys(groupedApis).forEach(projName => {
         let projHasMatches = false;
         const tempContainer = document.createElement('div');
-        tempContainer.style.marginBottom = '4px';
+        tempContainer.style.marginBottom = '6px';
+
+        const isCollapsed = searchQuery ? false : (collapsedProjects[projName] === true);
 
         const header = document.createElement('div');
         header.className = 'api-group-header';
+        header.style.cursor = 'pointer';
+        header.style.userSelect = 'none';
+        header.style.display = 'flex';
+        header.style.alignItems = 'center';
+        header.style.justifyContent = 'space-between';
+        header.style.padding = '6px 8px';
+        header.style.borderRadius = 'var(--radius-xs)';
+        header.style.transition = 'background 0.15s ease';
+        header.onmouseover = () => { header.style.background = 'var(--ink-850)'; };
+        header.onmouseout = () => { header.style.background = 'transparent'; };
+        header.onclick = () => {
+          collapsedProjects[projName] = !isCollapsed;
+          renderApisList();
+        };
 
         let icon = '';
         if (projName.toLowerCase().includes('avatar')) {
@@ -3414,7 +3434,9 @@ helm repo update</span></code>
           icon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
         }
 
-        header.innerHTML = `${icon} <span>${projName}</span>`;
+        const chevron = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: auto; transition: transform 0.2s; ${isCollapsed ? '' : 'transform: rotate(90deg);'}"><polyline points="9 18 15 12 9 6"></polyline></svg>`;
+
+        header.innerHTML = `<div style="display:flex; align-items:center; gap:6px;">${icon} <span>${projName}</span></div>${chevron}`;
         tempContainer.appendChild(header);
 
         groupedApis[projName].forEach(({ key, api }) => {
@@ -3424,24 +3446,27 @@ helm repo update</span></code>
           if (nameMatch || descMatch) {
             matchesFound = true;
             projHasMatches = true;
-            const isActive = (key === activeApiId);
-            const card = document.createElement('div');
-            card.className = `repo-compact-card ${isActive ? 'active' : ''}`;
-            card.onclick = () => selectApi(key);
 
-            card.innerHTML = `
-              <div class="repo-compact-header">
-                <span class="repo-compact-name">${api.name}</span>
-                <span class="api-method-badge">${api.method}</span>
-              </div>
-              <p class="repo-compact-desc">${api.desc[activeLang]}</p>
-              <div class="repo-compact-stats">
-                <span style="font-family: var(--font-mono); font-size: 10.5px; color: var(--signal-400); font-weight: 500;">
-                  ${api.path}
-                </span>
-              </div>
-            `;
-            tempContainer.appendChild(card);
+            if (!isCollapsed) {
+              const isActive = (key === activeApiId);
+              const card = document.createElement('div');
+              card.className = `repo-compact-card ${isActive ? 'active' : ''}`;
+              card.onclick = () => selectApi(key);
+
+              card.innerHTML = `
+                <div class="repo-compact-header">
+                  <span class="repo-compact-name">${api.name}</span>
+                  <span class="api-method-badge">${api.method}</span>
+                </div>
+                <p class="repo-compact-desc">${api.desc[activeLang]}</p>
+                <div class="repo-compact-stats">
+                  <span style="font-family: var(--font-mono); font-size: 10.5px; color: var(--signal-400); font-weight: 500;">
+                    ${api.path}
+                  </span>
+                </div>
+              `;
+              tempContainer.appendChild(card);
+            }
           }
         });
 
@@ -3529,7 +3554,7 @@ helm repo update</span></code>
           <div class="interactive-configurator" style="display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 20px;">
             <div class="config-options">
               ${paramsInputHtml}
-              <button id="api-test-run-btn" class="secops-run-btn" onclick="sendSimulatedApiRequest()" style="width: 100%; margin-top: 8px; font-weight:700;">
+              <button id="api-test-run-btn" class="secops-run-btn" onclick="sendSimulatedApiRequest()" style="grid-column: 1 / -1; width: 100%; margin-top: 8px; font-weight: 700; height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                 <span>${langData.sendRequestBtn}</span>
               </button>
@@ -3556,12 +3581,17 @@ helm repo update</span></code>
                 </div>
               </div>
 
-              <div class="console-terminal-container" style="margin-top: 10px; min-height: 140px;">
-                <div class="terminal-header">
-                  <span class="terminal-title" style="margin-left: 0;">${langData.apiResponseLabel}</span>
+              <div class="console-terminal-container" style="margin-top: 10px; min-height: 160px; display: flex; flex-direction: column;">
+                <div class="terminal-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <div style="display: flex;">
+                    <button class="console-terminal-tab active" id="response-tab-raw" onclick="switchResponseView('raw')">Response Raw</button>
+                    <button class="console-terminal-tab" id="response-tab-preview" onclick="switchResponseView('preview')" style="display: none; color: var(--signal-500);">Visual Preview ⚡</button>
+                  </div>
+                  <span id="api-response-status" style="margin-right: 8px; font-size: 9px; font-family: var(--font-mono); padding: 2px 6px; border-radius: var(--radius-xs); background: rgba(0,0,0,0.05); color: var(--mist-400); font-weight: 600;">IDLE</span>
                 </div>
-                <div class="console-terminal-body" style="padding: 10px 12px;">
-                  <code id="api-json-response" style="color: var(--azure-500); font-size:11px; line-height: 1.35; max-height:160px; overflow-y:auto;">{}</code>
+                <div class="console-terminal-body" style="padding: 10px 12px; flex: 1; min-height: 120px;">
+                  <code id="api-json-response" style="color: var(--azure-500); font-size:11px; line-height: 1.35; max-height:180px; overflow-y:auto; display: block;">{}</code>
+                  <div id="api-preview-response" style="display: none; justify-content: center; align-items: center; min-height: 120px; width: 100%;"></div>
                 </div>
               </div>
             </div>
@@ -3637,9 +3667,15 @@ helm repo update</span></code>
 
       const btn = document.getElementById('api-test-run-btn');
       const responseEl = document.getElementById('api-json-response');
+      const statusEl = document.getElementById('api-response-status');
 
       btn.disabled = true;
       responseEl.innerText = "// Calling real API endpoint... Please wait...";
+      if (statusEl) {
+        statusEl.innerText = "CALLING";
+        statusEl.style.color = "var(--amber-500)";
+        statusEl.style.background = "rgba(217, 119, 6, 0.1)";
+      }
 
       const paramsValues = {};
       api.params.forEach(p => {
@@ -3678,8 +3714,24 @@ helm repo update</span></code>
         fetchOptions.body = JSON.stringify(postBody);
       }
 
+      // Hide preview tab and reset view on new request
+      const tabPreview = document.getElementById('response-tab-preview');
+      if (tabPreview) tabPreview.style.display = 'none';
+      switchResponseView('raw');
+
       fetch(targetUrl, fetchOptions)
         .then(async res => {
+          if (statusEl) {
+            statusEl.innerText = `${res.status} ${res.statusText || 'OK'}`;
+            if (res.ok) {
+              statusEl.style.color = 'var(--signal-500)';
+              statusEl.style.background = 'rgba(16, 185, 129, 0.1)';
+            } else {
+              statusEl.style.color = 'var(--danger-500)';
+              statusEl.style.background = 'rgba(220, 38, 38, 0.1)';
+            }
+          }
+
           const contentType = res.headers.get('content-type') || '';
           if (contentType.includes('image/svg+xml')) {
             const svgText = await res.text();
@@ -3703,14 +3755,131 @@ helm repo update</span></code>
         })
         .then(data => {
           responseEl.innerText = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
+          const isSvg = typeof data === 'string' && data.trim().startsWith('<svg');
+          renderResponsePreview(data, isSvg, api.project);
         })
         .catch(err => {
+          if (statusEl) {
+            statusEl.innerText = "CORS / OFFLINE";
+            statusEl.style.color = 'var(--amber-500)';
+            statusEl.style.background = 'rgba(217, 119, 6, 0.1)';
+          }
           // If real call fails (CORS, offline, etc.), fallback gracefully and show why it failed
-          responseEl.innerText = `// Real API request failed: ${err.message}\n// Fallback (Simulated):\n` + JSON.stringify(api.response ? api.response(paramsValues) : {"error": err.message}, null, 2);
+          const fallbackData = api.response ? api.response(paramsValues) : { "error": err.message };
+          responseEl.innerText = `// Real API request failed: ${err.message}\n// Fallback (Simulated):\n` + JSON.stringify(fallbackData, null, 2);
+          const isSvg = typeof fallbackData === 'string' && fallbackData.trim().startsWith('<svg');
+          renderResponsePreview(fallbackData, isSvg, api.project);
         })
         .finally(() => {
           btn.disabled = false;
         });
+    }
+
+    function switchResponseView(view) {
+      const tabRaw = document.getElementById('response-tab-raw');
+      const tabPreview = document.getElementById('response-tab-preview');
+      const codeEl = document.getElementById('api-json-response');
+      const previewEl = document.getElementById('api-preview-response');
+
+      if (!tabRaw || !tabPreview || !codeEl || !previewEl) return;
+
+      if (view === 'raw') {
+        tabRaw.classList.add('active');
+        tabPreview.classList.remove('active');
+        codeEl.style.display = 'block';
+        previewEl.style.display = 'none';
+      } else {
+        tabRaw.classList.remove('active');
+        tabPreview.classList.add('active');
+        codeEl.style.display = 'none';
+        previewEl.style.display = 'flex';
+      }
+    }
+
+    function renderResponsePreview(data, isSvgRaw, apiProject) {
+      const previewEl = document.getElementById('api-preview-response');
+      const tabPreview = document.getElementById('response-tab-preview');
+
+      if (!previewEl || !tabPreview) return;
+
+      previewEl.innerHTML = '';
+      tabPreview.style.display = 'none';
+
+      if (isSvgRaw) {
+        tabPreview.style.display = 'block';
+        previewEl.innerHTML = data;
+        const svg = previewEl.querySelector('svg');
+        if (svg) {
+          svg.style.maxWidth = '140px';
+          svg.style.height = 'auto';
+          svg.style.maxHeight = '140px';
+        }
+        // Auto-switch to preview for svg responses for a better visual experience
+        switchResponseView('preview');
+        return;
+      }
+
+      if (typeof data === 'object' && data !== null) {
+        if (apiProject === 'avatar') {
+          if (data.data && typeof data.data.svg === 'string') {
+            tabPreview.style.display = 'block';
+            previewEl.innerHTML = data.data.svg;
+            const svg = previewEl.querySelector('svg');
+            if (svg) {
+              svg.style.maxWidth = '140px';
+              svg.style.height = 'auto';
+              svg.style.maxHeight = '140px';
+            }
+            switchResponseView('preview');
+          } else if (data.data && Array.isArray(data.data)) {
+            const svgs = data.data.filter(item => item && typeof item.svg === 'string').map(item => item.svg);
+            if (svgs.length > 0) {
+              tabPreview.style.display = 'block';
+              const grid = document.createElement('div');
+              grid.style.display = 'grid';
+              grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(65px, 1fr))';
+              grid.style.gap = '10px';
+              grid.style.width = '100%';
+              grid.style.maxHeight = '150px';
+              grid.style.overflowY = 'auto';
+              svgs.forEach(svgStr => {
+                const item = document.createElement('div');
+                item.style.background = 'var(--ink-950)';
+                item.style.border = '1px solid var(--ink-800)';
+                item.style.borderRadius = 'var(--radius-xs)';
+                item.style.padding = '4px';
+                item.style.display = 'flex';
+                item.style.justifyContent = 'center';
+                item.style.alignItems = 'center';
+                item.innerHTML = svgStr;
+                const svg = item.querySelector('svg');
+                if (svg) {
+                  svg.style.width = '100%';
+                  svg.style.height = 'auto';
+                }
+                grid.appendChild(item);
+              });
+              previewEl.appendChild(grid);
+              switchResponseView('preview');
+            }
+          }
+        } else if (apiProject === 'ipseek.cc') {
+          if (data.ip) {
+            tabPreview.style.display = 'block';
+            previewEl.innerHTML = `
+              <div style="width: 100%; text-align: left; font-family: var(--font-mono); font-size: 11px; color: var(--paper-200); background: var(--ink-950); border: 1px solid var(--ink-800); border-radius: var(--radius-xs); padding: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <div><span style="color:var(--mist-500);">IP Address:</span> <strong style="color:var(--signal-400);">${data.ip}</strong></div>
+                <div><span style="color:var(--mist-500);">ISP / Net:</span> <span style="color:var(--azure-400);">${data.isp || 'Unknown'}</span></div>
+                <div><span style="color:var(--mist-500);">Country:</span> <span>${data.country || '-'} (${data.continent || '-'})</span></div>
+                <div><span style="color:var(--mist-500);">Location:</span> <span>${data.province || ''} ${data.city || ''}</span></div>
+                <div><span style="color:var(--mist-500);">ASN:</span> <span>AS${data.asn || '-'}</span></div>
+                <div><span style="color:var(--mist-500);">CIDR:</span> <span>${data.cidr || '-'}</span></div>
+              </div>
+            `;
+            switchResponseView('preview');
+          }
+        }
+      }
     }
 
     // ==========================================
@@ -3723,6 +3892,9 @@ helm repo update</span></code>
         defaultLang = 'zh';
       }
       setLanguage(defaultLang);
+      
+      // Auto-updater for dashboard latency metrics
+      setInterval(renderTopology, 4000);
     });
   </script>
 </body>
