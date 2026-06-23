@@ -102,31 +102,31 @@ spec:
             magicDNS:
               enabled: {{ .Values.config.dns.magicDNS.enabled | default true }}
               nameservers:
-              {{- if .Values.config.dns.magicDNS.nameservers }}
-              {{- range .Values.config.dns.magicDNS.nameservers }}
+{{- if .Values.config.dns.magicDNS.nameservers }}
+{{- range .Values.config.dns.magicDNS.nameservers }}
                 - {{ . }}
-              {{- end }}
-              {{- else }}
+{{- end }}
+{{- else }}
                 - "8.8.8.8"
                 - "8.8.4.4"
-              {{- end }}
+{{- end }}
               searchDomains:
-              {{- if .Values.config.dns.magicDNS.searchDomains }}
-              {{- range .Values.config.dns.magicDNS.searchDomains }}
+{{- if .Values.config.dns.magicDNS.searchDomains }}
+{{- range .Values.config.dns.magicDNS.searchDomains }}
                 - {{ . }}
-              {{- end }}
-              {{- else }}
+{{- end }}
+{{- else }}
                 - "cluster.local"
-              {{- end }}
+{{- end }}
               options:
-              {{- if .Values.config.dns.magicDNS.options }}
-              {{- range .Values.config.dns.magicDNS.options }}
+{{- if .Values.config.dns.magicDNS.options }}
+{{- range .Values.config.dns.magicDNS.options }}
                 - {{ . }}
-              {{- end }}
-              {{- else }}
+{{- end }}
+{{- else }}
                 - "ndots:5"
                 - "timeout:2"
-              {{- end }}
+{{- end }}
             custom:
               enabled: false
               nameservers: []
