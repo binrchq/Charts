@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>binrc Open Source Hub & Charts</title>
+  <title>binrc Hub — Open Source & Helm Registry</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap');
 
@@ -148,8 +148,98 @@
     header p {
       font-size: 16px;
       opacity: 0.85;
-      max-width: 700px;
+      max-width: 750px;
       line-height: 1.7;
+    }
+
+    /* --- Stats Strip --- */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .stat-val {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .stat-lbl {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    /* --- Navigation Tabs --- */
+    .nav-tabs {
+      display: flex;
+      background: var(--color-bg);
+      padding: 6px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+      gap: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px 20px;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all var(--transition-fast);
+    }
+
+    .tab-btn:hover {
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+    }
+
+    .tab-btn.active {
+      background: var(--color-action);
+      color: var(--color-action-text);
+    }
+
+    /* --- Content Panels --- */
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.3s ease;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .tab-panel.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* --- Section Styling --- */
@@ -177,41 +267,43 @@
       padding-bottom: 12px;
     }
 
-    /* --- Philosophy Visual Block --- */
-    .philosophy-banner {
-      background: var(--color-surface);
-      border-left: 4px solid var(--color-action);
-      border-radius: var(--radius-sm);
-      padding: 24px;
-      margin: 10px 0;
-    }
-
-    .philosophy-eq {
-      font-family: var(--font-heading);
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--color-text-primary);
-      margin-bottom: 8px;
-    }
-
-    .philosophy-desc {
-      font-size: 14px;
-      color: var(--color-text-secondary);
-      line-height: 1.6;
-    }
-
-    /* --- Code Terminal Block --- */
+    /* --- Interactive Console & Terminal Block --- */
     .terminal-block {
       background: #18181b;
       color: #f4f4f5;
       font-family: var(--font-mono);
       font-size: 13.5px;
-      padding: 20px;
+      padding: 22px;
       border-radius: var(--radius-md);
       position: relative;
       overflow-x: auto;
       border: 1px solid #27272a;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .terminal-header-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 0 12px 0;
+      border-bottom: 1px dashed #3f3f46;
+      margin-bottom: 14px;
+      font-size: 11px;
+      color: #71717a;
+      text-transform: uppercase;
+      font-family: var(--font-sans);
+      font-weight: 600;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal-dot-item {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
     }
 
     .terminal-block code {
@@ -220,9 +312,6 @@
     }
 
     .copy-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: var(--radius-sm);
@@ -250,10 +339,77 @@
       border-color: rgba(32,224,145,0.3);
     }
 
-    /* --- Grid --- */
+    /* --- Interactive Command Builder Form --- */
+    .interactive-configurator {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      padding: 24px;
+      border-radius: var(--radius-md);
+    }
+
+    @media (max-width: 768px) {
+      .interactive-configurator {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .config-options {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .option-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .option-row label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      border: 1.5px solid var(--color-border-strong);
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      outline: none;
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      transition: border-color var(--transition-fast);
+    }
+
+    .form-input:focus {
+      border-color: var(--color-action);
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-row input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--color-action);
+      cursor: pointer;
+    }
+
+    /* --- Project Cards --- */
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 24px;
     }
 
@@ -264,7 +420,7 @@
       padding: 28px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 18px;
       transition: all var(--transition-base);
     }
 
@@ -285,6 +441,33 @@
       font-size: 18px;
       font-weight: 700;
       color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-dot.online {
+      background-color: var(--color-success);
+      box-shadow: 0 0 8px var(--color-success);
+      animation: pulse 2s infinite;
+    }
+
+    .status-dot.experiment {
+      background-color: var(--color-warning);
+      box-shadow: 0 0 8px var(--color-warning);
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; transform: scale(1.1); }
+      100% { opacity: 0.6; }
     }
 
     .project-card-badge {
@@ -308,6 +491,8 @@
       gap: 6px;
       flex-wrap: wrap;
       margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--color-border-subtle);
     }
 
     .tag {
@@ -332,34 +517,6 @@
       background: var(--color-success-bg);
       border-color: rgba(32,224,145,0.2);
       color: var(--color-success-text);
-    }
-
-    .code-terminal {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border-subtle);
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--color-text-primary);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .code-copy-btn {
-      background: transparent;
-      border: none;
-      color: var(--color-text-muted);
-      cursor: pointer;
-      padding: 2px;
-      display: flex;
-      align-items: center;
-      transition: color var(--transition-fast);
-    }
-
-    .code-copy-btn:hover {
-      color: var(--color-text-primary);
     }
 
     /* --- List Info --- */
@@ -389,14 +546,40 @@
       border-bottom-color: var(--color-action);
     }
 
-    /* --- Geek Easter Egg Footer --- */
+    /* --- Search Bar --- */
+    .search-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--color-bg-panel);
+      padding: 6px 14px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--color-border-strong);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .search-row svg {
+      color: var(--color-text-muted);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 14px;
+      color: var(--color-text-primary);
+    }
+
+    /* --- Geek Code --- */
     .geek-code {
       font-family: var(--font-mono);
       font-size: 11px;
       color: var(--color-text-muted);
       opacity: 0.5;
       letter-spacing: 0.05em;
-      user-select: all;
     }
 
     /* --- Footer --- */
@@ -438,121 +621,330 @@
           </defs>
           <path clipPath="url(#lc)" fill="#20e091" fillRule="evenodd" d="M838 96c-401.7 0-727.4 335.8-727.4 750s325.7 750 727.4 750 727.4-335.8 727.4-750S1239.7 96 838 96zm446.9 944.6c-24.4 59.5-59.4 113-104 159-44.6 46-96.5 82.1-154.2 107.3-59.6 26-123.1 39.2-188.7 39.2s-129-13.2-188.7-39.2c-57.7-25.2-109.6-61.3-154.2-107.3-44.6-46-79.6-99.5-104-159-25.2-61.5-38-127-38-194.6s12.8-133.1 38-194.6c24.4-59.5 59.4-113 104-159 44.6-46 96.5-82.1 154.2-107.3 59.7-25.9 123.1-39.1 188.7-39.1s129 13.2 188.7 39.2c57.7 25.2 109.6 61.3 154.2 107.3 44.6 46 79.6 99.5 104 159 25.2 61.5 38 126.9 38 194.6 0 67.7-12.8 133-38 194.5zM1531.5 414.4c74.9 0 135.7 60.8 135.7 135.7v592.2c0 74.9-60.8 135.7-135.7 135.7s-135.7-60.8-135.7-135.7V550.1c0-74.9 60.8-135.7 135.7-135.7zm0 40c52.8 0 95.7 42.8 95.7 95.7v583.6c0 52.8-42.8 95.7-95.7 95.7s-95.7-42.8-95.7-95.7V550.1c0-52.9 42.9-95.7 95.7-95.7zM141.6 414.4c74.9 0 135.7 60.8 135.7 135.7v592.2c0 74.9-60.8 135.7-135.7 135.7S5.9 1217.2 5.9 1142.3V550.1c0-74.9 60.8-135.7 135.7-135.7zm0 40c52.8 0 95.7 42.8 95.7 95.7v583.6c0 52.8-42.8 95.7-95.7 95.7s-95.7-42.8-95.7-95.7V550.1c0-52.9 42.9-95.7 95.7-95.7z" />
         </svg>
-        <span>binrc Open Source</span>
+        <span style="font-family: var(--font-heading); margin-left: 8px;">binrc Open Source</span>
       </div>
-      <h1>Exploring New Frontiers in Tech</h1>
-      <p>At binrc, we depend on open source software from all over the world to get things done. We're profoundly grateful to the open source community, the projects, and especially the maintainers who allow us to innovate in network optimization, edge computing, and AI-driven systems.</p>
+      <h1>Open Source Hub & Helm Registry</h1>
+      <p>At binrc, we depend on open source software from all over the world to get things done. We're grateful to the open source community, the projects, and especially their maintainers who have allowed us to innovate in network optimization, edge computing, and AI-driven systems.</p>
     </header>
 
-    <!-- Research Philosophy -->
-    <div class="section-card">
-      <div class="section-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-        <span>💡 Research Philosophy / 研发理念</span>
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val">5</div>
+        <div class="stat-lbl">Open Source Projects</div>
       </div>
-      <div class="philosophy-banner">
-        <div class="philosophy-eq">Innovation = Experimentation + Openness + Sharing</div>
-        <div class="philosophy-eq" style="font-size: 18px; font-weight: 600; border-top: 1px dashed var(--color-border-strong); padding-top: 8px; margin-top: 8px;">创新 = 实验 + 开放 + 分享</div>
-        <p class="philosophy-desc" style="margin-top: 12px;">We believe that pushing technological boundaries requires a combination of rigorous research, open collaboration, and community-driven development.<br>我们相信，推动技术边界需要严谨的研究、开放的协作以及社区驱动开发的深度融合。</p>
+      <div class="stat-card">
+        <div class="stat-val">1</div>
+        <div class="stat-lbl">Active Charts</div>
       </div>
-    </div>
-
-    <!-- Featured Open Source Projects -->
-    <div class="section-card">
-      <div class="section-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <span>🌟 Open Source Projects / 开源项目</span>
+      <div class="stat-card">
+        <div class="stat-val">v1.100.0</div>
+        <div class="stat-lbl">Latest Core Release</div>
       </div>
-      <p style="color: var(--color-text-secondary); font-size: 14px;">A collection of open source tools, frameworks, and experiments built by binrc that we hope developers find helpful or inspiring:</p>
-      
-      <div class="project-grid">
-        <!-- roma -->
-        <div class="project-card">
-          <div class="project-card-header">
-            <h3 class="project-card-title">roma</h3>
-            <span class="project-card-badge">Go</span>
-          </div>
-          <p class="project-card-desc">A super lightweight jumpserver (bastion host) service designed for simple access management and secure routing.<br>使用 Go 语言开发的超轻量级跳板机服务，旨在提供极简的安全接入与维护审计通道。</p>
-          <div class="project-card-tags">
-            <span class="tag tag-blue">Bastion</span>
-            <span class="tag">Security</span>
-          </div>
-        </div>
-
-        <!-- mtconsole -->
-        <div class="project-card">
-          <div class="project-card-header">
-            <h3 class="project-card-title">mtconsole</h3>
-            <span class="project-card-badge">Python / Go</span>
-          </div>
-          <p class="project-card-desc">A simple, easy-to-use network maintenance terminal interface for real-time monitoring and debugging.<br>一个直观易用的网络维护终端界面，方便工程师进行实时的链路诊断、统计查看与指令控制。</p>
-          <div class="project-card-tags">
-            <span class="tag tag-blue">Terminal UI</span>
-            <span class="tag">Networking</span>
-          </div>
-        </div>
-
-        <!-- headcni -->
-        <div class="project-card">
-          <div class="project-card-header">
-            <h3 class="project-card-title">headcni</h3>
-            <span class="project-card-badge">Go / C</span>
-          </div>
-          <p class="project-card-desc">A Kubernetes CNI plugin combining Headscale and Tailscale functions for WireGuard-encrypted pod networks.<br>融合了 Headscale 与 Tailscale 特性的 Kubernetes CNI 插件，通过 WireGuard 搭建安全的 Pod 加密覆盖网络。</p>
-          <div class="project-card-tags">
-            <span class="tag tag-blue">CNI</span>
-            <span class="tag tag-success">WireGuard</span>
-          </div>
-        </div>
-
-        <!-- Experimental: Traffic Scheduler -->
-        <div class="project-card">
-          <div class="project-card-header">
-            <h3 class="project-card-title">Traffic Scheduler</h3>
-            <span class="project-card-badge">Experiment</span>
-          </div>
-          <p class="project-card-desc">Experimental systems for adaptive network traffic scheduling and congestion control optimization.<br>实验性项目，专注于自适应网络流量调度与边缘计算环境下的拥塞控制优化。</p>
-          <div class="project-card-tags">
-            <span class="tag">eBPF</span>
-            <span class="tag">Scheduling</span>
-          </div>
-        </div>
-
-        <!-- Experimental: Face expression systems -->
-        <div class="project-card">
-          <div class="project-card-header">
-            <h3 class="project-card-title">Expression Drive</h3>
-            <span class="project-card-badge">Experiment</span>
-          </div>
-          <p class="project-card-desc">Experimental models and interfaces driven by real-time facial expression mapping for human-computer interaction.<br>基于实时面部表情映射驱动的交互实验，探索下一代人机协同界面的表达可能。</p>
-          <div class="project-card-tags">
-            <span class="tag">Computer Vision</span>
-            <span class="tag">AI</span>
-          </div>
-        </div>
+      <div class="stat-card">
+        <div class="stat-val">A+</div>
+        <div class="stat-lbl">SecOps Score</div>
       </div>
     </div>
 
-    <!-- Helm Charts Registry -->
-    <div class="section-card">
-      <div class="section-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        <span>⚓ Helm Charts Repository</span>
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('projects-panel', this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+        <span>开源矩阵 / Projects Matrix</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('helm-panel', this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span>Helm 镜像源 / Helm Registry</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('standards-panel', this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>安全与规范 / Security & Standards</span>
+      </button>
+    </nav>
+
+    <!-- PANEL 1: Projects Matrix -->
+    <div id="projects-panel" class="tab-panel active">
+      <div class="section-card">
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          <span>💡 Research Philosophy / 研发理念</span>
+        </div>
+        <div class="philosophy-banner" style="background: var(--color-surface); border-left: 4px solid var(--color-action); border-radius: var(--radius-sm); padding: 24px;">
+          <div class="philosophy-eq" style="font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 8px;">Innovation = Experimentation + Openness + Sharing</div>
+          <div class="philosophy-eq" style="font-size: 18px; font-weight: 600; border-top: 1px dashed var(--color-border-strong); padding-top: 8px; margin-top: 8px; color: var(--color-text-secondary);">创新 = 实验 + 开放 + 分享</div>
+          <p class="philosophy-desc" style="margin-top: 12px; font-size: 14px; color: var(--color-text-secondary);">We believe that pushing technological boundaries requires a combination of rigorous research, open collaboration, and community-driven development.<br>我们相信，推动技术边界需要严谨的研究、开放的协作以及社区驱动开发的深度融合。</p>
+        </div>
       </div>
-      <p>Configure your Kubernetes cluster to use binrc Helm charts. Use the commands below to register and download the audited packages:</p>
-      
-      <div class="terminal-block">
-        <button class="copy-btn" onclick="copyText(this, 'helm-repo-cmd')">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          <span>Copy</span>
-        </button>
-        <code id="helm-repo-cmd">helm repo add binrc https://charts.binrc.com
-helm repo update
-helm install headcni binrc/headcni --namespace kube-system</code>
+
+      <div class="section-card">
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>🌟 Active Repositories / 开源矩阵</span>
+        </div>
+        
+        <div class="project-grid">
+          <!-- roma -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot online"></span>
+                <span>roma</span>
+              </h3>
+              <span class="project-card-badge">Go</span>
+            </div>
+            <p class="project-card-desc">Super lightweight jumpserver (bastion host) service designed for simple access management and secure routing.<br>使用 Go 开发的超轻量级跳板机服务，旨在提供极简的安全接入与维护审计通道。</p>
+            <div class="project-card-tags">
+              <span class="tag tag-blue">Bastion</span>
+              <span class="tag">Security</span>
+              <span class="tag">audit-log</span>
+            </div>
+          </div>
+
+          <!-- mtconsole -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot online"></span>
+                <span>mtconsole</span>
+              </h3>
+              <span class="project-card-badge">Python / Go</span>
+            </div>
+            <p class="project-card-desc">A simple, easy-to-use network maintenance terminal interface for real-time monitoring and debugging.<br>一个简洁易用的网络维护终端界面，方便工程师进行实时的链路诊断、监控与命令控制。</p>
+            <div class="project-card-tags">
+              <span class="tag tag-blue">Terminal UI</span>
+              <span class="tag">Networking</span>
+              <span class="tag">debug-tools</span>
+            </div>
+          </div>
+
+          <!-- headcni -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot online"></span>
+                <span>headcni</span>
+              </h3>
+              <span class="project-card-badge">Go / C</span>
+            </div>
+            <p class="project-card-desc">Kubernetes CNI plugin combining Headscale and Tailscale functions for WireGuard-encrypted pod networks.<br>融合了 Headscale 与 Tailscale 特性的 Kubernetes CNI 插件，通过 WireGuard 搭建安全的 Pod 加密网络。</p>
+            <div class="project-card-tags">
+              <span class="tag tag-blue">CNI</span>
+              <span class="tag tag-success">WireGuard</span>
+              <span class="tag">SDN</span>
+            </div>
+          </div>
+
+          <!-- Experimental: Traffic Scheduler -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot experiment"></span>
+                <span>Traffic Scheduler</span>
+              </h3>
+              <span class="project-card-badge">Experiment</span>
+            </div>
+            <p class="project-card-desc">Experimental systems for adaptive network traffic scheduling and congestion control optimization.<br>实验性项目，专注于自适应网络流量调度与边缘计算环境下的拥塞控制优化。</p>
+            <div class="project-card-tags">
+              <span class="tag">eBPF</span>
+              <span class="tag">Scheduling</span>
+              <span class="tag">adaptive-routing</span>
+            </div>
+          </div>
+
+          <!-- Experimental: Face expression systems -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <h3 class="project-card-title">
+                <span class="status-dot experiment"></span>
+                <span>Expression Drive</span>
+              </h3>
+              <span class="project-card-badge">Experiment</span>
+            </div>
+            <p class="project-card-desc">Experimental models and interfaces driven by real-time facial expression mapping for human-computer interaction.<br>基于实时面部表情映射驱动的交互实验，探索下一代人机协同界面的表达与控制可能。</p>
+            <div class="project-card-tags">
+              <span class="tag">CV</span>
+              <span class="tag">AI</span>
+              <span class="tag">human-interface</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Contact & Support -->
+    <!-- PANEL 2: Helm Registry -->
+    <div id="helm-panel" class="tab-panel">
+      <div class="section-card">
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span>📦 Helm Charts Index / 镜像源目录</span>
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+          <p style="color:var(--color-text-secondary); font-size:14px; max-width:600px;">Search and dynamically configure your Helm charts. Click on features in the configurator to customize and copy deployment commands.</p>
+          <div class="search-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" placeholder="Filter charts..." oninput="filterCharts(this.value)">
+          </div>
+        </div>
+
+        <div class="chart-grid" id="charts-grid-list">
+          <!-- HeadCNI Chart -->
+          <div class="chart-card" data-name="headcni">
+            <div class="chart-card-header">
+              <h3 class="chart-card-title">HeadCNI Chart</h3>
+              <span class="chart-card-version">v1.0.0</span>
+            </div>
+            
+            <div class="chart-tags">
+              <span class="tag tag-blue">k8s 1.20+</span>
+              <span class="tag tag-success">Tailscale v1.100.0</span>
+            </div>
+            
+            <p class="chart-desc">Kubernetes Container Network Interface (CNI) plugin integrating Headscale and Tailscale for WireGuard pod fabrics.</p>
+            
+            <ul class="chart-features">
+              <li>Zero Trust network encryption with WireGuard</li>
+              <li>Optimized default MTU (1400) for hybrid environments</li>
+              <li>Custom routing tables and firewall marks</li>
+              <li>Integrated Prometheus metrics (9001/metrics)</li>
+            </ul>
+
+            <div class="chart-links">
+              <a class="chart-link" href="https://github.com/binrchq/Charts/tree/main/charts/headcni" target="_blank">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <span>Chart Source</span>
+              </a>
+              <a class="chart-link" href="https://github.com/binrchq/Charts/issues" target="_blank">
+                <span>File Issue</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Future placeholder -->
+          <div class="chart-card coming-soon-card" data-name="placeholder">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+            <h3>More Charts Coming Soon</h3>
+            <p class="chart-desc">We are migrating additional platform services. Stay tuned!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Configurator -->
+      <div class="section-card">
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          <span>🛠️ Interactive Chart Command Builder / 动态命令生成器</span>
+        </div>
+        
+        <div class="interactive-configurator">
+          <!-- Options Form -->
+          <div class="config-options">
+            <div class="option-row">
+              <label for="helm-release-name">Release Name</label>
+              <input type="text" id="helm-release-name" class="form-input" value="headcni" oninput="updateHelmCommand()">
+            </div>
+            
+            <div class="option-row">
+              <label for="helm-namespace">Namespace</label>
+              <input type="text" id="helm-namespace" class="form-input" value="kube-system" oninput="updateHelmCommand()">
+            </div>
+
+            <div class="option-row">
+              <label for="helm-mtu">MTU Setting</label>
+              <input type="text" id="helm-mtu" class="form-input" value="1400" oninput="updateHelmCommand()">
+            </div>
+
+            <div class="checkbox-row" onclick="toggleCheckbox('check-dns')">
+              <input type="checkbox" id="check-dns" onchange="updateHelmCommand()">
+              <label for="check-dns" style="cursor:pointer;">Accept Headscale DNS (接受 DNS 配置)</label>
+            </div>
+
+            <div class="checkbox-row" onclick="toggleCheckbox('check-metrics')">
+              <input type="checkbox" id="check-metrics" checked onchange="updateHelmCommand()">
+              <label for="check-metrics" style="cursor:pointer;">Enable Prometheus Metrics (开启指标监控)</label>
+            </div>
+          </div>
+
+          <!-- Rendered Console Output -->
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <label style="font-size:12px; font-weight:700; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:0.05em;">Generated Installation Command</label>
+            <div class="terminal-block" style="flex:1; display:flex; flex-direction:column; justify-content:space-between; min-height:160px;">
+              <div>
+                <div class="terminal-header-strip">
+                  <div class="terminal-dots">
+                    <span class="terminal-dot-item" style="background:#ef4444;"></span>
+                    <span class="terminal-dot-item" style="background:#f59e0b;"></span>
+                    <span class="terminal-dot-item" style="background:#10b981;"></span>
+                  </div>
+                  <span>Bash - Interactive command</span>
+                </div>
+                <code id="rendered-helm-code" style="color:#20e091; font-weight:600;">helm install headcni binrc/headcni --namespace kube-system</code>
+              </div>
+              <div style="display:flex; justify-content:flex-end; margin-top:14px;">
+                <button class="copy-btn" onclick="copyText(this, 'rendered-helm-code')">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span>Copy Command</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 3: Security & Standards -->
+    <div id="standards-panel" class="tab-panel">
+      <div class="section-card">
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>🔒 SecOps & Compliance / 安全与合规准则</span>
+        </div>
+        <p style="color:var(--color-text-secondary); font-size:14.5px; line-height:1.7;">
+          At binrc, security is never an afterthought. Every package we deploy, maintain, or publish undergoes automated vulnerability sweeps and static configuration analysis before hitting production registries.
+        </p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin-top:12px;">
+          <div style="border: 1px solid var(--color-border); padding:20px; border-radius:var(--radius-md); background:var(--color-surface);">
+            <h4 style="font-family:var(--font-heading); margin-bottom:8px; font-weight:600;">1. Audited Packages</h4>
+            <p style="font-size:13px; color:var(--color-text-secondary);">Every dependency is locked and verified against CVE registries. All Helm packages are cryptographically signed to prevent tampered payloads.</p>
+          </div>
+          <div style="border: 1px solid var(--color-border); padding:20px; border-radius:var(--radius-md); background:var(--color-surface);">
+            <h4 style="font-family:var(--font-heading); margin-bottom:8px; font-weight:600;">2. Least Privilege</h4>
+            <p style="font-size:13px; color:var(--color-text-secondary);">CNI and networking charts are tailored to run with precise security context settings. Privileged execution is scoped purely to necessary network setups.</p>
+          </div>
+          <div style="border: 1px solid var(--color-border); padding:20px; border-radius:var(--radius-md); background:var(--color-surface);">
+            <h4 style="font-family:var(--font-heading); margin-bottom:8px; font-weight:600;">3. Infrastructure as Code</h4>
+            <p style="font-size:13px; color:var(--color-text-secondary);">Configuration schemas are strictly validated via automated Git linting pipelines before release onto the charts repository.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          <span>💡 Repository Standards Reference / 版本管理维护</span>
+        </div>
+        <p style="color:var(--color-text-secondary); font-size:14px;">We enforce strict quality control and test routines. The automated check scripts reside inside the repository:</p>
+        <div class="terminal-block">
+          <div class="terminal-header-strip">
+            <div class="terminal-dots">
+              <span class="terminal-dot-item" style="background:#ef4444;"></span>
+              <span class="terminal-dot-item" style="background:#f59e0b;"></span>
+              <span class="terminal-dot-item" style="background:#10b981;"></span>
+            </div>
+            <span>Testing & Linting scripts</span>
+          </div>
+          <code># Run Helm structure audit and config evaluation
+./scripts/test-all-charts.sh
+
+# Release and publish charts onto Pages index
+./scripts/publish-chart.sh &lt;chart-name&gt;</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Info -->
     <div class="section-card">
       <div class="section-title">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -587,6 +979,74 @@ helm install headcni binrc/headcni --namespace kube-system</code>
   </footer>
 
   <script>
+    // Tab switching logic
+    function switchTab(panelId, btn) {
+      // Hide all panels
+      document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.remove('active');
+      });
+      // Deactivate all tab buttons
+      document.querySelectorAll('.tab-btn').forEach(button => {
+        button.classList.remove('active');
+      });
+      
+      // Activate target panel & button
+      document.getElementById(panelId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // Chart list filter
+    function filterCharts(query) {
+      const q = query.toLowerCase().trim();
+      const cards = document.querySelectorAll('#charts-grid-list .chart-card');
+      
+      cards.forEach(card => {
+        const name = card.getAttribute('data-name');
+        const text = card.textContent.toLowerCase();
+        
+        if (name === 'placeholder') {
+          return; // Always keep the placeholder visible or style it
+        }
+        
+        if (text.includes(q)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Interactive Helm command compiler
+    function updateHelmCommand() {
+      const releaseName = document.getElementById('helm-release-name').value.trim() || 'headcni';
+      const namespace = document.getElementById('helm-namespace').value.trim() || 'kube-system';
+      const mtu = document.getElementById('helm-mtu').value.trim() || '1400';
+      const dnsChecked = document.getElementById('check-dns').checked;
+      const metricsChecked = document.getElementById('check-metrics').checked;
+
+      let cmd = `helm install ${releaseName} binrc/headcni \\\n  --namespace ${namespace}`;
+      
+      if (mtu !== '1400') {
+        cmd += ` \\\n  --set config.tailscale.mtu=${mtu} \\\n  --set config.network.mtu=${mtu}`;
+      }
+      
+      if (dnsChecked) {
+        cmd += ` \\\n  --set config.tailscale.acceptDNS=true`;
+      }
+      
+      if (!metricsChecked) {
+        cmd += ` \\\n  --set config.monitoring.enabled=false`;
+      }
+
+      document.getElementById('rendered-helm-code').innerText = cmd;
+    }
+
+    // Helper toggle for checkboxes clicking label text
+    function toggleCheckbox(id) {
+      // Logic handled standard by HTML labels, input remains default
+    }
+
+    // Copy command text
     function copyText(btn, elementId) {
       const codeEl = document.getElementById(elementId);
       const text = codeEl.innerText;
@@ -601,6 +1061,9 @@ helm install headcni binrc/headcni --namespace kube-system</code>
         }, 2000);
       });
     }
+
+    // Initialize command builder
+    updateHelmCommand();
   </script>
 </body>
 </html>
