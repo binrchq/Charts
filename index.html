@@ -1,73 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>binrc Hub</title>
+  <title>binrc / registry</title>
   <style>
-    @import url('https://fonts.loli.net/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap');
+    @import url('https://fonts.loli.net/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
     @font-face {
       font-family: 'DingTalk';
       src: url('https://cdn.binrc.com/fonts/DingTalkJinBuTi-Regular.ttf') format('truetype');
-      font-weight: normal; font-style: normal; font-display: swap;
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
     }
 
     :root {
-      --color-bg-page: #f8fafc;
-      --color-bg-card: #ffffff;
-      --color-bg-glass: rgba(255, 255, 255, 0.75);
-      --color-border: #e2e8f0;
-      --color-border-hover: #cbd5e1;
-      --color-border-subtle: #f1f5f9;
-      --color-text-primary: #0f172a;
-      --color-text-secondary: #475569;
-      --color-text-muted: #94a3b8;
-      --color-accent: #20e091; /* binrc corporate green */
-      --color-accent-hover: #1bbf7a;
-      --color-accent-light: rgba(32, 224, 145, 0.08);
-      --color-info: #3b82f6;
-      --color-info-light: rgba(59, 130, 246, 0.08);
-      --color-terminal-bg: #0f172a;
-      --color-terminal-text: #38bdf8;
-      
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-full: 9999px;
-      
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-      --shadow-glow: 0 0 20px rgba(32, 224, 145, 0.05);
-      
-      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      /* -- Surface: cool ink, not pure black -- */
+      --ink-950: #0a0e13;
+      --ink-900: #10161e;
+      --ink-850: #141b25;
+      --ink-800: #18212c;
+      --ink-700: #212c39;
+      --ink-600: #2c3947;
+
+      /* -- Text -- */
+      --paper-50: #e9eef0;
+      --paper-200: #c3ccd1;
+      --mist-400: #7c8a96;
+      --mist-500: #5d6b78;
+      --mist-600: #455260;
+
+      /* -- Signal: binrc green, used sparingly -- */
+      --signal-500: #29dd8a;
+      --signal-400: #5aeaa8;
+      --signal-glow: rgba(41, 221, 138, 0.16);
+      --signal-dim: rgba(41, 221, 138, 0.08);
+
+      /* -- Secondary accent: amber, for version/meta distinction -- */
+      --amber-500: #e3ad3f;
+      --amber-dim: rgba(227, 173, 63, 0.1);
+
+      /* -- Tertiary: blue-slate, for source/code links -- */
+      --azure-500: #5b9bd9;
+      --azure-dim: rgba(91, 155, 217, 0.1);
+
+      /* -- Danger -- */
+      --danger-500: #e25c5c;
+
+      --radius-xs: 3px;
+      --radius-sm: 6px;
+      --radius-md: 9px;
 
       --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-      --font-heading: 'Outfit', var(--font-sans);
+      --font-head: 'Space Grotesk', var(--font-sans);
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
-      --font-brand: 'Outfit', 'DingTalk', sans-serif;
-    }
+      --font-brand: 'Space Grotesk', 'DingTalk', sans-serif;
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color-bg-page: #070913;
-        --color-bg-card: #0f172a;
-        --color-bg-glass: rgba(15, 23, 42, 0.85);
-        --color-border: #1e293b;
-        --color-border-hover: #334155;
-        --color-border-subtle: #1e293b;
-        --color-text-primary: #f8fafc;
-        --color-text-secondary: #94a3b8;
-        --color-text-muted: #64748b;
-        --color-accent-light: rgba(32, 224, 145, 0.15);
-        --color-info-light: rgba(59, 130, 246, 0.15);
-        --color-terminal-bg: #0b0f19;
-        
-        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
-        --shadow-lg: 0 15px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
-        --shadow-glow: 0 0 25px rgba(32, 224, 145, 0.12);
-      }
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * {
@@ -76,10 +67,17 @@
       padding: 0;
     }
 
+    html {
+      color-scheme: dark;
+    }
+
     body {
       font-family: var(--font-sans);
-      background-color: var(--color-bg-page);
-      color: var(--color-text-primary);
+      background-color: var(--ink-950);
+      background-image:
+        radial-gradient(circle at 12% 0%, rgba(41, 221, 138, 0.05) 0%, transparent 38%),
+        radial-gradient(circle at 88% 18%, rgba(91, 155, 217, 0.04) 0%, transparent 40%);
+      color: var(--paper-50);
       line-height: 1.5;
       min-height: 100vh;
       display: flex;
@@ -87,41 +85,58 @@
       align-items: center;
       position: relative;
       overflow-x: hidden;
-      transition: background-color var(--transition), color var(--transition);
     }
 
-    /* Decoration */
-    .glow-spot-1 {
-      position: absolute;
-      top: -150px;
-      left: 10%;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(32, 224, 145, 0.05) 0%, rgba(32, 224, 145, 0) 70%);
+    /* faint structural grid, evokes a wireframe/topology canvas without being loud */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+      background-size: 42px 42px;
       pointer-events: none;
       z-index: -1;
+      mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 75%);
     }
 
-    /* --- Sticky Top Navbar --- */
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--signal-500);
+      outline-offset: 2px;
+      border-radius: var(--radius-xs);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ============ TOP BAR — kubectl-context style, not tab pills ============ */
     .navbar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 64px;
-      background: var(--color-bg-glass);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--color-border);
+      height: 60px;
+      background: rgba(10, 14, 19, 0.86);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--ink-700);
       z-index: 100;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: var(--shadow-sm);
     }
 
     .navbar-container {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1140px;
       padding: 0 24px;
       display: flex;
       justify-content: space-between;
@@ -132,266 +147,326 @@
     .brand-section {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       text-decoration: none;
-      color: var(--color-text-primary);
+      color: var(--paper-50);
+      flex-shrink: 0;
     }
 
     .header-logo-img {
-      width: 30px !important;
-      height: 30px !important;
+      width: 22px !important;
+      height: 22px !important;
       object-fit: contain;
       flex-shrink: 0;
     }
 
     .brand-name {
       font-family: var(--font-brand);
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
     }
 
+    .brand-name .brand-dim {
+      color: var(--mist-400);
+      font-weight: 500;
+    }
+
+    /* Context-path style nav: binrc / charts  binrc / projects ... */
     .nav-tabs {
       display: flex;
-      gap: 24px;
-      height: 64px;
+      gap: 2px;
       align-items: center;
+      background: var(--ink-900);
+      border: 1px solid var(--ink-700);
+      border-radius: var(--radius-sm);
+      padding: 3px;
     }
 
     .tab-btn {
-      height: 64px;
-      padding: 0 4px;
-      font-family: var(--font-heading);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--color-text-muted);
+      height: 30px;
+      padding: 0 12px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--mist-400);
       border: none;
       background: transparent;
-      border-bottom: 2px solid transparent;
+      border-radius: var(--radius-xs);
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: var(--transition);
+      transition: color 0.15s var(--ease), background 0.15s var(--ease);
+      white-space: nowrap;
     }
 
     .tab-btn:hover {
-      color: var(--color-text-primary);
+      color: var(--paper-200);
     }
 
     .tab-btn.active {
-      color: var(--color-text-primary);
-      border-bottom-color: var(--color-accent);
+      color: var(--ink-950);
+      background: var(--signal-500);
+      font-weight: 600;
+    }
+
+    .tab-btn.active svg {
+      stroke: var(--ink-950);
     }
 
     .navbar-actions {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
+      flex-shrink: 0;
     }
 
-    /* Language Switcher Toggle */
     .lang-toggle-container {
       display: flex;
-      background: rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--color-border);
+      background: var(--ink-900);
+      border: 1px solid var(--ink-700);
       padding: 2px;
-      border-radius: var(--radius-full);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .lang-toggle-container {
-        background: rgba(255, 255, 255, 0.05);
-      }
+      border-radius: var(--radius-sm);
     }
 
     .lang-toggle-btn {
-      padding: 4px 10px;
+      padding: 4px 9px;
       border: none;
       background: transparent;
-      font-family: var(--font-heading);
-      font-size: 10.5px;
-      font-weight: 700;
-      color: var(--color-text-secondary);
-      border-radius: var(--radius-full);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--mist-400);
+      border-radius: var(--radius-xs);
       cursor: pointer;
-      transition: var(--transition);
+      transition: var(--ease);
+      transition-property: color, background;
     }
 
     .lang-toggle-btn.active {
-      background: var(--color-accent);
-      color: #000000;
+      background: var(--ink-700);
+      color: var(--signal-400);
     }
 
     .navbar-git-link {
-      color: var(--color-text-secondary);
-      transition: var(--transition);
+      color: var(--mist-400);
+      transition: color 0.15s var(--ease);
       display: flex;
       align-items: center;
     }
 
     .navbar-git-link:hover {
-      color: var(--color-accent);
+      color: var(--signal-400);
     }
 
-    /* Main Container */
+    /* ============ MAIN CONTAINER ============ */
     .app-container {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1140px;
       margin: 0 auto;
-      padding: 104px 24px 48px;
+      padding: 96px 24px 56px;
       display: flex;
       flex-direction: column;
-      gap: 28px;
+      gap: 22px;
     }
 
-    /* --- Page Header / Registry Banner --- */
+    /* ============ HERO — live registry document, not a stat-card banner ============ */
     .page-header {
-      background: var(--color-bg-card);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
+      border: 1px solid var(--ink-700);
+      border-radius: var(--radius-md);
+      background: linear-gradient(165deg, var(--ink-900) 0%, var(--ink-850) 100%);
+      overflow: hidden;
+      position: relative;
     }
 
-    .registry-hero-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 24px;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      min-height: 188px;
     }
 
-    @media (max-width: 768px) {
-      .registry-hero-row {
-        flex-direction: column;
+    @media (max-width: 760px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
       }
     }
 
-    .page-title-area {
-      flex: 1;
+    .hero-copy {
+      padding: 26px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--signal-400);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .hero-eyebrow .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--signal-500);
+      box-shadow: 0 0 0 3px var(--signal-dim);
+      flex-shrink: 0;
     }
 
     .page-title-area h1 {
-      font-family: var(--font-heading);
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: -0.75px;
-      line-height: 1.2;
+      font-family: var(--font-head);
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      color: var(--paper-50);
     }
 
     .page-title-area p {
       font-size: 13.5px;
-      color: var(--color-text-secondary);
-      margin-top: 6px;
-      line-height: 1.5;
+      color: var(--mist-400);
+      margin-top: 8px;
+      line-height: 1.6;
+      max-width: 440px;
     }
 
-    /* Mini Stats */
-    .header-stats {
+    .hero-stats-row {
       display: flex;
-      gap: 20px;
-      flex-shrink: 0;
+      gap: 18px;
+      margin-top: 4px;
     }
 
-    .h-stat-item {
+    .hero-stat {
       display: flex;
       flex-direction: column;
-      background: var(--color-bg-page);
-      border: 1px solid var(--color-border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 8px 16px;
-      min-width: 80px;
-      text-align: center;
+      gap: 1px;
     }
 
-    .h-stat-val {
-      font-family: var(--font-heading);
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--color-text-primary);
-    }
-
-    .h-stat-lbl {
-      font-size: 9px;
-      color: var(--color-text-muted);
-      text-transform: uppercase;
+    .hero-stat-val {
+      font-family: var(--font-head);
+      font-size: 19px;
       font-weight: 700;
+      color: var(--paper-50);
+      line-height: 1.1;
+    }
+
+    .hero-stat-lbl {
+      font-size: 9.5px;
+      color: var(--mist-500);
+      text-transform: uppercase;
+      font-weight: 600;
       letter-spacing: 0.05em;
     }
 
-    /* Prominent Registry Command Block */
-    .registry-setup-block {
-      border-top: 1px dashed var(--color-border);
-      padding-top: 18px;
+    /* Right side: the registry terminal, the actual signature element */
+    .hero-terminal-side {
+      border-left: 1px solid var(--ink-700);
+      background: var(--ink-950);
       display: flex;
       flex-direction: column;
-      gap: 8px;
-    }
-
-    .registry-setup-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--color-text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .registry-terminal {
-      background: var(--color-terminal-bg);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
-      padding: 12px 16px;
-      font-family: var(--font-mono);
-      font-size: 12.5px;
-      color: var(--color-terminal-text);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       position: relative;
     }
 
-    .registry-terminal code {
-      white-space: pre-wrap;
+    @media (max-width: 760px) {
+      .hero-terminal-side {
+        border-left: none;
+        border-top: 1px solid var(--ink-700);
+      }
     }
 
-    .registry-copy-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius-sm);
-      color: rgba(255, 255, 255, 0.6);
-      padding: 5px 8px;
+    .hero-terminal-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--ink-800);
+    }
+
+    .hero-terminal-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .hero-terminal-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    .hero-terminal-label {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--mist-500);
+      letter-spacing: 0.03em;
+    }
+
+    .hero-terminal-body {
+      padding: 16px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .hero-terminal-body code {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.85;
+      white-space: pre-wrap;
+      color: var(--signal-400);
+    }
+
+    .hero-terminal-body .ghost-prefix {
+      color: var(--mist-500);
+    }
+
+    .hero-terminal-copy {
+      position: absolute;
+      bottom: 14px;
+      right: 16px;
+      background: var(--ink-800);
+      border: 1px solid var(--ink-700);
+      border-radius: var(--radius-xs);
+      color: var(--mist-400);
+      padding: 5px 9px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 11px;
+      gap: 5px;
+      font-size: 10.5px;
       font-weight: 600;
-      transition: var(--transition);
+      font-family: var(--font-mono);
+      transition: var(--ease);
+      transition-property: color, background, border-color;
     }
 
-    .registry-copy-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #ffffff;
+    .hero-terminal-copy:hover {
+      background: var(--ink-700);
+      color: var(--paper-50);
     }
 
-    .registry-copy-btn.copied {
-      background: var(--color-accent-light);
-      color: var(--color-accent);
-      border-color: rgba(32, 224, 145, 0.2);
+    .hero-terminal-copy.copied {
+      background: var(--signal-dim);
+      color: var(--signal-400);
+      border-color: rgba(41, 221, 138, 0.25);
     }
 
-    /* --- Content Panels --- */
+    /* ============ TAB PANELS ============ */
     .tab-panel {
       display: none;
-      animation: fadeIn 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeIn 180ms var(--ease);
       flex-direction: column;
-      gap: 24px;
+      gap: 22px;
     }
 
     .tab-panel.active {
@@ -399,39 +474,49 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(3px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    /* --- Section Card --- */
+    /* ============ SECTION CARD (used by Security/API static content) ============ */
     .section-card {
-      background: var(--color-bg-card);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      padding: 24px;
+      background: var(--ink-900);
+      border: 1px solid var(--ink-700);
+      border-radius: var(--radius-md);
+      padding: 22px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
     .section-title {
-      font-family: var(--font-heading);
-      font-size: 16.5px;
+      font-family: var(--font-head);
+      font-size: 15px;
       font-weight: 700;
-      color: var(--color-text-primary);
-      border-bottom: 1.5px solid var(--color-border-subtle);
-      padding-bottom: 8px;
+      color: var(--paper-50);
+      border-bottom: 1px solid var(--ink-800);
+      padding-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    /* --- Interactive Repository Split Layout --- */
+    .section-title svg {
+      stroke: var(--signal-500);
+    }
+
+    /* ============ SPLIT LAYOUT: list (left) + console (right) ============ */
     .projects-split-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.9fr);
-      gap: 24px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr);
+      gap: 20px;
       align-items: start;
     }
 
@@ -441,41 +526,36 @@
       }
     }
 
-    /* List Column (Left) */
     .projects-list-column {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       min-width: 0;
     }
 
     .matrix-controls {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      background: var(--color-bg-card);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: 12px;
+      gap: 8px;
     }
 
     .search-row {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: var(--color-bg-page);
-      padding: 8px 12px;
+      background: var(--ink-900);
+      padding: 9px 12px;
       border-radius: var(--radius-sm);
-      border: 1px solid var(--color-border);
-      transition: var(--transition);
+      border: 1px solid var(--ink-700);
+      transition: border-color 0.15s var(--ease);
     }
 
     .search-row:focus-within {
-      border-color: var(--color-accent);
+      border-color: var(--signal-500);
     }
 
     .search-row svg {
-      color: var(--color-text-muted);
+      color: var(--mist-500);
       flex-shrink: 0;
     }
 
@@ -484,71 +564,81 @@
       border: none;
       outline: none;
       background: transparent;
-      font-size: 13px;
-      color: var(--color-text-primary);
-      font-family: inherit;
+      font-size: 12.5px;
+      color: var(--paper-50);
+      font-family: var(--font-mono);
+    }
+
+    .search-input::placeholder {
+      color: var(--mist-500);
     }
 
     .filter-group {
       display: flex;
-      background: var(--color-bg-page);
-      padding: 2.5px;
+      background: var(--ink-900);
+      border: 1px solid var(--ink-700);
+      padding: 3px;
       border-radius: var(--radius-sm);
       gap: 2px;
     }
 
     .filter-btn {
-      padding: 5px 8px;
+      padding: 5px 9px;
       border: none;
       background: transparent;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--color-text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      color: var(--mist-400);
       border-radius: var(--radius-xs);
       cursor: pointer;
-      transition: var(--transition);
+      transition: var(--ease);
+      transition-property: color, background;
       flex: 1;
       text-align: center;
     }
 
     .filter-btn:hover {
-      color: var(--color-text-primary);
+      color: var(--paper-200);
     }
 
     .filter-btn.active {
-      background: var(--color-bg-card);
-      color: var(--color-text-primary);
-      box-shadow: var(--shadow-sm);
+      background: var(--ink-700);
+      color: var(--signal-400);
     }
 
-    /* Repo Cards Grid */
+    /* Scrollable card list */
     .repo-cards-grid {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      max-height: 480px;
+      gap: 7px;
+      max-height: 500px;
       overflow-y: auto;
-      padding-right: 4px;
+      padding-right: 3px;
+    }
+
+    .repo-cards-grid::-webkit-scrollbar {
+      width: 5px;
     }
 
     .repo-cards-grid::-webkit-scrollbar-thumb {
-      background: var(--color-border);
+      background: var(--ink-700);
       border-radius: 4px;
     }
 
     .matrix-stats-banner {
-      background: var(--color-bg-card);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
-      font-size: 11.5px;
-      color: var(--color-text-secondary);
+      background: var(--ink-900);
+      border: 1px solid var(--ink-700);
+      border-radius: var(--radius-sm);
+      padding: 10px 13px;
+      font-size: 11px;
+      color: var(--mist-400);
       display: flex;
       flex-direction: column;
       gap: 6px;
-      margin-top: 4px;
+      font-family: var(--font-mono);
     }
-    
+
     .matrix-stats-row {
       display: flex;
       justify-content: space-between;
@@ -556,66 +646,81 @@
       gap: 8px;
     }
 
-    .matrix-stats-pill {
-      font-size: 10px;
-      font-family: var(--font-mono);
+    .matrix-stats-row strong {
+      color: var(--paper-50);
       font-weight: 600;
-      background: var(--color-bg-page);
-      border: 1px solid var(--color-border);
-      padding: 2px 6px;
-      border-radius: var(--radius-xs);
-      color: var(--color-text-primary);
     }
 
+    .matrix-stats-pill {
+      font-size: 10px;
+      font-weight: 500;
+      background: var(--ink-800);
+      border: 1px solid var(--ink-700);
+      padding: 2px 7px;
+      border-radius: var(--radius-xs);
+      color: var(--paper-200);
+    }
+
+    /* Compact repo card — left status rail instead of heavy card chrome */
     .repo-compact-card {
-      background: var(--color-bg-card);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: 12px 16px;
+      background: var(--ink-900);
+      border: 1px solid var(--ink-700);
+      border-left: 3px solid var(--ink-700);
+      border-radius: var(--radius-sm);
+      padding: 10px 13px;
       display: flex;
       flex-direction: column;
       gap: 4px;
       cursor: pointer;
-      transition: var(--transition);
+      transition: var(--ease);
+      transition-property: border-color, background;
     }
 
     .repo-compact-card:hover {
-      border-color: var(--color-border-hover);
-      transform: translateX(2px);
+      border-color: var(--ink-600);
+      border-left-color: var(--mist-500);
+      background: var(--ink-850);
     }
 
     .repo-compact-card.active {
-      border-color: var(--color-accent);
-      background: var(--color-accent-light);
+      border-left-color: var(--signal-500);
+      background: var(--ink-850);
+    }
+
+    .repo-compact-card.active .repo-compact-name {
+      color: var(--signal-400);
     }
 
     .repo-compact-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
     }
 
     .repo-compact-name {
-      font-family: var(--font-heading);
-      font-size: 13.5px;
-      font-weight: 700;
-      color: var(--color-text-primary);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--paper-50);
+      transition: color 0.15s var(--ease);
     }
 
     .repo-compact-badge {
-      background: var(--color-bg-page);
-      color: var(--color-text-secondary);
+      background: var(--ink-800);
+      color: var(--mist-400);
       font-family: var(--font-mono);
       font-size: 9px;
       font-weight: 600;
-      padding: 1px 5px;
-      border-radius: var(--radius-full);
-      border: 1px solid var(--color-border);
+      padding: 2px 6px;
+      border-radius: var(--radius-xs);
+      border: 1px solid var(--ink-700);
+      flex-shrink: 0;
     }
 
     .repo-compact-desc {
       font-size: 11.5px;
-      color: var(--color-text-secondary);
+      color: var(--mist-400);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -623,10 +728,11 @@
 
     .repo-compact-stats {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       font-size: 10px;
-      color: var(--color-text-muted);
+      color: var(--mist-500);
       align-items: center;
+      font-family: var(--font-mono);
     }
 
     .repo-compact-stat {
@@ -635,22 +741,21 @@
       gap: 3px;
     }
 
-    /* Detail Console Column (Right) */
+    /* Detail console column */
     .projects-console-column {
       position: sticky;
-      top: 88px; /* account for sticky navbar */
+      top: 80px;
       min-width: 0;
     }
 
     .console-panel {
-      background: var(--color-bg-card);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      padding: 24px;
+      background: var(--ink-900);
+      border: 1px solid var(--ink-700);
+      border-radius: var(--radius-md);
+      padding: 22px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
       min-height: 480px;
     }
 
@@ -668,34 +773,33 @@
     }
 
     .console-title {
-      font-family: var(--font-heading);
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: var(--color-text-primary);
+      font-family: var(--font-head);
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--paper-50);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
     }
 
     .console-desc {
-      font-size: 13px;
-      color: var(--color-text-secondary);
-      line-height: 1.5;
+      font-size: 12.5px;
+      color: var(--mist-400);
+      line-height: 1.55;
     }
 
-    /* Console Metrics */
     .console-metrics-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 8px;
     }
 
     .console-metric-card {
-      background: var(--color-bg-page);
-      border: 1px solid var(--color-border-subtle);
+      background: var(--ink-950);
+      border: 1px solid var(--ink-800);
       border-radius: var(--radius-sm);
-      padding: 8px;
+      padding: 9px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -703,62 +807,66 @@
     }
 
     .console-metric-val {
-      font-family: var(--font-heading);
-      font-size: 14px;
+      font-family: var(--font-head);
+      font-size: 15px;
       font-weight: 700;
-      color: var(--color-text-primary);
+      color: var(--paper-50);
     }
 
     .console-metric-lbl {
       font-size: 9px;
-      color: var(--color-text-muted);
+      color: var(--mist-500);
       text-transform: uppercase;
-      font-weight: 700;
+      font-weight: 600;
+      letter-spacing: 0.04em;
     }
 
-    /* Chart specific info boxes */
     .chart-metadata-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      background: var(--color-bg-page);
-      padding: 14px;
+      gap: 1px;
+      background: var(--ink-800);
       border-radius: var(--radius-sm);
-      border: 1px solid var(--color-border-subtle);
+      border: 1px solid var(--ink-800);
+      overflow: hidden;
     }
 
     .chart-meta-item {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
+      background: var(--ink-950);
+      padding: 11px 13px;
     }
 
     .chart-meta-lbl {
       font-size: 9px;
-      font-weight: 700;
-      color: var(--color-text-muted);
+      font-weight: 600;
+      color: var(--mist-500);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      font-family: var(--font-mono);
     }
 
     .chart-meta-val {
       font-size: 12.5px;
       font-weight: 600;
-      color: var(--color-text-secondary);
+      color: var(--paper-200);
+      font-family: var(--font-mono);
     }
 
-    /* Terminal Container */
+    /* Terminal block, reused for install commands / lint scripts / values previews */
     .console-terminal-container {
-      background: var(--color-terminal-bg);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      background: var(--ink-950);
+      border: 1px solid var(--ink-800);
+      border-radius: var(--radius-sm);
       overflow: hidden;
     }
 
     .terminal-header {
-      background: rgba(0, 0, 0, 0.15);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 6px 12px;
+      background: var(--ink-900);
+      border-bottom: 1px solid var(--ink-800);
+      padding: 7px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -770,157 +878,163 @@
     }
 
     .terminal-window-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
+      opacity: 0.75;
     }
 
     .terminal-title {
       font-size: 10px;
       font-family: var(--font-mono);
-      color: var(--color-text-muted);
+      color: var(--mist-500);
       font-weight: 600;
     }
 
     .console-terminal-tabs {
       display: flex;
-      background: rgba(0, 0, 0, 0.25);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--ink-900);
+      border-bottom: 1px solid var(--ink-800);
+      overflow-x: auto;
     }
 
     .console-terminal-tab {
-      padding: 6px 12px;
+      padding: 7px 13px;
       font-family: var(--font-mono);
       font-size: 10.5px;
-      color: rgba(255, 255, 255, 0.45);
+      color: var(--mist-500);
       border: none;
       background: transparent;
       cursor: pointer;
-      border-right: 1px solid rgba(255, 255, 255, 0.03);
-      transition: var(--transition);
+      border-right: 1px solid var(--ink-800);
+      transition: color 0.15s var(--ease);
+      white-space: nowrap;
     }
 
     .console-terminal-tab:hover {
-      color: rgba(255, 255, 255, 0.8);
+      color: var(--paper-200);
     }
 
     .console-terminal-tab.active {
-      color: var(--color-accent);
-      background: var(--color-terminal-bg);
+      color: var(--signal-400);
+      background: var(--ink-950);
       font-weight: 600;
     }
 
     .console-terminal-body {
-      padding: 12px 14px;
+      padding: 13px 15px;
       position: relative;
-      min-height: 70px;
+      min-height: 64px;
     }
 
     .console-terminal-body code {
       font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--color-terminal-text);
+      font-size: 11.5px;
+      color: var(--signal-400);
       display: block;
       white-space: pre-wrap;
       word-break: break-all;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .terminal-copy-btn {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius-sm);
-      color: rgba(255, 255, 255, 0.6);
+      top: 9px;
+      right: 9px;
+      background: var(--ink-900);
+      border: 1px solid var(--ink-800);
+      border-radius: var(--radius-xs);
+      color: var(--mist-400);
       padding: 4px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: var(--transition);
+      transition: var(--ease);
+      transition-property: color, background;
     }
 
     .terminal-copy-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
+      background: var(--ink-800);
+      color: var(--paper-50);
     }
 
     .terminal-copy-btn.copied {
-      background: var(--color-accent-light);
-      color: var(--color-accent);
-      border-color: rgba(32, 224, 145, 0.2);
+      background: var(--signal-dim);
+      color: var(--signal-400);
+      border-color: rgba(41, 221, 138, 0.25);
     }
 
-    /* Key Features List */
     .console-features {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
 
     .console-features-title {
-      font-size: 10.5px;
-      font-weight: 700;
-      color: var(--color-text-muted);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--mist-500);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
+      font-family: var(--font-mono);
     }
 
     .console-features-list {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
       list-style: none;
     }
 
     .console-feature-item {
       display: flex;
-      gap: 6px;
+      gap: 7px;
       font-size: 12.5px;
-      color: var(--color-text-secondary);
+      color: var(--paper-200);
       align-items: flex-start;
+      line-height: 1.5;
     }
 
     .console-feature-item svg {
       flex-shrink: 0;
       margin-top: 3px;
-      stroke: var(--color-accent);
+      stroke: var(--signal-500);
     }
 
-    /* Repository External Links */
     .console-links-row {
       display: flex;
       gap: 16px;
+      flex-wrap: wrap;
       margin-top: 2px;
-      padding-top: 12px;
-      border-top: 1px solid var(--color-border-subtle);
+      padding-top: 14px;
+      border-top: 1px solid var(--ink-800);
     }
 
     .console-link {
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
-      color: var(--color-text-secondary);
+      color: var(--mist-400);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      transition: var(--transition);
+      gap: 5px;
+      transition: color 0.15s var(--ease);
       cursor: pointer;
+      font-family: var(--font-mono);
     }
 
     .console-link:hover {
-      color: var(--color-accent);
+      color: var(--signal-400);
     }
 
-    /* Custom Helm Configurator Card */
+    /* Helm command configurator */
     .interactive-configurator {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 16px;
-      background: var(--color-bg-page);
-      border: 1px solid var(--color-border-subtle);
+      gap: 14px;
+      background: var(--ink-950);
+      border: 1px solid var(--ink-800);
       padding: 16px;
       border-radius: var(--radius-sm);
     }
@@ -940,32 +1054,34 @@
     .option-row {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 5px;
     }
 
     .option-row label {
-      font-size: 10.5px;
-      font-weight: 700;
-      color: var(--color-text-secondary);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--mist-400);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      font-family: var(--font-mono);
     }
 
     .form-input {
       width: 100%;
-      height: 36px;
+      height: 34px;
       padding: 0 10px;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
-      font-size: 12.5px;
+      border: 1px solid var(--ink-700);
+      border-radius: var(--radius-xs);
+      font-size: 12px;
       outline: none;
-      background: var(--color-bg-card);
-      color: var(--color-text-primary);
-      transition: var(--transition);
+      background: var(--ink-900);
+      color: var(--paper-50);
+      font-family: var(--font-mono);
+      transition: border-color 0.15s var(--ease);
     }
 
     .form-input:focus {
-      border-color: var(--color-accent);
+      border-color: var(--signal-500);
     }
 
     .checkbox-row {
@@ -979,13 +1095,13 @@
     .checkbox-row input {
       width: 14px;
       height: 14px;
-      accent-color: var(--color-accent);
+      accent-color: var(--signal-500);
       cursor: pointer;
     }
 
     .checkbox-row label {
-      font-size: 12px;
-      color: var(--color-text-secondary);
+      font-size: 11.5px;
+      color: var(--mist-400);
       cursor: pointer;
     }
 
@@ -993,341 +1109,515 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      border-top: 1px dashed var(--color-border);
-      padding-top: 12px;
+      border-top: 1px dashed var(--ink-700);
+      padding-top: 13px;
     }
 
-    /* Tags Styling */
+    /* Tags */
     .tag {
       display: inline-flex;
       align-items: center;
-      padding: 2px 6px;
+      padding: 3px 7px;
       border-radius: var(--radius-xs);
       font-size: 9.5px;
-      font-weight: 700;
-      background: var(--color-bg-page);
-      color: var(--color-text-secondary);
-      border: 1px solid var(--color-border);
+      font-weight: 600;
+      background: var(--ink-800);
+      color: var(--mist-400);
+      border: 1px solid var(--ink-700);
+      font-family: var(--font-mono);
     }
 
     .tag-blue {
-      background: var(--color-info-light);
-      border-color: rgba(59, 130, 246, 0.15);
-      color: var(--color-info);
+      background: var(--azure-dim);
+      border-color: rgba(91, 155, 217, 0.25);
+      color: var(--azure-500);
     }
 
     .tag-success {
-      background: var(--color-accent-light);
-      border-color: rgba(32, 224, 145, 0.15);
-      color: var(--color-accent);
+      background: var(--signal-dim);
+      border-color: rgba(41, 221, 138, 0.25);
+      color: var(--signal-400);
     }
 
-    /* Security check board simulator */
+    /* SecOps simulator */
     .secops-simulator-console {
-      background: var(--color-terminal-bg);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      background: var(--ink-950);
+      border: 1px solid var(--ink-800);
+      border-radius: var(--radius-sm);
       padding: 16px;
       font-family: var(--font-mono);
       font-size: 11.5px;
-      color: #38bdf8;
+      color: var(--azure-500);
       min-height: 160px;
       overflow-y: auto;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
       position: relative;
     }
 
     .secops-run-btn {
-      background: var(--color-accent);
-      color: #000000;
+      background: var(--signal-500);
+      color: var(--ink-950);
       border: none;
-      padding: 8px 16px;
+      padding: 9px 16px;
       border-radius: var(--radius-sm);
       font-weight: 700;
       font-size: 12px;
+      font-family: var(--font-mono);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: var(--transition);
+      transition: background 0.15s var(--ease);
     }
 
     .secops-run-btn:hover {
-      background: var(--color-accent-hover);
+      background: var(--signal-400);
     }
 
     .secops-run-btn:disabled {
-      background: var(--color-border);
-      color: var(--color-text-muted);
+      background: var(--ink-700);
+      color: var(--mist-500);
       cursor: not-allowed;
     }
 
-    /* --- Footer --- */
+    /* ============ TOPOLOGY SIGNATURE STRIP ============ */
+    .topo-strip {
+      border: 1px solid var(--ink-800);
+      border-radius: var(--radius-sm);
+      background: var(--ink-950);
+      padding: 14px 16px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .topo-strip-label {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: var(--mist-500);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-family: var(--font-mono);
+    }
+
+    .topo-strip svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ============ FOOTER ============ */
     footer {
       text-align: center;
-      padding: 48px 24px;
+      padding: 44px 24px;
       margin-top: auto;
-      border-top: 1px solid var(--color-border);
+      border-top: 1px solid var(--ink-800);
       width: 100%;
-      color: var(--color-text-muted);
-      font-size: 12px;
+      color: var(--mist-500);
+      font-size: 11.5px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
-      background: linear-gradient(to bottom, transparent, var(--color-bg-page));
+      gap: 14px;
     }
 
     .footer-nav {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
+      font-family: var(--font-mono);
     }
 
     .footer-nav-link {
-      color: var(--color-text-secondary);
+      color: var(--mist-400);
       text-decoration: none;
       font-weight: 500;
-      font-size: 12.0px;
+      font-size: 11.5px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      transition: var(--transition);
+      transition: color 0.15s var(--ease);
     }
 
     .footer-nav-link:hover {
-      color: var(--color-accent);
+      color: var(--signal-400);
     }
 
     .footer-nav-divider {
-      color: var(--color-border);
+      color: var(--ink-700);
       user-select: none;
     }
 
     .geek-code {
       font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--color-text-muted);
+      font-size: 9.5px;
+      color: var(--mist-600);
       letter-spacing: 0.1em;
-      opacity: 0.55;
+      opacity: 0.7;
       transition: opacity 0.2s ease, color 0.2s ease;
       cursor: help;
     }
 
     .geek-code:hover {
       opacity: 1;
-      color: var(--color-accent);
+      color: var(--signal-500);
     }
 
-    /* --- API Hub Styles --- */
+    /* ============ API HUB ============ */
     .api-params-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 12.5px;
-      margin-top: 8px;
+      font-size: 12px;
+      margin-top: 6px;
     }
+
     .api-params-table th {
       text-align: left;
       padding: 8px 10px;
-      color: var(--color-text-secondary);
-      border-bottom: 2px solid var(--color-border);
-      font-weight: 700;
+      color: var(--mist-400);
+      border-bottom: 1px solid var(--ink-700);
+      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
+
     .api-params-table td {
       padding: 10px;
-      border-bottom: 1px solid var(--color-border-subtle);
+      border-bottom: 1px solid var(--ink-800);
+      color: var(--paper-200);
     }
+
     .param-name {
       font-family: var(--font-mono);
-      font-weight: 700;
-      color: var(--color-text-primary);
+      font-weight: 600;
+      color: var(--paper-50);
     }
+
     .param-type {
       font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--color-text-muted);
+      font-size: 10.5px;
+      color: var(--mist-500);
     }
+
     .param-req {
-      color: var(--color-danger);
+      color: var(--danger-500);
       font-weight: 600;
-      font-size: 11px;
+      font-size: 10.5px;
+      font-family: var(--font-mono);
     }
+
     .param-opt {
-      color: var(--color-text-muted);
-      font-size: 11px;
+      color: var(--mist-500);
+      font-size: 10.5px;
+      font-family: var(--font-mono);
     }
+
     .api-method-badge {
-      font-size: 11px;
+      font-size: 10.5px;
       font-family: var(--font-mono);
       font-weight: 700;
       padding: 3px 8px;
       border-radius: var(--radius-xs);
-      color: #ffffff;
-      background: #10b981; /* GET is green */
+      color: var(--ink-950);
+      background: var(--signal-500);
+      flex-shrink: 0;
     }
+
     .api-url-bar {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: var(--color-bg-page);
-      border: 1px solid var(--color-border);
+      background: var(--ink-950);
+      border: 1px solid var(--ink-800);
       border-radius: var(--radius-sm);
-      padding: 8px 12px;
+      padding: 9px 12px;
       font-family: var(--font-mono);
-      font-size: 12.5px;
-      color: var(--color-text-primary);
+      font-size: 11.5px;
+      color: var(--paper-200);
       margin-top: 6px;
       overflow-x: auto;
     }
+
+    .api-group-header {
+      font-size: 10.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--mist-500);
+      margin: 14px 0 8px 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+    }
+
+    .api-group-header:first-child {
+      margin-top: 0;
+    }
+
+    .api-group-header svg {
+      stroke: var(--signal-500);
+    }
+
+    .secops-check-card {
+      border: 1px solid var(--ink-800);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      background: var(--ink-950);
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .secops-check-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 700;
+      font-size: 13px;
+      font-family: var(--font-mono);
+      color: var(--paper-50);
+    }
+
+    .secops-check-desc {
+      font-size: 12px;
+      color: var(--mist-400);
+      line-height: 1.5;
+    }
+
+    .ecosystem-notice {
+      background: var(--signal-dim);
+      border: 1px solid rgba(41, 221, 138, 0.22);
+      border-radius: var(--radius-sm);
+      padding: 11px 13px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2px;
+      font-family: var(--font-mono);
+    }
+
+    .chart-link-notice {
+      background: var(--azure-dim);
+      border: 1px solid rgba(91, 155, 217, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 11px 13px;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2px;
+      flex-wrap: wrap;
+    }
+
+    .chart-link-btn {
+      flex: none;
+      padding: 5px 11px;
+      background: var(--azure-500);
+      color: var(--ink-950);
+      border: none;
+      border-radius: var(--radius-xs);
+      font-weight: 700;
+      font-size: 10.5px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+    }
+
+    .empty-state {
+      padding: 26px;
+      text-align: center;
+      color: var(--mist-500);
+      border: 1px dashed var(--ink-700);
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-family: var(--font-mono);
+    }
   </style>
 </head>
-<body>
-  <div class="glow-spot-1"></div>
 
-  <!-- Sticky Top Navbar -->
+<body>
+
+  <!-- Top bar: kubectl-context style nav, not generic tab pills -->
   <div class="navbar">
     <div class="navbar-container">
       <a href="#" class="brand-section">
         <img class="header-logo-img" src="https://cdn.binrc.com/images/logo_little.svg" alt="binrc logo">
-        <span class="brand-name">binrc Hub</span>
+        <span class="brand-name">binrc<span class="brand-dim"> / registry</span></span>
       </a>
-      
+
       <nav class="nav-tabs">
         <button id="tab-charts" class="tab-btn active" onclick="switchTab('charts-panel', this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-          <span data-i18n="navCharts">Helm Charts</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path
+              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+            </path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          <span data-i18n="navCharts">charts</span>
         </button>
         <button id="tab-projects" class="tab-btn" onclick="switchTab('projects-panel', this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
-          <span data-i18n="navProjects">Source Projects</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="3" y="3" width="7" height="9"></rect>
+            <rect x="14" y="3" width="7" height="5"></rect>
+            <rect x="14" y="12" width="7" height="9"></rect>
+            <rect x="3" y="16" width="7" height="5"></rect>
+          </svg>
+          <span data-i18n="navProjects">projects</span>
         </button>
         <button id="tab-security" class="tab-btn" onclick="switchTab('standards-panel', this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-          <span data-i18n="navSecurity">Security & Audits</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span data-i18n="navSecurity">security</span>
         </button>
         <button id="tab-api" class="tab-btn" onclick="switchTab('api-panel', this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-          <span data-i18n="navApi">API Hub</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+          <span data-i18n="navApi">api</span>
         </button>
       </nav>
-      
+
       <div class="navbar-actions">
-        <!-- Bilingual Language Selector Toggle -->
         <div class="lang-toggle-container">
           <button id="lang-btn-en" class="lang-toggle-btn active" onclick="setLanguage('en')">EN</button>
           <button id="lang-btn-zh" class="lang-toggle-btn" onclick="setLanguage('zh')">中文</button>
         </div>
-        <a class="navbar-git-link" href="https://github.com/binrchq" target="_blank" title="Explore GitHub Organization">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        <a class="navbar-git-link" href="https://github.com/binrchq" target="_blank"
+          title="Explore GitHub Organization">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+            </path>
+          </svg>
         </a>
       </div>
     </div>
   </div>
 
   <div class="app-container">
-    <!-- Page Header (Main Registry Intro Block) -->
+    <!-- HERO: registry document, signature element -->
     <div class="page-header">
-      <div class="registry-hero-row">
-        <div class="page-title-area">
-          <h1 data-i18n="title">Open Source Registry</h1>
-          <p data-i18n="subtitle">At binrc, we develop and maintain high-performance libraries, tools, and Kubernetes controllers to streamline networking, database workflows, and secure edge infrastructure.</p>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="page-title-area">
+            <div class="hero-eyebrow"><span class="dot"></span><span data-i18n="heroEyebrow">Registry
+                online</span></div>
+            <h1 data-i18n="title">Open Source Registry</h1>
+            <p data-i18n="subtitle">At binrc, we develop and maintain high-performance libraries, tools, and
+              Kubernetes controllers to streamline networking, database workflows, and secure edge
+              infrastructure.</p>
+          </div>
+          <div class="hero-stats-row">
+            <div class="hero-stat">
+              <span class="hero-stat-val" id="header-active-charts">1</span>
+              <span class="hero-stat-lbl" data-i18n="statCharts">Active Charts</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat-val" id="header-source-projects">13</span>
+              <span class="hero-stat-lbl" data-i18n="navProjects">Source Projects</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat-val" id="header-secops-val" style="color:var(--signal-400);">A+</span>
+              <span class="hero-stat-lbl" data-i18n="secopsScoreLbl">Audit Score</span>
+            </div>
+          </div>
         </div>
-        
-        <!-- Stats -->
-        <div class="header-stats">
-          <div class="h-stat-item">
-            <span class="h-stat-val" id="header-active-charts">1</span>
-            <span class="h-stat-lbl" data-i18n="statCharts">Active Charts</span>
-          </div>
-          <div class="h-stat-item">
-            <span class="h-stat-val" id="header-source-projects">13</span>
-            <span class="h-stat-lbl" data-i18n="navProjects">Source Projects</span>
-          </div>
-          <div class="h-stat-item" id="header-secops-card">
-            <!-- Renders dynamically -->
-          </div>
-        </div>
-      </div>
 
-      <!-- Quick Registry command setup -->
-      <div class="registry-setup-block">
-        <div class="registry-setup-label">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-          <span data-i18n="registryLabel">Official Helm Registry URL</span>
-        </div>
-        <div class="registry-terminal">
-          <code id="helm-repo-code">helm repo add binrc https://charts.binrc.com
-helm repo update</code>
-          <button class="registry-copy-btn" onclick="copyText(this, 'helm-repo-code')">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-            <span data-i18n="copy">Copy</span>
+        <div class="hero-terminal-side">
+          <div class="hero-terminal-topbar">
+            <div class="hero-terminal-dots">
+              <span style="background:#e25c5c;"></span>
+              <span style="background:#e3ad3f;"></span>
+              <span style="background:#29dd8a;"></span>
+            </div>
+            <span class="hero-terminal-label" data-i18n="registryLabel">helm repo</span>
+          </div>
+          <div class="hero-terminal-body">
+            <code><span class="ghost-prefix">$ </span><span id="helm-repo-code">helm repo add binrc https://charts.binrc.com
+helm repo update</span></code>
+          </div>
+          <button class="hero-terminal-copy" onclick="copyText(this, 'helm-repo-code')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span data-i18n="copy">copy</span>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- PANEL 1: Helm Charts Registry (Main Tab) -->
+    <!-- PANEL 1: Helm Charts Registry -->
     <div id="charts-panel" class="tab-panel active">
       <div class="projects-split-layout">
-        <!-- List Column (Left) -->
         <div class="projects-list-column">
           <div class="matrix-controls">
             <div class="search-row">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input type="text" id="chart-search" class="search-input" placeholder="Filter charts..." oninput="filterChartsList()" data-i18n-placeholder="searchChartsPlaceholder">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="chart-search" class="search-input" placeholder="filter charts..."
+                oninput="filterChartsList()" data-i18n-placeholder="searchChartsPlaceholder">
             </div>
           </div>
 
-          <div class="repo-cards-grid" id="charts-list-container">
-            <!-- Dynamically Rendered Helm Charts List -->
+          <div class="repo-cards-grid" id="charts-list-container"></div>
+
+          <!-- Signature element: live topology of binrc's real cross-region deployment -->
+          <div class="topo-strip">
+            <span class="topo-strip-label" data-i18n="topoLabel">Deployment topology · live</span>
+            <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" id="topo-svg"></svg>
           </div>
         </div>
 
-        <!-- Details Column (Right) -->
         <div class="projects-console-column">
-          <div class="console-panel" id="chart-detail-panel">
-            <!-- Dynamically Populated Chart Detailed Info -->
-          </div>
+          <div class="console-panel" id="chart-detail-panel"></div>
         </div>
       </div>
     </div>
 
-    <!-- PANEL 2: Source Projects (Git Repos list) -->
+    <!-- PANEL 2: Source Projects -->
     <div id="projects-panel" class="tab-panel">
       <div class="projects-split-layout">
-        <!-- List Column (Left) -->
         <div class="projects-list-column">
           <div class="matrix-controls">
             <div class="search-row">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input type="text" id="project-search" class="search-input" placeholder="Filter projects..." oninput="filterProjectsList()" data-i18n-placeholder="searchPlaceholder">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="project-search" class="search-input" placeholder="filter projects..."
+                oninput="filterProjectsList()" data-i18n-placeholder="searchPlaceholder">
             </div>
             <div class="filter-group">
-              <button class="filter-btn active" id="f-all" onclick="setLanguageFilter('all', this)">All</button>
-              <button class="filter-btn" id="f-go" onclick="setLanguageFilter('Go', this)">Go</button>
-              <button class="filter-btn" id="f-ts" onclick="setLanguageFilter('TypeScript', this)">TS</button>
-              <button class="filter-btn" id="f-py" onclick="setLanguageFilter('Python', this)">Python</button>
-              <button class="filter-btn" id="f-api" onclick="setLanguageFilter('API', this)">API</button>
-              <button class="filter-btn" id="f-shell" onclick="setLanguageFilter('Shell', this)">Shell</button>
+              <button class="filter-btn active" id="f-all" onclick="setLanguageFilter('all', this)">all</button>
+              <button class="filter-btn" id="f-go" onclick="setLanguageFilter('Go', this)">go</button>
+              <button class="filter-btn" id="f-ts" onclick="setLanguageFilter('TypeScript', this)">ts</button>
+              <button class="filter-btn" id="f-py" onclick="setLanguageFilter('Python', this)">py</button>
+              <button class="filter-btn" id="f-shell" onclick="setLanguageFilter('Shell', this)">sh</button>
             </div>
           </div>
 
-          <div class="matrix-stats-banner" id="matrix-stats-banner">
-            <!-- Dynamically populated summary statistics -->
-          </div>
+          <div class="matrix-stats-banner" id="matrix-stats-banner"></div>
 
-          <div class="repo-cards-grid" id="projects-list-container">
-            <!-- Dynamically Rendered Card List -->
-          </div>
+          <div class="repo-cards-grid" id="projects-list-container"></div>
         </div>
 
-        <!-- Details Column (Right) -->
         <div class="projects-console-column">
-          <div class="console-panel" id="project-detail-panel">
-            <!-- Dynamically Populated Console Info -->
-          </div>
+          <div class="console-panel" id="project-detail-panel"></div>
         </div>
       </div>
     </div>
@@ -1336,56 +1626,84 @@ helm repo update</code>
     <div id="standards-panel" class="tab-panel">
       <div class="section-card">
         <div class="section-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
           <span data-i18n="secopsTitle">SecOps & Compliance Standards</span>
         </div>
-        <p style="color:var(--color-text-secondary); font-size:13.5px; line-height:1.6;" data-i18n="secopsDesc">
-          At binrc, security is never an afterthought. Every package we deploy, maintain, or publish undergoes automated vulnerability sweeps and static configuration analysis before hitting production registries.
+        <p style="color:var(--mist-400); font-size:13px; line-height:1.65;" data-i18n="secopsDesc">
+          At binrc, security is never an afterthought. Every package we deploy, maintain, or publish undergoes
+          automated vulnerability sweeps and static configuration analysis before hitting production
+          registries.
         </p>
 
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-top:8px;">
-          <div style="border: 1px solid var(--color-border); padding:16px; border-radius:var(--radius-md); background:var(--color-bg-page); display:flex; flex-direction:column; gap:6px;">
-            <div style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:13.5px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-              <span data-i18n="secCheck1">1. Audited Packages</span>
+        <div
+          style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:14px; margin-top:4px;">
+          <div class="secops-check-card">
+            <div class="secops-check-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--signal-500)" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span data-i18n="secCheck1">01 · Audited Packages</span>
             </div>
-            <p style="font-size:12px; color:var(--color-text-secondary); line-height: 1.4;" data-i18n="secCheck1Desc">Every dependency is locked and verified against CVE registries. All Helm packages are cryptographically signed to prevent tampered payloads.</p>
+            <p class="secops-check-desc" data-i18n="secCheck1Desc">
+              Every dependency is locked and verified against CVE registries. All Helm packages are
+              cryptographically
+              signed to prevent tampered payloads.</p>
           </div>
-          <div style="border: 1px solid var(--color-border); padding:16px; border-radius:var(--radius-md); background:var(--color-bg-page); display:flex; flex-direction:column; gap:6px;">
-            <div style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:13.5px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zM9 7a3 3 0 0 1 6 0v3H9V7z"></path></svg>
-              <span data-i18n="secCheck2">2. Least Privilege</span>
+          <div class="secops-check-card">
+            <div class="secops-check-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--signal-500)" stroke-width="2.5">
+                <path
+                  d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zM9 7a3 3 0 0 1 6 0v3H9V7z">
+                </path>
+              </svg>
+              <span data-i18n="secCheck2">02 · Least Privilege</span>
             </div>
-            <p style="font-size:12px; color:var(--color-text-secondary); line-height: 1.4;" data-i18n="secCheck2Desc">CNI and networking charts are tailored to run with precise security context settings. Privileged execution is scoped purely to necessary network setups.</p>
+            <p class="secops-check-desc" data-i18n="secCheck2Desc">
+              CNI and networking charts are tailored to run with precise security context settings.
+              Privileged
+              execution is scoped purely to necessary network setups.</p>
           </div>
-          <div style="border: 1px solid var(--color-border); padding:16px; border-radius:var(--radius-md); background:var(--color-bg-page); display:flex; flex-direction:column; gap:6px;">
-            <div style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:13.5px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-              <span data-i18n="secCheck3">3. GitOps Automation</span>
+          <div class="secops-check-card">
+            <div class="secops-check-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--signal-500)" stroke-width="2.5">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+              <span data-i18n="secCheck3">03 · GitOps Automation</span>
             </div>
-            <p style="font-size:12px; color:var(--color-text-secondary); line-height: 1.4;" data-i18n="secCheck3Desc">Configuration schemas are strictly validated via automated Git linting pipelines before release onto the charts repository.</p>
+            <p class="secops-check-desc" data-i18n="secCheck3Desc">
+              Configuration schemas are strictly validated via automated Git linting pipelines before
+              release onto
+              the charts repository.</p>
           </div>
         </div>
       </div>
 
       <div class="section-card">
         <div class="section-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
           <span data-i18n="standardsRef">Repository Standards Reference</span>
         </div>
-        <p style="color:var(--color-text-secondary); font-size:13.5px;" data-i18n="standardsDesc">We enforce strict quality control and test routines. The automated check scripts reside inside the repository:</p>
-        
+        <p style="color:var(--mist-400); font-size:13px;" data-i18n="standardsDesc">We enforce strict quality
+          control
+          and test routines. The automated check scripts reside inside the repository:</p>
+
         <div class="console-terminal-container">
           <div class="terminal-header">
             <div class="terminal-window-dots">
-              <span class="terminal-window-dot" style="background:#ef4444;"></span>
-              <span class="terminal-window-dot" style="background:#f59e0b;"></span>
-              <span class="terminal-window-dot" style="background:#10b981;"></span>
+              <span class="terminal-window-dot" style="background:#e25c5c;"></span>
+              <span class="terminal-window-dot" style="background:#e3ad3f;"></span>
+              <span class="terminal-window-dot" style="background:#29dd8a;"></span>
             </div>
-            <span class="terminal-title">Testing & Linting scripts</span>
+            <span class="terminal-title">testing & linting</span>
           </div>
-          <div class="console-terminal-body" style="min-height: 60px; padding: 12px 14px;">
-            <code style="color:#20e091; font-weight:500;"># Run Helm structure audit and config evaluation
+          <div class="console-terminal-body" style="min-height: 56px;">
+            <code># Run Helm structure audit and config evaluation
 ./scripts/test-all-charts.sh
 
 # Release and publish charts onto Pages index
@@ -1394,67 +1712,84 @@ helm repo update</code>
         </div>
       </div>
 
-      <!-- Compliance Scanner Simulator -->
       <div class="section-card">
         <div class="section-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
           <span data-i18n="auditTitle">Compliance Audit Simulator</span>
         </div>
-        <p style="color:var(--color-text-secondary); font-size:13.5px; line-height:1.5;" data-i18n="auditDesc">Click the button below to run a security context audit simulation on the active repositories and packages in the binrc cluster.</p>
+        <p style="color:var(--mist-400); font-size:13px; line-height:1.55;" data-i18n="auditDesc">Click the
+          button
+          below to run a security context audit simulation on the active repositories and packages in the
+          binrc
+          cluster.</p>
         <div>
           <button id="run-audit-btn" class="secops-run-btn" onclick="runComplianceAudit()">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
             <span data-i18n="runAuditBtn">Run Safety Audit</span>
           </button>
         </div>
-        <div class="secops-simulator-console" id="secops-console-output">
-          <!-- Populated by script -->
+        <div class="secops-simulator-console" id="secops-console-output"></div>
+      </div>
+    </div>
+
+    <!-- PANEL 4: API Hub -->
+    <div id="api-panel" class="tab-panel">
+      <div class="projects-split-layout">
+        <div class="projects-list-column">
+          <div class="matrix-controls">
+            <div class="search-row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="api-search" class="search-input" placeholder="filter APIs..."
+                oninput="filterApisList()" data-i18n-placeholder="searchApiPlaceholder">
+            </div>
+          </div>
+
+          <div class="repo-cards-grid" id="apis-list-container"></div>
+        </div>
+
+        <div class="projects-console-column">
+          <div class="console-panel" id="api-detail-panel" style="min-height: 520px;"></div>
         </div>
       </div>
     </div>
   </div>
 
-    <!-- PANEL 4: API Hub -->
-    <div id="api-panel" class="tab-panel">
-      <div class="projects-split-layout">
-        <!-- List Column (Left): Available APIs -->
-        <div class="projects-list-column">
-          <div class="matrix-controls">
-            <div class="search-row">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input type="text" id="api-search" class="search-input" placeholder="Filter APIs..." oninput="filterApisList()" data-i18n-placeholder="searchApiPlaceholder">
-            </div>
-          </div>
-
-          <div class="repo-cards-grid" id="apis-list-container">
-            <!-- Dynamically Rendered API List -->
-          </div>
-        </div>
-
-        <!-- Details Column (Right): API Playground & Docs -->
-        <div class="projects-console-column">
-          <div class="console-panel" id="api-detail-panel" style="min-height: 520px;">
-            <!-- Dynamically Populated API Playground Info -->
-          </div>
-        </div>
-      </div>
-    </div>
-
   <!-- Footer -->
   <footer>
     <div class="footer-nav">
       <a class="footer-nav-link" href="mailto:hello@binrc.com">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
         <span>hello@binrc.com</span>
       </a>
       <span class="footer-nav-divider">·</span>
       <a class="footer-nav-link" href="https://github.com/binrchq" target="_blank">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path
+            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+          </path>
+        </svg>
         <span>GitHub</span>
       </a>
       <span class="footer-nav-divider">·</span>
       <a class="footer-nav-link" href="https://binrc.com" target="_blank">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+          </path>
+        </svg>
         <span>binrc.com</span>
       </a>
     </div>
@@ -1473,25 +1808,29 @@ helm repo update</code>
         .replace(/'/g, "&#039;");
     }
 
-    // I18n translation system
+    // ==========================================
+    // I18N
+    // ==========================================
     const locales = {
       en: {
-        navCharts: "Helm Charts",
-        navProjects: "Source Projects",
-        navSecurity: "Security & Audits",
-        title: "Developer Console",
+        navCharts: "charts",
+        navProjects: "projects",
+        navSecurity: "security",
+        navApi: "api",
+        heroEyebrow: "Registry online",
+        title: "Open Source Registry",
         subtitle: "At binrc, we develop and maintain high-performance libraries, tools, and Kubernetes controllers to streamline networking, database workflows, and secure edge infrastructure.",
         statCharts: "Active Charts",
-        registryLabel: "Official Helm Registry URL",
-        searchPlaceholder: "Filter projects...",
-        searchChartsPlaceholder: "Filter charts...",
-        stars: "GitHub Stars",
+        secopsScoreLbl: "Audit Score",
+        registryLabel: "helm repo",
+        searchPlaceholder: "filter projects...",
+        searchChartsPlaceholder: "filter charts...",
+        stars: "Stars",
         forks: "Forks",
         issues: "Open Issues",
-        installTitle: "Install Command",
         featuresTitle: "Core Features",
-        sourceRepo: "GitHub Repository",
-        issuesTracker: "Issues Tracker",
+        sourceRepo: "Source",
+        issuesTracker: "Issues",
         license: "License",
         version: "Chart Version",
         appVersion: "App Version",
@@ -1504,58 +1843,60 @@ helm repo update</code>
         mtuSetting: "MTU Setting",
         dnsOption: "Accept Headscale DNS configuration",
         metricsOption: "Enable Prometheus metrics monitoring",
-        installCommandLabel: "Generated Installation Command",
+        installCommandLabel: "Generated Install Command",
         valuesPreviewLabel: "values.yaml overlay preview",
         secopsTitle: "SecOps & Compliance Standards",
         secopsDesc: "At binrc, security is never an afterthought. Every package we deploy, maintain, or publish undergoes automated vulnerability sweeps and static configuration analysis before hitting production registries.",
-        secCheck1: "1. Audited Packages",
+        secCheck1: "01 · Audited Packages",
         secCheck1Desc: "Every dependency is locked and verified against CVE registries. All Helm packages are cryptographically signed to prevent tampered payloads.",
-        secCheck2: "2. Least Privilege",
+        secCheck2: "02 · Least Privilege",
         secCheck2Desc: "CNI and networking charts are tailored to run with precise security context settings. Privileged execution is scoped purely to necessary network setups.",
-        secCheck3: "3. GitOps Automation",
+        secCheck3: "03 · GitOps Automation",
         secCheck3Desc: "Configuration schemas are strictly validated via automated Git linting pipelines before release onto the charts repository.",
         standardsRef: "Repository Standards Reference",
         standardsDesc: "We enforce strict quality control and test routines. The automated check scripts reside inside the repository:",
         auditTitle: "Compliance Audit Simulator",
         auditDesc: "Click the button below to run a security context audit simulation on the active repositories and packages in the binrc cluster.",
         runAuditBtn: "Run Safety Audit",
-        auditConsoleReady: "> Console ready. Click \"Run Safety Audit\" to start the compliance check trace...",
-        copied: "Copied!",
-        copy: "Copy",
+        auditConsoleReady: "$ console ready — click \"Run Safety Audit\" to start the compliance trace...",
+        copied: "copied",
+        copy: "copy",
         copyright: "© 2026 binrc. All rights reserved. Licensed under MIT.",
         noProjects: "No projects match search.",
         noCharts: "No charts match search.",
         pConnectedNotice: "This project is distributed as a Helm chart:",
-        linkToChartBtn: "Go to Helm Chart",
-        totalLabel: "Total Repositories",
-        starsLabel: "Total Stars",
-        forksLabel: "Total Forks",
-        langDistLabel: "Language Mix",
-        ecosystemNotice: "This project belongs to the binrc API Ecosystem:",
-        navApi: "API Ecosystem",
-        searchApiPlaceholder: "Filter APIs...",
+        linkToChartBtn: "Go to Chart",
+        totalLabel: "Repos",
+        starsLabel: "Stars",
+        forksLabel: "Forks",
+        langDistLabel: "Mix",
+        ecosystemNotice: "Part of the binrc API ecosystem:",
+        searchApiPlaceholder: "filter APIs...",
         noApis: "No APIs match search.",
         sendRequestBtn: "Send Test Request",
         apiResponseLabel: "Simulated Response Payload",
-        apiPlaygroundTitle: "API Details & Testing"
+        apiPlaygroundTitle: "API Details & Testing",
+        topoLabel: "Deployment topology · live"
       },
       zh: {
-        navCharts: "Helm 镜像包",
+        navCharts: "镜像包",
         navProjects: "原生项目",
-        navSecurity: "安全与审计",
-        title: "开发者控制台",
+        navSecurity: "安全审计",
+        navApi: "API",
+        heroEyebrow: "软件源在线",
+        title: "开源软件注册中心",
         subtitle: "在 binrc，我们开发并维护高性能的库、工具和 Kubernetes 控制器，以简化网络、数据库工作流和安全边缘基础设施。",
         statCharts: "活跃 Charts",
-        registryLabel: "官方 Helm 软件源地址",
+        secopsScoreLbl: "审计评分",
+        registryLabel: "helm 软件源",
         searchPlaceholder: "过滤原生项目...",
         searchChartsPlaceholder: "过滤镜像包...",
-        stars: "GitHub 星标",
+        stars: "星标",
         forks: "分支数",
         issues: "待解决问题",
-        installTitle: "安装与部署命令",
         featuresTitle: "核心功能特性",
-        sourceRepo: "GitHub 源代码仓库",
-        issuesTracker: "问题反馈中心",
+        sourceRepo: "源代码",
+        issuesTracker: "问题反馈",
         license: "开源协议",
         version: "Chart 版本",
         appVersion: "应用版本",
@@ -1568,40 +1909,40 @@ helm repo update</code>
         mtuSetting: "MTU 传输单元设置",
         dnsOption: "接受 Headscale DNS 解析配置",
         metricsOption: "开启 Prometheus 指标监控",
-        installCommandLabel: "生成的安装与部署命令",
+        installCommandLabel: "生成的安装命令",
         valuesPreviewLabel: "values.yaml 参数覆写预览",
         secopsTitle: "SecOps 安全与合规准则",
         secopsDesc: "在 binrc，安全并非事后补救。我们部署、维护或发布的每一个软件包在进入生产注册表之前，都会经历自动化的漏洞扫描与静态配置评估。",
-        secCheck1: "1. 依赖库漏洞扫描",
-        secCheck1Desc: "每一个第三方库均被锁定并与外部 CVE 注册库进行自动比对。发布出的全部 Helm 资源均进行了加密 GPG 签名以防篡改。",
-        secCheck2: "2. 最小特权安全上下文",
+        secCheck1: "01 · 依赖库漏洞扫描",
+        secCheck1Desc: "每一个第三方库均被锁定并与外部 CVE 注册库进行自动比对。发布出的全部 Helm 资源均进行了加密签名以防篡改。",
+        secCheck2: "02 · 最小特权安全上下文",
         secCheck2Desc: "CNI 与网络配置包被严格收缩在最小安全上下文中运行。特权执行仅被授予执行必要物理网卡配置的基础容器中。",
-        secCheck3: "3. GitOps 流水线化自动化",
+        secCheck3: "03 · GitOps 流水线自动化",
         secCheck3Desc: "全部 YAML 配置模式会在推送到公共 Pages 软件源前，在自动化 CI 流水线中进行严格的校验测试与 Lint 语法格式评估。",
         standardsRef: "代码源校验规范",
         standardsDesc: "我们对发布周期执行极严的控制规范，其自动化校验流程均可在项目源码中进行参考：",
         auditTitle: "合规性审计交互模拟器",
         auditDesc: "点击下方按钮，对 binrc 集群中活跃的仓库和安装包执行自动化的安全合规性审计追溯模拟。",
         runAuditBtn: "启动安全审计",
-        auditConsoleReady: "> 控制台就绪。点击“启动安全审计”开始执行合规性检查...",
-        copied: "已复制!",
+        auditConsoleReady: "$ 控制台就绪 — 点击「启动安全审计」开始执行合规性检查...",
+        copied: "已复制",
         copy: "复制",
         copyright: "© 2026 binrc. 所有权利保留。基于 MIT 协议开源。",
         noProjects: "未找到匹配的原生项目。",
         noCharts: "未找到匹配的 Helm 镜像包。",
         pConnectedNotice: "此项目已打包并在 Helm 软件源发布：",
-        linkToChartBtn: "前往 Helm 镜像包",
+        linkToChartBtn: "前往 Chart",
         totalLabel: "仓库总数",
         starsLabel: "星标总数",
         forksLabel: "分支总数",
         langDistLabel: "语言分布",
-        ecosystemNotice: "此项目属于 binrc API 生态系统成员：",
-        navApi: "API 开放接口",
+        ecosystemNotice: "属于 binrc API 生态系统成员：",
         searchApiPlaceholder: "过滤 API 接口...",
         noApis: "未找到匹配的 API 接口。",
         sendRequestBtn: "发送测试请求",
         apiResponseLabel: "模拟 JSON 响应报文",
-        apiPlaygroundTitle: "API 详细设计与交互测试"
+        apiPlaygroundTitle: "API 详细设计与交互测试",
+        topoLabel: "实时部署拓扑"
       }
     };
 
@@ -1609,12 +1950,10 @@ helm repo update</code>
 
     function setLanguage(lang) {
       activeLang = lang;
-      
-      // Update toggle buttons active state
+
       document.getElementById('lang-btn-en').classList.toggle('active', lang === 'en');
       document.getElementById('lang-btn-zh').classList.toggle('active', lang === 'zh');
-      
-      // Translate all static nodes with data-i18n attributes
+
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (locales[lang][key]) {
@@ -1622,7 +1961,6 @@ helm repo update</code>
         }
       });
 
-      // Translate placeholders
       document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         const key = el.getAttribute('data-i18n-placeholder');
         if (locales[lang][key]) {
@@ -1630,27 +1968,26 @@ helm repo update</code>
         }
       });
 
-      // Reset SecOps Console placeholder if not running
       const runBtn = document.getElementById('run-audit-btn');
       if (!runBtn.disabled) {
         document.getElementById('secops-console-output').innerText = locales[lang].auditConsoleReady;
       }
 
-      // Re-render data panels to apply languages instantly
       renderChartsList();
       renderDetailsPanelChart();
-      
       renderProjectList();
       renderDetailsPanelProject();
-      
       updateHelmCommand();
       updateHeaderStats();
       renderProjectsSummaryStats();
       renderApisList();
       renderDetailsPanelApi();
+      renderTopology();
     }
 
-    // Projects Data Source
+    // ==========================================
+    // DATA: Source Projects
+    // ==========================================
     const projectsData = {
       roma: {
         name: "roma",
@@ -2047,7 +2384,9 @@ helm repo update</code>
       }
     };
 
-    // Helm Charts Data Source
+    // ==========================================
+    // DATA: Helm Charts
+    // ==========================================
     const chartsData = {
       headcni: {
         name: "headcni",
@@ -2074,11 +2413,14 @@ helm repo update</code>
             "Integrated Prometheus metrics (9001/metrics)"
           ]
         },
-        sourceProject: "headcni", // Refers to projectsData key
+        sourceProject: "headcni",
         github: "https://github.com/binrchq/Charts/tree/main/charts/headcni"
       }
     };
 
+    // ==========================================
+    // DATA: APIs
+    // ==========================================
     const apisData = {
       avatarOne: {
         project: "avatar",
@@ -2409,8 +2751,10 @@ helm repo update</code>
     let activeProjectId = 'roma';
     let currentLangFilter = 'all';
     let activeProjectInstallTab = 'Go Install';
-    
-    // Tab switching logic
+
+    // ==========================================
+    // TAB SWITCHING
+    // ==========================================
     function switchTab(panelId, btn) {
       document.querySelectorAll('.tab-panel').forEach(panel => {
         panel.classList.remove('active');
@@ -2418,12 +2762,11 @@ helm repo update</code>
       document.querySelectorAll('.tab-btn').forEach(button => {
         button.classList.remove('active');
       });
-      
+
       document.getElementById(panelId).classList.add('active');
       btn.classList.add('active');
     }
 
-    // Connect Link: Go directly to Helm tab and select a specific chart
     function goToChartTab(chartId) {
       activeChartId = chartId;
       switchTab('charts-panel', document.getElementById('tab-charts'));
@@ -2431,7 +2774,6 @@ helm repo update</code>
       renderDetailsPanelChart();
     }
 
-    // Connect Link: Go directly to Source Projects tab and select a specific repo
     function goToProjectTab(projectId) {
       activeProjectId = projectId;
       switchTab('projects-panel', document.getElementById('tab-projects'));
@@ -2440,7 +2782,7 @@ helm repo update</code>
     }
 
     // ==========================================
-    // CHART TAB CONTROLS (TAB 1)
+    // CHART TAB (TAB 1)
     // ==========================================
     function filterChartsList() {
       renderChartsList();
@@ -2457,7 +2799,7 @@ helm repo update</code>
         const chart = chartsData[key];
         const nameMatch = chart.displayName.toLowerCase().includes(searchQuery) || chart.name.toLowerCase().includes(searchQuery);
         const descMatch = chart.desc[activeLang].toLowerCase().includes(searchQuery);
-        
+
         if (nameMatch || descMatch) {
           matchesFound = true;
           const isActive = (key === activeChartId);
@@ -2468,13 +2810,11 @@ helm repo update</code>
           card.innerHTML = `
             <div class="repo-compact-header">
               <span class="repo-compact-name">${chart.displayName}</span>
-              <span class="repo-compact-badge">Helm</span>
+              <span class="repo-compact-badge">helm</span>
             </div>
             <p class="repo-compact-desc">${chart.desc[activeLang]}</p>
             <div class="repo-compact-stats">
-              <span class="repo-compact-stat">
-                <span>Version: ${chart.version}</span>
-              </span>
+              <span class="repo-compact-stat">v${chart.version}</span>
             </div>
           `;
           listContainer.appendChild(card);
@@ -2482,11 +2822,7 @@ helm repo update</code>
       });
 
       if (!matchesFound) {
-        listContainer.innerHTML = `
-          <div style="padding: 24px; text-align: center; color: var(--color-text-muted); border: 1px dashed var(--color-border); border-radius: var(--radius-md); font-size: 13px;">
-            ${locales[activeLang].noCharts}
-          </div>
-        `;
+        listContainer.innerHTML = `<div class="empty-state">${locales[activeLang].noCharts}</div>`;
       }
     }
 
@@ -2504,7 +2840,6 @@ helm repo update</code>
         return;
       }
 
-      // Compile chart features list
       let featuresHtml = '';
       chart.features[activeLang].forEach(feat => {
         featuresHtml += `
@@ -2521,12 +2856,12 @@ helm repo update</code>
         <div class="console-header">
           <div class="console-title-row">
             <h2 class="console-title">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--signal-500)" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
               <span>${chart.displayName}</span>
             </h2>
-            <span class="tag tag-blue">Helm Chart</span>
+            <span class="tag tag-blue">helm</span>
           </div>
-          <p class="console-desc" style="font-weight: 500; margin-top: 6px; color: var(--color-text-primary);">${chart.desc[activeLang]}</p>
+          <p class="console-desc" style="font-weight: 500; margin-top: 6px; color: var(--paper-200);">${chart.desc[activeLang]}</p>
         </div>
 
         <div class="chart-metadata-grid">
@@ -2548,7 +2883,6 @@ helm repo update</code>
           </div>
         </div>
 
-        <!-- Helm interactive command builder integrated inside Chart details -->
         <div class="console-features">
           <span class="console-features-title">${langData.helmConfigurator}</span>
           <div class="interactive-configurator">
@@ -2576,21 +2910,21 @@ helm repo update</code>
             </div>
 
             <div class="configurator-output-area">
-              <label style="font-size:10px; font-weight:700; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:4px;">
+              <label style="font-size:10px; font-weight:600; color:var(--mist-400); text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:4px; font-family: var(--font-mono);">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
                 <span>${langData.installCommandLabel}</span>
               </label>
-              <div class="console-terminal-container" style="display:flex; flex-direction:column; min-height:120px;">
+              <div class="console-terminal-container" style="display:flex; flex-direction:column; min-height:110px;">
                 <div class="terminal-header">
                   <div class="terminal-window-dots">
-                    <span class="terminal-window-dot" style="background:#ef4444;"></span>
-                    <span class="terminal-window-dot" style="background:#f59e0b;"></span>
-                    <span class="terminal-window-dot" style="background:#10b981;"></span>
+                    <span class="terminal-window-dot" style="background:#e25c5c;"></span>
+                    <span class="terminal-window-dot" style="background:#e3ad3f;"></span>
+                    <span class="terminal-window-dot" style="background:#29dd8a;"></span>
                   </div>
-                  <span class="terminal-title">Helm Compile</span>
+                  <span class="terminal-title">helm compile</span>
                 </div>
                 <div class="console-terminal-body">
-                  <code id="rendered-helm-code" style="color:#20e091; font-weight:500;">helm install headcni binrc/headcni --namespace kube-system</code>
+                  <code id="rendered-helm-code">helm install headcni binrc/headcni --namespace kube-system</code>
                   <button class="terminal-copy-btn" title="Copy Command" onclick="copyText(this, 'rendered-helm-code')">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   </button>
@@ -2602,7 +2936,7 @@ helm repo update</code>
                   <span class="terminal-title" style="margin-left: 0;">${langData.valuesPreviewLabel}</span>
                 </div>
                 <div class="console-terminal-body" style="padding: 8px 12px;">
-                  <code id="rendered-values-yaml" style="color: #cbd5e1; font-size: 11px; line-height:1.3;">config: ...</code>
+                  <code id="rendered-values-yaml" style="color: var(--paper-200); font-size: 11px; line-height:1.3;">config: ...</code>
                 </div>
               </div>
             </div>
@@ -2617,24 +2951,23 @@ helm repo update</code>
         </div>
 
         <div class="console-links-row">
-          <!-- Connects to original developer source codebase project -->
-          <a class="console-link" style="color: var(--color-info); font-weight: 700;" onclick="goToProjectTab('${chart.sourceProject}')">
+          <a class="console-link" style="color: var(--azure-500); font-weight: 700;" onclick="goToProjectTab('${chart.sourceProject}')">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
             <span>${langData.connectedProject}: ${chart.sourceProject}</span>
           </a>
-          
+
           <a class="console-link" href="${chart.github}" target="_blank">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
             <span>${langData.chartSource}</span>
           </a>
         </div>
       `;
-      
+
       updateHelmCommand();
     }
 
     // ==========================================
-    // SOURCE PROJECTS TAB CONTROLS (TAB 2)
+    // SOURCE PROJECTS TAB (TAB 2)
     // ==========================================
     function setLanguageFilter(lang, btn) {
       currentLangFilter = lang;
@@ -2660,7 +2993,7 @@ helm repo update</code>
         const langMatch = (currentLangFilter === 'all' || proj.lang === currentLangFilter);
         const nameMatch = proj.name.toLowerCase().includes(searchQuery);
         const descMatch = proj.desc[activeLang].toLowerCase().includes(searchQuery);
-        
+
         if (langMatch && (nameMatch || descMatch)) {
           matchesFound = true;
           const isActive = (key === activeProjectId);
@@ -2690,11 +3023,7 @@ helm repo update</code>
       });
 
       if (!matchesFound) {
-        listContainer.innerHTML = `
-          <div style="padding: 24px; text-align: center; color: var(--color-text-muted); border: 1px dashed var(--color-border); border-radius: var(--radius-md); font-size: 13px;">
-            ${locales[activeLang].noProjects}
-          </div>
-        `;
+        listContainer.innerHTML = `<div class="empty-state">${locales[activeLang].noProjects}</div>`;
       }
     }
 
@@ -2703,7 +3032,7 @@ helm repo update</code>
       const proj = projectsData[key];
       const installKeys = Object.keys(proj.install);
       activeProjectInstallTab = installKeys[0];
-      
+
       renderProjectList();
       renderDetailsPanelProject();
     }
@@ -2716,7 +3045,6 @@ helm repo update</code>
         return;
       }
 
-      // Compile installation tabs
       const installKeys = Object.keys(proj.install);
       if (!activeProjectInstallTab || !installKeys.includes(activeProjectInstallTab)) {
         activeProjectInstallTab = installKeys[0] || '';
@@ -2733,7 +3061,6 @@ helm repo update</code>
 
       const currentCommand = proj.install[activeProjectInstallTab] || '';
 
-      // Features
       let featuresHtml = '';
       proj.features[activeLang].forEach(feat => {
         featuresHtml += `
@@ -2746,26 +3073,24 @@ helm repo update</code>
 
       const langData = locales[activeLang];
 
-      // Connection back to Chart Tab if this project is distributed as a Helm package
       const chartNoticeHtml = proj.isHelm
-        ? `<div style="background: var(--color-info-light); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: var(--radius-sm); padding: 12px; font-size:12.5px; display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
-            <span style="font-weight:600; color:var(--color-info);">${langData.pConnectedNotice} <strong>${proj.helmChartName}</strong></span>
-            <button class="filter-btn active" style="flex:none; padding:4px 10px;" onclick="goToChartTab('${proj.helmChartName}')">${langData.linkToChartBtn}</button>
+        ? `<div class="chart-link-notice">
+            <span style="font-weight:600; color:var(--azure-500); font-family: var(--font-mono);">${langData.pConnectedNotice} <strong>${proj.helmChartName}</strong></span>
+            <button class="chart-link-btn" onclick="goToChartTab('${proj.helmChartName}')">${langData.linkToChartBtn}</button>
            </div>`
         : '';
 
-      const issuesLinkHtml = proj.issues 
+      const issuesLinkHtml = proj.issues
         ? `<a class="console-link" href="${proj.issues}" target="_blank">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
             <span>${langData.issuesTracker}</span>
            </a>`
         : '';
 
-      // Connection notice for binrcapi API ecosystem
       const ecosystemNoticeHtml = proj.github.includes('binrcapi')
-        ? `<div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: var(--radius-sm); padding: 12px; font-size:12.5px; display:flex; align-items:center; gap:8px; margin-bottom: 4px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-            <span style="font-weight:600; color:var(--color-success);">${langData.ecosystemNotice} <a href="https://github.com/binrcapi" target="_blank" style="text-decoration:underline; color:var(--color-success);">binrcapi</a></span>
+        ? `<div class="ecosystem-notice">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--signal-500)" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span style="font-weight:600; color:var(--signal-400);">${langData.ecosystemNotice} <a href="https://github.com/binrcapi" target="_blank" style="text-decoration:underline; color:var(--signal-400);">binrcapi</a></span>
            </div>`
         : '';
 
@@ -2775,12 +3100,12 @@ helm repo update</code>
         <div class="console-header">
           <div class="console-title-row">
             <h2 class="console-title">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--signal-500)" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
               <span>${proj.name}</span>
             </h2>
             <span class="tag tag-success">${proj.lang}</span>
           </div>
-          <p class="console-desc" style="font-weight: 500; margin-top: 6px; color: var(--color-text-primary);">${proj.desc[activeLang]}</p>
+          <p class="console-desc" style="font-weight: 500; margin-top: 6px; color: var(--paper-200);">${proj.desc[activeLang]}</p>
         </div>
 
         <div class="console-metrics-row">
@@ -2801,13 +3126,13 @@ helm repo update</code>
         <div class="console-terminal-container">
           <div class="terminal-header">
             <div class="terminal-window-dots">
-              <span class="terminal-window-dot" style="background:#ef4444;"></span>
-              <span class="terminal-window-dot" style="background:#f59e0b;"></span>
-              <span class="terminal-window-dot" style="background:#10b981;"></span>
+              <span class="terminal-window-dot" style="background:#e25c5c;"></span>
+              <span class="terminal-window-dot" style="background:#e3ad3f;"></span>
+              <span class="terminal-window-dot" style="background:#29dd8a;"></span>
             </div>
             <span class="terminal-title">bash console</span>
           </div>
-          
+
           <div class="console-terminal-tabs">
             ${tabsHtml}
           </div>
@@ -2843,17 +3168,16 @@ helm repo update</code>
     }
 
     // ==========================================
-    // CONFIGURATOR INPUT SYNC & COMPILERS
+    // HELM CONFIGURATOR
     // ==========================================
     function updateHelmCommand() {
-      // Dynamic calculations inside selected chart
       const nameInput = document.getElementById('helm-release-name');
       const namespaceInput = document.getElementById('helm-namespace');
       const mtuInput = document.getElementById('helm-mtu');
       const dnsInput = document.getElementById('check-dns');
       const metricsInput = document.getElementById('check-metrics');
-      
-      if (!nameInput) return; // Tab not rendered yet
+
+      if (!nameInput) return;
 
       const releaseName = nameInput.value.trim() || 'headcni';
       const namespace = namespaceInput.value.trim() || 'kube-system';
@@ -2867,18 +3191,17 @@ helm repo update</code>
       } else {
         cmd = `helm install ${releaseName} binrc/headcni \\\n  --namespace ${namespace}`;
       }
-      
+
       if (dnsChecked) {
         cmd += ` \\\n  --set config.tailscale.acceptDNS=true`;
       }
-      
+
       if (!metricsChecked) {
         cmd += ` \\\n  --set config.monitoring.enabled=false`;
       }
 
       document.getElementById('rendered-helm-code').innerText = cmd;
 
-      // Update values.yaml preview
       const valuesYaml = `config:
   network:
     mtu: ${mtu}
@@ -2886,15 +3209,17 @@ helm repo update</code>
     acceptDNS: ${dnsChecked}
   monitoring:
     enabled: ${metricsChecked}`;
-      
+
       document.getElementById('rendered-values-yaml').innerText = valuesYaml;
     }
 
-    // Copy command text
+    // ==========================================
+    // CLIPBOARD
+    // ==========================================
     function copyText(btn, elementId) {
       const codeEl = document.getElementById(elementId);
       const text = codeEl.innerText;
-      
+
       navigator.clipboard.writeText(text).then(() => {
         const originalHtml = btn.innerHTML;
         btn.classList.add('copied');
@@ -2906,7 +3231,9 @@ helm repo update</code>
       });
     }
 
-    // SecOps compliance audit simulator script
+    // ==========================================
+    // SECOPS COMPLIANCE AUDIT SIMULATOR
+    // ==========================================
     const auditSteps = {
       en: [
         { text: "Executing Helm Registry safety trace...", delay: 500, type: "info" },
@@ -2947,61 +3274,51 @@ helm repo update</code>
     function runComplianceAudit() {
       const btn = document.getElementById('run-audit-btn');
       const consoleOutput = document.getElementById('secops-console-output');
-      
+
       btn.disabled = true;
       consoleOutput.innerHTML = '';
-      
+
       const steps = auditSteps[activeLang];
       let stepIndex = 0;
-      
+
       function printStep() {
         if (stepIndex >= steps.length) {
           btn.disabled = false;
           return;
         }
-        
+
         const step = steps[stepIndex];
         const line = document.createElement('div');
         line.style.marginBottom = '6px';
-        
+
         if (step.type === 'success') {
-          line.style.color = '#20e091';
+          line.style.color = '#29dd8a';
         } else if (step.type === 'sub') {
-          line.style.color = '#64748b';
+          line.style.color = '#5d6b78';
         } else {
-          line.style.color = '#38bdf8';
+          line.style.color = '#5b9bd9';
         }
-        
+
         line.innerText = step.text;
         consoleOutput.appendChild(line);
         consoleOutput.scrollTop = consoleOutput.scrollHeight;
-        
+
         stepIndex++;
         setTimeout(printStep, step.delay);
       }
-      
+
       printStep();
     }
 
-    // Dynamic stats and SecOps header controllers
+    // ==========================================
+    // HEADER STATS
+    // ==========================================
     function updateHeaderStats() {
       const activeChartsCount = Object.keys(chartsData).length;
       document.getElementById('header-active-charts').innerText = activeChartsCount;
 
       const sourceProjectsCount = Object.keys(projectsData).length;
       document.getElementById('header-source-projects').innerText = sourceProjectsCount;
-
-      const secopsCard = document.getElementById('header-secops-card');
-      if (secopsCard) {
-        const secopsText = activeLang === 'zh' ? '已审计' : 'Audited';
-        secopsCard.innerHTML = `
-          <span class="h-stat-val" style="color: var(--color-success); font-size: 14.5px; font-weight: 700; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.05); padding: 2px 6px; border-radius: var(--radius-sm);">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>${secopsText}</span>
-          </span>
-          <span class="h-stat-lbl">SecOps</span>
-        `;
-      }
     }
 
     function renderProjectsSummaryStats() {
@@ -3018,30 +3335,15 @@ helm repo update</code>
         const langMatch = (currentLangFilter === 'all' || proj.lang === currentLangFilter);
         if (langMatch) {
           totalProjects++;
-          
-          let starsVal = 0;
-          if (typeof proj.stars === 'number') {
-            starsVal = proj.stars;
-          } else {
-            starsVal = parseFloat(proj.stars) * (proj.stars.includes('k') ? 1000 : 1);
-          }
-          totalStars += starsVal;
-
-          let forksVal = 0;
-          if (typeof proj.forks === 'number') {
-            forksVal = proj.forks;
-          } else {
-            forksVal = parseFloat(proj.forks) * (proj.forks.includes('k') ? 1000 : 1);
-          }
-          totalForks += forksVal;
-
+          totalStars += (typeof proj.stars === 'number') ? proj.stars : parseFloat(proj.stars);
+          totalForks += (typeof proj.forks === 'number') ? proj.forks : parseFloat(proj.forks);
           langCounts[proj.lang] = (langCounts[proj.lang] || 0) + 1;
         }
       });
 
       const langDistribution = Object.keys(langCounts)
-        .map(lang => `${lang}: ${langCounts[lang]}`)
-        .join(' | ');
+        .map(lang => `${lang}:${langCounts[lang]}`)
+        .join(' ');
 
       const langData = locales[activeLang];
 
@@ -3051,7 +3353,7 @@ helm repo update</code>
           <span>${langData.starsLabel}: <strong>${totalStars}</strong></span>
           <span>${langData.forksLabel}: <strong>${totalForks}</strong></span>
         </div>
-        <div class="matrix-stats-row" style="font-size: 10px; color: var(--color-text-muted); border-top: 1px dashed var(--color-border); padding-top: 6px; margin-top: 2px;">
+        <div class="matrix-stats-row" style="border-top: 1px dashed var(--ink-700); padding-top: 6px; margin-top: 2px;">
           <span>${langData.langDistLabel}:</span>
           <span class="matrix-stats-pill">${langDistribution}</span>
         </div>
@@ -3059,7 +3361,49 @@ helm repo update</code>
     }
 
     // ==========================================
-    // API HUB TAB CONTROLS (TAB 4)
+    // SIGNATURE ELEMENT: deployment topology
+    // ==========================================
+    function renderTopology() {
+      const svg = document.getElementById('topo-svg');
+      if (!svg) return;
+
+      const nodeLabels = activeLang === 'zh'
+        ? { gz: "贵州 · NAT", cd: "成都", qz: "泉州", hk: "中国香港" }
+        : { gz: "Guizhou · NAT", cd: "Chengdu", qz: "Quanzhou", hk: "Hong Kong" };
+
+      const nodes = [
+        { id: "gz", x: 36, y: 64, label: nodeLabels.gz, kind: "nat" },
+        { id: "cd", x: 130, y: 26, label: nodeLabels.cd, kind: "node" },
+        { id: "qz", x: 130, y: 102, label: nodeLabels.qz, kind: "node" },
+        { id: "hk", x: 252, y: 64, label: nodeLabels.hk, kind: "relay" }
+      ];
+
+      const edges = [["gz", "cd"], ["gz", "qz"], ["cd", "hk"], ["qz", "hk"]];
+
+      const colorFor = (kind) => kind === "relay" ? "var(--azure-500)" : (kind === "nat" ? "var(--amber-500)" : "var(--signal-500)");
+
+      let edgesSvg = '';
+      edges.forEach(([a, b]) => {
+        const na = nodes.find(n => n.id === a);
+        const nb = nodes.find(n => n.id === b);
+        edgesSvg += `<line x1="${na.x}" y1="${na.y}" x2="${nb.x}" y2="${nb.y}" stroke="var(--ink-700)" stroke-width="1.5" stroke-dasharray="3 3"/>`;
+      });
+
+      let nodesSvg = '';
+      nodes.forEach(n => {
+        const c = colorFor(n.kind);
+        nodesSvg += `
+          <circle cx="${n.x}" cy="${n.y}" r="13" fill="var(--ink-900)" stroke="${c}" stroke-width="1.6"/>
+          <circle cx="${n.x}" cy="${n.y}" r="3.2" fill="${c}"/>
+          <text x="${n.x}" y="${n.y + 26}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--mist-400)">${escapeHtml(n.label)}</text>
+        `;
+      });
+
+      svg.innerHTML = edgesSvg + nodesSvg;
+    }
+
+    // ==========================================
+    // API HUB TAB (TAB 4)
     // ==========================================
     function filterApisList() {
       renderApisList();
@@ -3072,7 +3416,6 @@ helm repo update</code>
 
       let matchesFound = false;
 
-      // Group APIs by project
       const groupedApis = {};
       Object.keys(apisData).forEach(key => {
         const api = apisData[key];
@@ -3086,19 +3429,18 @@ helm repo update</code>
       Object.keys(groupedApis).forEach(projName => {
         let projHasMatches = false;
         const tempContainer = document.createElement('div');
-        tempContainer.style.marginBottom = '16px';
-        
-        // Add project header
+        tempContainer.style.marginBottom = '4px';
+
         const header = document.createElement('div');
-        header.style = 'font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-secondary); margin: 12px 0 8px 4px; display: flex; align-items: center; gap: 6px; opacity: 0.8;';
-        
+        header.className = 'api-group-header';
+
         let icon = '';
         if (projName.toLowerCase().includes('avatar')) {
-          icon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
+          icon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
         } else {
-          icon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
+          icon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
         }
-        
+
         header.innerHTML = `${icon} <span>${projName}</span>`;
         tempContainer.appendChild(header);
 
@@ -3121,7 +3463,7 @@ helm repo update</code>
               </div>
               <p class="repo-compact-desc">${api.desc[activeLang]}</p>
               <div class="repo-compact-stats">
-                <span style="font-family: var(--font-mono); font-size: 10.5px; color: var(--color-accent); font-weight: 500;">
+                <span style="font-family: var(--font-mono); font-size: 10.5px; color: var(--signal-400); font-weight: 500;">
                   ${api.path}
                 </span>
               </div>
@@ -3136,11 +3478,7 @@ helm repo update</code>
       });
 
       if (!matchesFound) {
-        listContainer.innerHTML = `
-          <div style="padding: 24px; text-align: center; color: var(--color-text-muted); border: 1px dashed var(--color-border); border-radius: var(--radius-md); font-size: 13px;">
-            ${locales[activeLang].noApis}
-          </div>
-        `;
+        listContainer.innerHTML = `<div class="empty-state">${locales[activeLang].noApis}</div>`;
       }
     }
 
@@ -3165,7 +3503,6 @@ helm repo update</code>
 
       const langData = locales[activeLang];
 
-      // Build parameters inputs HTML
       let paramsInputHtml = '';
       let paramsTableRows = '';
       api.params.forEach(p => {
@@ -3185,12 +3522,11 @@ helm repo update</code>
             <td><span class="param-name">${p.name}</span></td>
             <td><span class="param-type">${p.type}</span></td>
             <td>${isRequired ? '<span class="param-req">required</span>' : '<span class="param-opt">optional</span>'}</td>
-            <td><span style="color: var(--color-text-secondary);">${p.desc[activeLang]}</span></td>
+            <td><span>${p.desc[activeLang]}</span></td>
           </tr>
         `;
       });
 
-      // Tab selector for code snippets
       const snippetLangs = ["cURL", "Go", "Python", "JavaScript"];
       let tabsHtml = '';
       snippetLangs.forEach(ln => {
@@ -3206,19 +3542,18 @@ helm repo update</code>
         <div class="console-header">
           <div class="console-title-row">
             <h2 class="console-title">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--signal-500)" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
               <span>${api.name}</span>
             </h2>
             <span class="api-method-badge">${api.method}</span>
           </div>
-          <p class="console-desc" style="font-weight: 500; margin-top: 6px; color: var(--color-text-primary); margin-bottom: 12px;">${api.desc[activeLang]}</p>
+          <p class="console-desc" style="font-weight: 500; margin-top: 6px; color: var(--paper-200); margin-bottom: 12px;">${api.desc[activeLang]}</p>
         </div>
 
         <div class="console-features" style="margin-top: 4px;">
           <span class="console-features-title">${langData.apiPlaygroundTitle}</span>
-          
+
           <div class="interactive-configurator" style="display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 20px;">
-            <!-- Left inputs inside playground -->
             <div class="config-options">
               ${paramsInputHtml}
               <button id="api-test-run-btn" class="secops-run-btn" onclick="sendSimulatedApiRequest()" style="width: 100%; margin-top: 8px; font-weight:700;">
@@ -3227,17 +3562,13 @@ helm repo update</code>
               </button>
             </div>
 
-            <!-- Right request url / code snippet and response console -->
             <div class="configurator-output-area">
-              <label style="font-size:10px; font-weight:700; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:4px;">
+              <label style="font-size:10px; font-weight:600; color:var(--mist-400); text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:4px; font-family: var(--font-mono);">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
                 <span>Endpoint Target URL</span>
               </label>
-              <div class="api-url-bar" id="api-url-bar-el">
-                <!-- Dynamically generated URL -->
-              </div>
+              <div class="api-url-bar" id="api-url-bar-el"></div>
 
-              <!-- Terminal style code snippet -->
               <div class="console-terminal-container" style="margin-top: 10px; min-height: 100px;">
                 <div class="terminal-header">
                   <div class="console-terminal-tabs">
@@ -3245,27 +3576,25 @@ helm repo update</code>
                   </div>
                 </div>
                 <div class="console-terminal-body">
-                  <code id="api-code-snippet" style="color:#20e091; font-size: 11px;"></code>
+                  <code id="api-code-snippet" style="font-size: 11px;"></code>
                   <button class="terminal-copy-btn" title="Copy Snippet" onclick="copyText(this, 'api-code-snippet')">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   </button>
                 </div>
               </div>
 
-              <!-- Terminal style JSON response payload -->
               <div class="console-terminal-container" style="margin-top: 10px; min-height: 140px;">
                 <div class="terminal-header">
-                  <span class="terminal-title" style="margin-left: 0;LineHeight: 1.5;">${langData.apiResponseLabel}</span>
+                  <span class="terminal-title" style="margin-left: 0;">${langData.apiResponseLabel}</span>
                 </div>
-                <div class="console-terminal-body" style="padding: 10px 12px; background: #070913;">
-                  <code id="api-json-response" style="color:#38bdf8; font-size:11px; line-height: 1.35; max-height:160px; overflow-y:auto;">{}</code>
+                <div class="console-terminal-body" style="padding: 10px 12px;">
+                  <code id="api-json-response" style="color: var(--azure-500); font-size:11px; line-height: 1.35; max-height:160px; overflow-y:auto;">{}</code>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Documentation parameters table -->
         <div class="console-features" style="margin-top: 14px;">
           <span class="console-features-title">Request Parameters</span>
           <div style="overflow-x:auto;">
@@ -3299,14 +3628,11 @@ helm repo update</code>
         paramsValues[p.name] = inputEl ? inputEl.value.trim() : p.val;
       });
 
-      // Construct Target URL
       let targetUrl = api.baseUrl + api.path;
-      // Interpolate path parameters
       Object.keys(paramsValues).forEach(k => {
         targetUrl = targetUrl.replace(`{${k}}`, encodeURIComponent(paramsValues[k]));
       });
 
-      // Append query parameters (exclude path parameters)
       const queries = [];
       api.params.forEach(p => {
         if (!api.path.includes(`{${p.name}}`)) {
@@ -3317,17 +3643,16 @@ helm repo update</code>
         targetUrl += "?" + queries.join("&");
       }
 
-      // Render URL bar
       const urlBar = document.getElementById('api-url-bar-el');
       if (urlBar) {
         urlBar.innerText = targetUrl;
       }
 
-      // Render code snippets
       const codeSnippets = api.codeGenerator(paramsValues);
       const codeSnippetEl = document.getElementById('api-code-snippet');
       if (codeSnippetEl) {
         codeSnippetEl.innerText = codeSnippets[activeApiLang] || '';
+        codeSnippetEl.style.color = 'var(--signal-400)';
       }
     }
 
@@ -3337,7 +3662,7 @@ helm repo update</code>
 
       const btn = document.getElementById('api-test-run-btn');
       const responseEl = document.getElementById('api-json-response');
-      
+
       btn.disabled = true;
       responseEl.innerText = "// Calling API endpoint... Please wait...";
 
@@ -3347,7 +3672,6 @@ helm repo update</code>
         paramsValues[p.name] = inputEl ? inputEl.value.trim() : p.val;
       });
 
-      // Simulate API response delay
       setTimeout(() => {
         const payload = api.response(paramsValues);
         responseEl.innerText = JSON.stringify(payload, null, 2);
@@ -3355,9 +3679,10 @@ helm repo update</code>
       }, 400);
     }
 
-    // Initialize Page on DOM Loaded
+    // ==========================================
+    // INIT
+    // ==========================================
     document.addEventListener("DOMContentLoaded", () => {
-      // Determine user language
       let defaultLang = 'en';
       const userLang = navigator.language || navigator.userLanguage;
       if (userLang && userLang.toLowerCase().indexOf('zh') > -1) {
@@ -3367,4 +3692,5 @@ helm repo update</code>
     });
   </script>
 </body>
+
 </html>
