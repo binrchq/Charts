@@ -1217,6 +1217,8 @@ helm repo update</code>
               <button class="filter-btn active" id="f-all" onclick="setLanguageFilter('all', this)">All</button>
               <button class="filter-btn" id="f-go" onclick="setLanguageFilter('Go', this)">Go</button>
               <button class="filter-btn" id="f-ts" onclick="setLanguageFilter('TypeScript', this)">TS</button>
+              <button class="filter-btn" id="f-py" onclick="setLanguageFilter('Python', this)">Python</button>
+              <button class="filter-btn" id="f-api" onclick="setLanguageFilter('API', this)">API</button>
               <button class="filter-btn" id="f-shell" onclick="setLanguageFilter('Shell', this)">Shell</button>
             </div>
           </div>
@@ -1392,7 +1394,8 @@ helm repo update</code>
         totalLabel: "Total Repositories",
         starsLabel: "Total Stars",
         forksLabel: "Total Forks",
-        langDistLabel: "Language Mix"
+        langDistLabel: "Language Mix",
+        ecosystemNotice: "This project belongs to the binrc API Ecosystem:"
       },
       zh: {
         navCharts: "Helm 镜像包",
@@ -1449,7 +1452,8 @@ helm repo update</code>
         totalLabel: "仓库总数",
         starsLabel: "星标总数",
         forksLabel: "分支总数",
-        langDistLabel: "语言分布"
+        langDistLabel: "语言分布",
+        ecosystemNotice: "此项目属于 binrc API 生态系统成员："
       }
     };
 
@@ -1890,6 +1894,66 @@ helm repo update</code>
         github: "https://github.com/binrchq/mongodb-cli",
         issues: "https://github.com/binrchq/mongodb-cli/issues",
         isHelm: false
+      },
+      AvatarPyCor: {
+        name: "AvatarPyCor",
+        lang: "Python",
+        stars: 1,
+        forks: 0,
+        issues: 0,
+        desc: {
+          zh: "基于 Python 的头像生成器，支持根据哈希/随机数个性化生成并导出 SVG/PNG 格式，可用作 API 服务。",
+          en: "A Python-based avatar generator that supports generating personalized avatars randomly and exporting them in SVG/PNG format."
+        },
+        features: {
+          zh: [
+            "支持生成基于哈希值唯一对应的个性化几何与像素头像",
+            "支持一键导出矢量图 (SVG) 和位图 (PNG) 格式",
+            "内置极简的 Web API 服务，支持快捷部署与跨域调用"
+          ],
+          en: [
+            "Generates unique, hash-based geometric and pixel avatars",
+            "Supports exporting to both vector SVG and raster PNG formats",
+            "Includes a built-in lightweight Web API server for rapid deployment"
+          ]
+        },
+        install: {
+          "PIP": "pip install git+https://github.com/binrcapi/AvatarPyCor.git",
+          "Git Clone": "git clone https://github.com/binrcapi/AvatarPyCor.git\ncd AvatarPyCor && pip install -r requirements.txt\npython app.py"
+        },
+        github: "https://github.com/binrcapi/AvatarPyCor",
+        issues: "https://github.com/binrcapi/AvatarPyCor/issues",
+        isHelm: false
+      },
+      "ipseek.cc": {
+        name: "ipseek.cc",
+        lang: "API",
+        stars: 0,
+        forks: 0,
+        issues: 0,
+        desc: {
+          zh: "专业的 IP 信息检索与流量分析平台，提供精准 durable 的 IP 地理位置定位、ASN 信息、运营商详情及流量监控 API。",
+          en: "Professional IP information retrieval and traffic analysis platform providing precise ASN, geolocation and monitoring APIs."
+        },
+        features: {
+          zh: [
+            "高精度的 IP 地址地理位置定位与运营商 ASN 信息查询",
+            "支持监控主机的跨省流量、出省率及跨运营商流量统计",
+            "提供简洁易用的 Restful JSON API 接口与客户端探针工具"
+          ],
+          en: [
+            "High-precision ASN mapping and IP geolocation query tool",
+            "Monitors server traffic patterns, transit usage, and visual graphs",
+            "Provides clean Restful APIs and lightweight client daemon agents"
+          ]
+        },
+        install: {
+          "cURL API": "curl -s https://api.ipseek.cc/ip/8.8.8.8",
+          "Git Clone": "git clone https://github.com/binrcapi/ipseek.cc.git"
+        },
+        github: "https://github.com/binrcapi/ipseek.cc",
+        issues: "https://github.com/binrcapi/ipseek.cc/issues",
+        isHelm: false
       }
     };
 
@@ -2281,7 +2345,16 @@ helm repo update</code>
            </a>`
         : '';
 
+      // Connection notice for binrcapi API ecosystem
+      const ecosystemNoticeHtml = proj.github.includes('binrcapi')
+        ? `<div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: var(--radius-sm); padding: 12px; font-size:12.5px; display:flex; align-items:center; gap:8px; margin-bottom: 4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span style="font-weight:600; color:var(--color-success);">${langData.ecosystemNotice} <a href="https://github.com/binrcapi" target="_blank" style="text-decoration:underline; color:var(--color-success);">binrcapi</a></span>
+           </div>`
+        : '';
+
       detailPanel.innerHTML = `
+        ${ecosystemNoticeHtml}
         ${chartNoticeHtml}
         <div class="console-header">
           <div class="console-title-row">
