@@ -1,0 +1,14 @@
+# Ignore compiled Helm chart packages
+*.tgz
+
+# Ignore local compiled repo index
+index.yaml
+
+# Ignore local editor configurations
+.vscode/
+.idea/
+.DS_Store
+
+# Ignore temporary and log files
+*.tmp
+*.log
