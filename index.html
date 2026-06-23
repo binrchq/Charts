@@ -3606,14 +3606,16 @@ helm repo update</span></code>
         targetUrl = targetUrl.replace(`{${k}}`, encodeURIComponent(paramsValues[k]));
       });
 
-      const queries = [];
-      api.params.forEach(p => {
-        if (!api.path.includes(`{${p.name}}`)) {
-          queries.push(`${p.name}=${encodeURIComponent(paramsValues[p.name])}`);
+      if (api.method === 'GET') {
+        const queries = [];
+        api.params.forEach(p => {
+          if (!api.path.includes(`{${p.name}}`)) {
+            queries.push(`${p.name}=${encodeURIComponent(paramsValues[p.name])}`);
+          }
+        });
+        if (queries.length > 0) {
+          targetUrl += "?" + queries.join("&");
         }
-      });
-      if (queries.length > 0) {
-        targetUrl += "?" + queries.join("&");
       }
 
       const urlBar = document.getElementById('api-url-bar-el');
@@ -3637,7 +3639,7 @@ helm repo update</span></code>
       const responseEl = document.getElementById('api-json-response');
 
       btn.disabled = true;
-      responseEl.innerText = "// Calling API endpoint... Please wait...";
+      responseEl.innerText = "// Calling real API endpoint... Please wait...";
 
       const paramsValues = {};
       api.params.forEach(p => {
@@ -3645,11 +3647,70 @@ helm repo update</span></code>
         paramsValues[p.name] = inputEl ? inputEl.value.trim() : p.val;
       });
 
-      setTimeout(() => {
-        const payload = api.response(paramsValues);
-        responseEl.innerText = JSON.stringify(payload, null, 2);
-        btn.disabled = false;
-      }, 400);
+      // Construct Target URL
+      let targetUrl = api.baseUrl + api.path;
+      Object.keys(paramsValues).forEach(k => {
+        targetUrl = targetUrl.replace(`{${k}}`, encodeURIComponent(paramsValues[k]));
+      });
+
+      const fetchOptions = {
+        method: api.method,
+        headers: {}
+      };
+
+      if (api.method === 'GET') {
+        const queries = [];
+        api.params.forEach(p => {
+          if (!api.path.includes(`{${p.name}}`)) {
+            queries.push(`${p.name}=${encodeURIComponent(paramsValues[p.name])}`);
+          }
+        });
+        if (queries.length > 0) {
+          targetUrl += "?" + queries.join("&");
+        }
+      } else if (api.method === 'POST') {
+        fetchOptions.headers['Content-Type'] = 'application/json';
+        const postBody = {};
+        api.params.forEach(p => {
+          const val = paramsValues[p.name];
+          postBody[p.name] = (val === undefined || val === '') ? p.val : (isNaN(val) || val.trim() === '' ? val : Number(val));
+        });
+        fetchOptions.body = JSON.stringify(postBody);
+      }
+
+      fetch(targetUrl, fetchOptions)
+        .then(async res => {
+          const contentType = res.headers.get('content-type') || '';
+          if (contentType.includes('image/svg+xml')) {
+            const svgText = await res.text();
+            return svgText;
+          } else if (contentType.includes('application/json')) {
+            return await res.json();
+          } else if (contentType.includes('image/png') || contentType.includes('application/zip') || contentType.includes('octet-stream')) {
+            const blob = await res.blob();
+            return {
+              status: res.status,
+              headers: {
+                "Content-Type": contentType,
+                "Content-Length": blob.size,
+                "Content-Disposition": res.headers.get('content-disposition') || 'attachment'
+              },
+              info: `[Binary Stream: ${blob.size} bytes]`
+            };
+          } else {
+            return await res.text();
+          }
+        })
+        .then(data => {
+          responseEl.innerText = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
+        })
+        .catch(err => {
+          // If real call fails (CORS, offline, etc.), fallback gracefully and show why it failed
+          responseEl.innerText = `// Real API request failed: ${err.message}\n// Fallback (Simulated):\n` + JSON.stringify(api.response ? api.response(paramsValues) : {"error": err.message}, null, 2);
+        })
+        .finally(() => {
+          btn.disabled = false;
+        });
     }
 
     // ==========================================
