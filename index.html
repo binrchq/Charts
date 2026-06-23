@@ -1120,6 +1120,67 @@
       opacity: 1;
       color: var(--color-accent);
     }
+
+    /* --- API Hub Styles --- */
+    .api-params-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      margin-top: 8px;
+    }
+    .api-params-table th {
+      text-align: left;
+      padding: 8px 10px;
+      color: var(--color-text-secondary);
+      border-bottom: 2px solid var(--color-border);
+      font-weight: 700;
+    }
+    .api-params-table td {
+      padding: 10px;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+    .param-name {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+    .param-type {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+    .param-req {
+      color: var(--color-danger);
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .param-opt {
+      color: var(--color-text-muted);
+      font-size: 11px;
+    }
+    .api-method-badge {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-xs);
+      color: #ffffff;
+      background: #10b981; /* GET is green */
+    }
+    .api-url-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-bg-page);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--color-text-primary);
+      margin-top: 6px;
+      overflow-x: auto;
+    }
   </style>
 </head>
 <body>
@@ -1145,6 +1206,10 @@
         <button id="tab-security" class="tab-btn" onclick="switchTab('standards-panel', this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
           <span data-i18n="navSecurity">Security & Audits</span>
+        </button>
+        <button id="tab-api" class="tab-btn" onclick="switchTab('api-panel', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+          <span data-i18n="navApi">API Hub</span>
         </button>
       </nav>
       
@@ -1349,6 +1414,32 @@ helm repo update</code>
     </div>
   </div>
 
+    <!-- PANEL 4: API Hub -->
+    <div id="api-panel" class="tab-panel">
+      <div class="projects-split-layout">
+        <!-- List Column (Left): Available APIs -->
+        <div class="projects-list-column">
+          <div class="matrix-controls">
+            <div class="search-row">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="api-search" class="search-input" placeholder="Filter APIs..." oninput="filterApisList()" data-i18n-placeholder="searchApiPlaceholder">
+            </div>
+          </div>
+
+          <div class="repo-cards-grid" id="apis-list-container">
+            <!-- Dynamically Rendered API List -->
+          </div>
+        </div>
+
+        <!-- Details Column (Right): API Playground & Docs -->
+        <div class="projects-console-column">
+          <div class="console-panel" id="api-detail-panel" style="min-height: 520px;">
+            <!-- Dynamically Populated API Playground Info -->
+          </div>
+        </div>
+      </div>
+    </div>
+
   <!-- Footer -->
   <footer>
     <div class="footer-nav">
@@ -1440,7 +1531,13 @@ helm repo update</code>
         starsLabel: "Total Stars",
         forksLabel: "Total Forks",
         langDistLabel: "Language Mix",
-        ecosystemNotice: "This project belongs to the binrc API Ecosystem:"
+        ecosystemNotice: "This project belongs to the binrc API Ecosystem:",
+        navApi: "API Ecosystem",
+        searchApiPlaceholder: "Filter APIs...",
+        noApis: "No APIs match search.",
+        sendRequestBtn: "Send Test Request",
+        apiResponseLabel: "Simulated Response Payload",
+        apiPlaygroundTitle: "API Details & Testing"
       },
       zh: {
         navCharts: "Helm 镜像包",
@@ -1498,7 +1595,13 @@ helm repo update</code>
         starsLabel: "星标总数",
         forksLabel: "分支总数",
         langDistLabel: "语言分布",
-        ecosystemNotice: "此项目属于 binrc API 生态系统成员："
+        ecosystemNotice: "此项目属于 binrc API 生态系统成员：",
+        navApi: "API 开放接口",
+        searchApiPlaceholder: "过滤 API 接口...",
+        noApis: "未找到匹配的 API 接口。",
+        sendRequestBtn: "发送测试请求",
+        apiResponseLabel: "模拟 JSON 响应报文",
+        apiPlaygroundTitle: "API 详细设计与交互测试"
       }
     };
 
@@ -1543,6 +1646,8 @@ helm repo update</code>
       updateHelmCommand();
       updateHeaderStats();
       renderProjectsSummaryStats();
+      renderApisList();
+      renderDetailsPanelApi();
     }
 
     // Projects Data Source
@@ -2033,6 +2138,87 @@ helm repo update</code>
         github: "https://github.com/binrchq/Charts/tree/main/charts/headcni"
       }
     };
+
+    // Ecosystem APIs mock dataset
+    const apisData = {
+      AvatarPyCor: {
+        name: "AvatarPyCor API",
+        method: "GET",
+        path: "/avatar/{hash}",
+        baseUrl: "https://api.binrc.cc",
+        desc: {
+          zh: "哈希头像与像素图形个性化生成 API。能根据输入的唯一哈希值，计算并输出专属的 SVG/PNG 头像矢量元素。",
+          en: "Personalized hash-based avatar rendering engine API. Generates unique SVG or PNG vectors from arbitrary strings."
+        },
+        params: [
+          { name: "hash", type: "string", req: true, val: "0110100001100101", desc: { zh: "用于唯一决定头像形状与图案的哈希哈希值", en: "String values determining the visual grid layout." } },
+          { name: "size", type: "integer", req: false, val: "200", desc: { zh: "图像大小比例 (像素宽度，默认 200)", en: "Output width/height dimensions (default: 200)." } },
+          { name: "format", type: "string", req: false, val: "svg", desc: { zh: "输出文件格式选项 (svg 或 png，默认 svg)", en: "File representation extensions (svg/png)." } }
+        ],
+        codeGenerator: (params) => {
+          const u = `https://api.binrc.cc/avatar/${params.hash}?size=${params.size}&format=${params.format}`;
+          return {
+            "cURL": `curl -X GET "${u}"`,
+            "Go": `package main\n\nimport (\n\t"fmt"\n\t"io"\n\t"net/http"\n)\n\nfunc main() {\n\tresp, _ := http.Get("${u}")\n\tdefer resp.Body.Close()\n\tbody, _ := io.ReadAll(resp.Body)\n\tfmt.Println(string(body))\n}`,
+            "Python": `import requests\n\nurl = "https://api.binrc.cc/avatar/${params.hash}"\nparams = {\n    "size": ${params.size},\n    "format": "${params.format}"\n}\nresponse = requests.get(url, params=params)\nprint(response.json())`,
+            "JavaScript": `fetch("${u}")\n  .then(res => res.json())\n  .then(data => console.log(data));`
+          };
+        },
+        response: (params) => {
+          return {
+            "status": "success",
+            "hash": params.hash,
+            "format": params.format,
+            "size": parseInt(params.size) || 200,
+            "url": `https://api.binrc.cc/avatar/${params.hash}?size=${params.size}&format=${params.format}`,
+            "svg_raw": `<svg width="${params.size}" height="${params.size}" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" fill="#0f172a"/><path d="M20 20h20v20H20zm40 0h20v20H60zM20 60h60v20H20z" fill="#20e091"/></svg>`
+          };
+        }
+      },
+      ipseek: {
+        name: "ipseek.cc API",
+        method: "GET",
+        path: "/ip/{ip_address}",
+        baseUrl: "https://api.ipseek.cc",
+        desc: {
+          zh: "高精度 IP 地址地理位置定位查询、BGP 路由段 ASN 归属及网络数据流向探测 API。",
+          en: "ASN prefix resolution, geographic mapping, and latency metric trace analytics API."
+        },
+        params: [
+          { name: "ip_address", type: "string", req: true, val: "8.8.8.8", desc: { zh: "目标查询的 IPv4 / IPv6 公网地址", en: "Target IP routing string to inspect." } },
+          { name: "detailed", type: "boolean", req: false, val: "true", desc: { zh: "是否返回完整的自治系统路由追溯及跨省链路耗时分析", en: "Include transit link telemetry & regional ingress statistics." } }
+        ],
+        codeGenerator: (params) => {
+          const u = `https://api.ipseek.cc/ip/${params.ip_address}?detailed=${params.detailed}`;
+          return {
+            "cURL": `curl -X GET "${u}"`,
+            "Go": `package main\n\nimport (\n\t"fmt"\n\t"io"\n\t"net/http"\n)\n\nfunc main() {\n\tresp, _ := http.Get("${u}")\n\tdefer resp.Body.Close()\n\tbody, _ := io.ReadAll(resp.Body)\n\tfmt.Println(string(body))\n}`,
+            "Python": `import requests\n\nurl = "https://api.ipseek.cc/ip/${params.ip_address}"\nparams = {\n    "detailed": "${params.detailed}"\n}\nresponse = requests.get(url, params=params)\nprint(response.json())`,
+            "JavaScript": `fetch("${u}")\n  .then(res => res.json())\n  .then(data => console.log(data));`
+          };
+        },
+        response: (params) => {
+          return {
+            "ip": params.ip_address,
+            "status": "success",
+            "country": "United States",
+            "region": "California",
+            "city": "Mountain View",
+            "asn": "AS15169",
+            "org": "Google LLC",
+            "isp": "Google LLC",
+            "egress_stats": params.detailed === "true" ? {
+              "cross_province_pct": 12.4,
+              "intra_operator_pct": 98.2,
+              "latency_ms": 1.2
+            } : null
+          };
+        }
+      }
+    };
+
+    let activeApiId = 'AvatarPyCor';
+    let activeApiLang = 'cURL';
 
     let activeChartId = 'headcni';
     let activeProjectId = 'roma';
@@ -2685,6 +2871,268 @@ helm repo update</code>
           <span class="matrix-stats-pill">${langDistribution}</span>
         </div>
       `;
+    }
+
+    // ==========================================
+    // API HUB TAB CONTROLS (TAB 4)
+    // ==========================================
+    function filterApisList() {
+      renderApisList();
+    }
+
+    function renderApisList() {
+      const listContainer = document.getElementById('apis-list-container');
+      const searchQuery = document.getElementById('api-search').value.toLowerCase().trim();
+      listContainer.innerHTML = '';
+
+      let matchesFound = false;
+
+      Object.keys(apisData).forEach(key => {
+        const api = apisData[key];
+        const nameMatch = api.name.toLowerCase().includes(searchQuery);
+        const descMatch = api.desc[activeLang].toLowerCase().includes(searchQuery);
+
+        if (nameMatch || descMatch) {
+          matchesFound = true;
+          const isActive = (key === activeApiId);
+          const card = document.createElement('div');
+          card.className = `repo-compact-card ${isActive ? 'active' : ''}`;
+          card.onclick = () => selectApi(key);
+
+          card.innerHTML = `
+            <div class="repo-compact-header">
+              <span class="repo-compact-name">${api.name}</span>
+              <span class="api-method-badge">${api.method}</span>
+            </div>
+            <p class="repo-compact-desc">${api.desc[activeLang]}</p>
+            <div class="repo-compact-stats">
+              <span style="font-family: var(--font-mono); font-size: 10.5px; color: var(--color-accent); font-weight: 500;">
+                ${api.path}
+              </span>
+            </div>
+          `;
+          listContainer.appendChild(card);
+        }
+      });
+
+      if (!matchesFound) {
+        listContainer.innerHTML = `
+          <div style="padding: 24px; text-align: center; color: var(--color-text-muted); border: 1px dashed var(--color-border); border-radius: var(--radius-md); font-size: 13px;">
+            ${locales[activeLang].noApis}
+          </div>
+        `;
+      }
+    }
+
+    function selectApi(key) {
+      activeApiId = key;
+      renderApisList();
+      renderDetailsPanelApi();
+    }
+
+    function setApiLangTab(langName) {
+      activeApiLang = langName;
+      renderDetailsPanelApi();
+    }
+
+    function renderDetailsPanelApi() {
+      const api = apisData[activeApiId];
+      const detailPanel = document.getElementById('api-detail-panel');
+      if (!api) {
+        detailPanel.innerHTML = '';
+        return;
+      }
+
+      const langData = locales[activeLang];
+
+      // Build parameters inputs HTML
+      let paramsInputHtml = '';
+      let paramsTableRows = '';
+      api.params.forEach(p => {
+        const isRequired = p.req;
+        paramsInputHtml += `
+          <div class="option-row" style="margin-bottom: 12px;">
+            <label style="font-weight: 600; display:flex; justify-content:space-between; align-items:center; width:100%;">
+              <span>${p.name} ${isRequired ? '<span class="param-req">*</span>' : ''}</span>
+              <span class="param-type" style="font-size:10px;">${p.type}</span>
+            </label>
+            <input type="text" id="api-param-input-${p.name}" class="form-input" value="${p.val}" oninput="updateApiPlayground()" style="margin-top: 4px;">
+          </div>
+        `;
+
+        paramsTableRows += `
+          <tr>
+            <td><span class="param-name">${p.name}</span></td>
+            <td><span class="param-type">${p.type}</span></td>
+            <td>${isRequired ? '<span class="param-req">required</span>' : '<span class="param-opt">optional</span>'}</td>
+            <td><span style="color: var(--color-text-secondary);">${p.desc[activeLang]}</span></td>
+          </tr>
+        `;
+      });
+
+      // Tab selector for code snippets
+      const snippetLangs = ["cURL", "Go", "Python", "JavaScript"];
+      let tabsHtml = '';
+      snippetLangs.forEach(ln => {
+        const isActive = (ln === activeApiLang);
+        tabsHtml += `
+          <button class="console-terminal-tab ${isActive ? 'active' : ''}" onclick="setApiLangTab('${ln}')">
+            ${ln}
+          </button>
+        `;
+      });
+
+      detailPanel.innerHTML = `
+        <div class="console-header">
+          <div class="console-title-row">
+            <h2 class="console-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <span>${api.name}</span>
+            </h2>
+            <span class="api-method-badge">${api.method}</span>
+          </div>
+          <p class="console-desc" style="font-weight: 500; margin-top: 6px; color: var(--color-text-primary); margin-bottom: 12px;">${api.desc[activeLang]}</p>
+        </div>
+
+        <div class="console-features" style="margin-top: 4px;">
+          <span class="console-features-title">${langData.apiPlaygroundTitle}</span>
+          
+          <div class="interactive-configurator" style="display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 20px;">
+            <!-- Left inputs inside playground -->
+            <div class="config-options">
+              ${paramsInputHtml}
+              <button id="api-test-run-btn" class="secops-run-btn" onclick="sendSimulatedApiRequest()" style="width: 100%; margin-top: 8px; font-weight:700;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span>${langData.sendRequestBtn}</span>
+              </button>
+            </div>
+
+            <!-- Right request url / code snippet and response console -->
+            <div class="configurator-output-area">
+              <label style="font-size:10px; font-weight:700; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:4px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                <span>Endpoint Target URL</span>
+              </label>
+              <div class="api-url-bar" id="api-url-bar-el">
+                <!-- Dynamically generated URL -->
+              </div>
+
+              <!-- Terminal style code snippet -->
+              <div class="console-terminal-container" style="margin-top: 10px; min-height: 100px;">
+                <div class="terminal-header">
+                  <div class="console-terminal-tabs">
+                    ${tabsHtml}
+                  </div>
+                </div>
+                <div class="console-terminal-body">
+                  <code id="api-code-snippet" style="color:#20e091; font-size: 11px;"></code>
+                  <button class="terminal-copy-btn" title="Copy Snippet" onclick="copyText(this, 'api-code-snippet')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Terminal style JSON response payload -->
+              <div class="console-terminal-container" style="margin-top: 10px; min-height: 140px;">
+                <div class="terminal-header">
+                  <span class="terminal-title" style="margin-left: 0;LineHeight: 1.5;">${langData.apiResponseLabel}</span>
+                </div>
+                <div class="console-terminal-body" style="padding: 10px 12px; background: #070913;">
+                  <code id="api-json-response" style="color:#38bdf8; font-size:11px; line-height: 1.35; max-height:160px; overflow-y:auto;">{}</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documentation parameters table -->
+        <div class="console-features" style="margin-top: 14px;">
+          <span class="console-features-title">Request Parameters</span>
+          <div style="overflow-x:auto;">
+            <table class="api-params-table">
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Type</th>
+                  <th>Required</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${paramsTableRows}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+
+      updateApiPlayground();
+    }
+
+    function updateApiPlayground() {
+      const api = apisData[activeApiId];
+      if (!api) return;
+
+      const paramsValues = {};
+      api.params.forEach(p => {
+        const inputEl = document.getElementById(`api-param-input-${p.name}`);
+        paramsValues[p.name] = inputEl ? inputEl.value.trim() : p.val;
+      });
+
+      // Construct Target URL
+      let targetUrl = api.baseUrl + api.path;
+      // Interpolate path parameters
+      Object.keys(paramsValues).forEach(k => {
+        targetUrl = targetUrl.replace(`{${k}}`, encodeURIComponent(paramsValues[k]));
+      });
+
+      // Append query parameters (exclude path parameters)
+      const queries = [];
+      api.params.forEach(p => {
+        if (!api.path.includes(`{${p.name}}`)) {
+          queries.push(`${p.name}=${encodeURIComponent(paramsValues[p.name])}`);
+        }
+      });
+      if (queries.length > 0) {
+        targetUrl += "?" + queries.join("&");
+      }
+
+      // Render URL bar
+      const urlBar = document.getElementById('api-url-bar-el');
+      if (urlBar) {
+        urlBar.innerText = targetUrl;
+      }
+
+      // Render code snippets
+      const codeSnippets = api.codeGenerator(paramsValues);
+      const codeSnippetEl = document.getElementById('api-code-snippet');
+      if (codeSnippetEl) {
+        codeSnippetEl.innerText = codeSnippets[activeApiLang] || '';
+      }
+    }
+
+    function sendSimulatedApiRequest() {
+      const api = apisData[activeApiId];
+      if (!api) return;
+
+      const btn = document.getElementById('api-test-run-btn');
+      const responseEl = document.getElementById('api-json-response');
+      
+      btn.disabled = true;
+      responseEl.innerText = "// Calling API endpoint... Please wait...";
+
+      const paramsValues = {};
+      api.params.forEach(p => {
+        const inputEl = document.getElementById(`api-param-input-${p.name}`);
+        paramsValues[p.name] = inputEl ? inputEl.value.trim() : p.val;
+      });
+
+      // Simulate API response delay
+      setTimeout(() => {
+        const payload = api.response(paramsValues);
+        responseEl.innerText = JSON.stringify(payload, null, 2);
+        btn.disabled = false;
+      }, 400);
     }
 
     // Initialize Page on DOM Loaded
