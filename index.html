@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,14 +80,14 @@
       transition: background-color var(--transition), color var(--transition);
     }
 
-    /* Glow Spot Decoration */
+    /* Decoration */
     .glow-spot-1 {
       position: absolute;
       top: -150px;
       left: 10%;
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(32, 224, 145, 0.06) 0%, rgba(32, 224, 145, 0) 70%);
+      background: radial-gradient(circle, rgba(32, 224, 145, 0.05) 0%, rgba(32, 224, 145, 0) 70%);
       pointer-events: none;
       z-index: -1;
     }
@@ -177,85 +177,203 @@
     .navbar-actions {
       display: flex;
       align-items: center;
+      gap: 16px;
+    }
+
+    /* Language Switcher Toggle */
+    .lang-toggle-container {
+      display: flex;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--color-border);
+      padding: 2px;
+      border-radius: var(--radius-full);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .lang-toggle-container {
+        background: rgba(255, 255, 255, 0.05);
+      }
+    }
+
+    .lang-toggle-btn {
+      padding: 4px 10px;
+      border: none;
+      background: transparent;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--color-text-secondary);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .lang-toggle-btn.active {
+      background: var(--color-accent);
+      color: #000000;
     }
 
     .navbar-git-link {
       color: var(--color-text-secondary);
       transition: var(--transition);
+      display: flex;
+      align-items: center;
     }
 
     .navbar-git-link:hover {
       color: var(--color-accent);
     }
 
-    /* Main Container with top padding to account for fixed navbar */
+    /* Main Container */
     .app-container {
       width: 100%;
       max-width: 1100px;
       margin: 0 auto;
-      padding: 104px 24px 48px; /* 64px nav height + 40px spacing */
+      padding: 104px 24px 48px;
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 28px;
     }
 
-    /* --- Page Title Block --- */
+    /* --- Page Header / Registry Banner --- */
     .page-header {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .registry-hero-row {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: flex-start;
       gap: 24px;
-      border-bottom: 1px solid var(--color-border);
-      padding-bottom: 24px;
     }
 
-    @media (max-width: 640px) {
-      .page-header {
+    @media (max-width: 768px) {
+      .registry-hero-row {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
       }
+    }
+
+    .page-title-area {
+      flex: 1;
     }
 
     .page-title-area h1 {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 800;
       letter-spacing: -0.75px;
       line-height: 1.2;
     }
 
     .page-title-area p {
-      font-size: 14.5px;
+      font-size: 13.5px;
       color: var(--color-text-secondary);
-      max-width: 650px;
       margin-top: 6px;
+      line-height: 1.5;
     }
 
-    /* Simple Mini Stats Row integrated in Page Header */
+    /* Mini Stats */
     .header-stats {
       display: flex;
-      gap: 24px;
+      gap: 20px;
+      flex-shrink: 0;
     }
 
     .h-stat-item {
       display: flex;
       flex-direction: column;
+      background: var(--color-bg-page);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      min-width: 80px;
+      text-align: center;
     }
 
     .h-stat-val {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 800;
       color: var(--color-text-primary);
     }
 
     .h-stat-lbl {
-      font-size: 10px;
+      font-size: 9px;
       color: var(--color-text-muted);
       text-transform: uppercase;
       font-weight: 700;
       letter-spacing: 0.05em;
+    }
+
+    /* Prominent Registry Command Block */
+    .registry-setup-block {
+      border-top: 1px dashed var(--color-border);
+      padding-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .registry-setup-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .registry-terminal {
+      background: var(--color-terminal-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-family: 'Fira Code', monospace;
+      font-size: 12.5px;
+      color: var(--color-terminal-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .registry-terminal code {
+      white-space: pre-wrap;
+    }
+
+    .registry-copy-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-sm);
+      color: rgba(255, 255, 255, 0.6);
+      padding: 5px 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .registry-copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+
+    .registry-copy-btn.copied {
+      background: var(--color-accent-light);
+      color: var(--color-accent);
+      border-color: rgba(32, 224, 145, 0.2);
     }
 
     /* --- Content Panels --- */
@@ -281,19 +399,19 @@
       border: 1px solid var(--color-border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
-      padding: 28px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
     .section-title {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 18px;
+      font-size: 16.5px;
       font-weight: 700;
       color: var(--color-text-primary);
       border-bottom: 1.5px solid var(--color-border-subtle);
-      padding-bottom: 10px;
+      padding-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -302,7 +420,7 @@
     /* --- Interactive Repository Split Layout --- */
     .projects-split-layout {
       display: grid;
-      grid-template-columns: 1.2fr 1.8fr;
+      grid-template-columns: 1.1fr 1.9fr;
       gap: 24px;
       align-items: start;
     }
@@ -317,17 +435,17 @@
     .projects-list-column {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
 
     .matrix-controls {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       background: var(--color-bg-card);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
-      padding: 14px;
+      padding: 12px;
     }
 
     .search-row {
@@ -355,7 +473,7 @@
       border: none;
       outline: none;
       background: transparent;
-      font-size: 13.5px;
+      font-size: 13px;
       color: var(--color-text-primary);
       font-family: inherit;
     }
@@ -363,16 +481,16 @@
     .filter-group {
       display: flex;
       background: var(--color-bg-page);
-      padding: 3px;
+      padding: 2.5px;
       border-radius: var(--radius-sm);
       gap: 2px;
     }
 
     .filter-btn {
-      padding: 6px 12px;
+      padding: 5px 8px;
       border: none;
       background: transparent;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       color: var(--color-text-secondary);
       border-radius: var(--radius-xs);
@@ -396,13 +514,12 @@
     .repo-cards-grid {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       max-height: 480px;
       overflow-y: auto;
       padding-right: 4px;
     }
 
-    /* Custom Scrollbar for repository list */
     .repo-cards-grid::-webkit-scrollbar {
       width: 4px;
     }
@@ -418,10 +535,10 @@
       background: var(--color-bg-card);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
-      padding: 14px 18px;
+      padding: 12px 16px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
       cursor: pointer;
       transition: var(--transition);
     }
@@ -444,7 +561,7 @@
 
     .repo-compact-name {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 14.5px;
+      font-size: 13.5px;
       font-weight: 700;
       color: var(--color-text-primary);
     }
@@ -453,15 +570,15 @@
       background: var(--color-bg-page);
       color: var(--color-text-secondary);
       font-family: 'Fira Code', monospace;
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: 600;
-      padding: 1px 6px;
+      padding: 1px 5px;
       border-radius: var(--radius-full);
       border: 1px solid var(--color-border);
     }
 
     .repo-compact-desc {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--color-text-secondary);
       white-space: nowrap;
       overflow: hidden;
@@ -470,8 +587,8 @@
 
     .repo-compact-stats {
       display: flex;
-      gap: 12px;
-      font-size: 10.5px;
+      gap: 10px;
+      font-size: 10px;
       color: var(--color-text-muted);
       align-items: center;
     }
@@ -479,7 +596,7 @@
     .repo-compact-stat {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
     }
 
     /* Detail Console Column (Right) */
@@ -515,7 +632,7 @@
 
     .console-title {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       letter-spacing: -0.5px;
       color: var(--color-text-primary);
@@ -525,7 +642,7 @@
     }
 
     .console-desc {
-      font-size: 13.5px;
+      font-size: 13px;
       color: var(--color-text-secondary);
       line-height: 1.5;
     }
@@ -541,7 +658,7 @@
       background: var(--color-bg-page);
       border: 1px solid var(--color-border-subtle);
       border-radius: var(--radius-sm);
-      padding: 10px;
+      padding: 8px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -550,7 +667,7 @@
 
     .console-metric-val {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--color-text-primary);
     }
@@ -560,6 +677,37 @@
       color: var(--color-text-muted);
       text-transform: uppercase;
       font-weight: 700;
+    }
+
+    /* Chart specific info boxes */
+    .chart-metadata-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: var(--color-bg-page);
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border-subtle);
+    }
+
+    .chart-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .chart-meta-lbl {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .chart-meta-val {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
     }
 
     /* Terminal Container */
@@ -573,7 +721,7 @@
     .terminal-header {
       background: rgba(0, 0, 0, 0.15);
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 8px 14px;
+      padding: 6px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -591,7 +739,7 @@
     }
 
     .terminal-title {
-      font-size: 10.5px;
+      font-size: 10px;
       font-family: 'Fira Code', monospace;
       color: var(--color-text-muted);
       font-weight: 600;
@@ -604,9 +752,9 @@
     }
 
     .console-terminal-tab {
-      padding: 6px 14px;
+      padding: 6px 12px;
       font-family: 'Fira Code', monospace;
-      font-size: 11px;
+      font-size: 10.5px;
       color: rgba(255, 255, 255, 0.45);
       border: none;
       background: transparent;
@@ -626,14 +774,14 @@
     }
 
     .console-terminal-body {
-      padding: 14px 16px;
+      padding: 12px 14px;
       position: relative;
-      min-height: 80px;
+      min-height: 70px;
     }
 
     .console-terminal-body code {
       font-family: 'Fira Code', monospace;
-      font-size: 12.5px;
+      font-size: 12px;
       color: var(--color-terminal-text);
       display: block;
       white-space: pre-wrap;
@@ -649,7 +797,7 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: var(--radius-sm);
       color: rgba(255, 255, 255, 0.6);
-      padding: 5px;
+      padding: 4px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -672,11 +820,11 @@
     .console-features {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .console-features-title {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: var(--color-text-muted);
       text-transform: uppercase;
@@ -686,14 +834,14 @@
     .console-features-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
       list-style: none;
     }
 
     .console-feature-item {
       display: flex;
-      gap: 8px;
-      font-size: 13px;
+      gap: 6px;
+      font-size: 12.5px;
       color: var(--color-text-secondary);
       align-items: flex-start;
     }
@@ -708,13 +856,13 @@
     .console-links-row {
       display: flex;
       gap: 16px;
-      margin-top: 4px;
-      padding-top: 14px;
+      margin-top: 2px;
+      padding-top: 12px;
       border-top: 1px solid var(--color-border-subtle);
     }
 
     .console-link {
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       color: var(--color-text-secondary);
       text-decoration: none;
@@ -722,140 +870,34 @@
       align-items: center;
       gap: 4px;
       transition: var(--transition);
+      cursor: pointer;
     }
 
     .console-link:hover {
       color: var(--color-accent);
     }
 
-    /* --- Interactive Helm Section --- */
-    .chart-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .chart-card {
-      background: var(--color-bg-page);
-      border: 1px solid var(--color-border-subtle);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: var(--transition);
-    }
-
-    .chart-card:hover {
-      border-color: var(--color-border-hover);
-    }
-
-    .chart-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .chart-card-title {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--color-text-primary);
-    }
-
-    .chart-card-version {
-      font-family: 'Fira Code', monospace;
-      font-size: 11px;
-      font-weight: 600;
-      background: var(--color-bg-card);
-      color: var(--color-info);
-      border: 1px solid var(--color-border);
-      padding: 1px 6px;
-      border-radius: var(--radius-full);
-    }
-
-    .chart-tags {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .chart-desc {
-      font-size: 12.5px;
-      color: var(--color-text-secondary);
-      line-height: 1.5;
-    }
-
-    .chart-features {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      list-style-type: none;
-      padding-left: 0;
-      margin-top: 2px;
-    }
-
-    .chart-features li {
-      font-size: 12px;
-      color: var(--color-text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .chart-features li::before {
-      content: "";
-      width: 4px;
-      height: 4px;
-      background-color: var(--color-accent);
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .chart-links {
-      display: flex;
-      gap: 16px;
-      margin-top: auto;
-      padding-top: 10px;
-      border-top: 1px dashed var(--color-border);
-    }
-
-    .chart-link {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--color-text-secondary);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: var(--transition);
-    }
-
-    .chart-link:hover {
-      color: var(--color-accent);
-    }
-
     /* Custom Helm Configurator Card */
     .interactive-configurator {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      grid-template-columns: 1fr;
+      gap: 16px;
       background: var(--color-bg-page);
       border: 1px solid var(--color-border-subtle);
-      padding: 24px;
-      border-radius: var(--radius-md);
-    }
-
-    @media (max-width: 768px) {
-      .interactive-configurator {
-        grid-template-columns: 1fr;
-      }
+      padding: 16px;
+      border-radius: var(--radius-sm);
     }
 
     .config-options {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .config-options {
+        grid-template-columns: 1fr;
+      }
     }
 
     .option-row {
@@ -865,7 +907,7 @@
     }
 
     .option-row label {
-      font-size: 11.5px;
+      font-size: 10.5px;
       font-weight: 700;
       color: var(--color-text-secondary);
       text-transform: uppercase;
@@ -874,11 +916,11 @@
 
     .form-input {
       width: 100%;
-      height: 38px;
+      height: 36px;
       padding: 0 10px;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-sm);
-      font-size: 13px;
+      font-size: 12.5px;
       outline: none;
       background: var(--color-bg-card);
       color: var(--color-text-primary);
@@ -898,14 +940,14 @@
     }
 
     .checkbox-row input {
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
       accent-color: var(--color-accent);
       cursor: pointer;
     }
 
     .checkbox-row label {
-      font-size: 12.5px;
+      font-size: 12px;
       color: var(--color-text-secondary);
       cursor: pointer;
     }
@@ -913,7 +955,9 @@
     .configurator-output-area {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      border-top: 1px dashed var(--color-border);
+      padding-top: 12px;
     }
 
     /* Tags Styling */
@@ -922,7 +966,7 @@
       align-items: center;
       padding: 2px 6px;
       border-radius: var(--radius-xs);
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
       background: var(--color-bg-page);
       color: var(--color-text-secondary);
@@ -948,9 +992,9 @@
       border-radius: var(--radius-md);
       padding: 16px;
       font-family: 'Fira Code', monospace;
-      font-size: 12px;
+      font-size: 11.5px;
       color: #38bdf8;
-      min-height: 180px;
+      min-height: 160px;
       overflow-y: auto;
       box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
       position: relative;
@@ -963,7 +1007,7 @@
       padding: 8px 16px;
       border-radius: var(--radius-sm);
       font-weight: 700;
-      font-size: 12.5px;
+      font-size: 12px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -989,14 +1033,13 @@
       border-top: 1px solid var(--color-border);
       width: 100%;
       color: var(--color-text-muted);
-      font-size: 12.5px;
+      font-size: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 12px;
     }
 
-    /* Footer Inline Navigation */
     .footer-nav {
       display: flex;
       justify-content: center;
@@ -1009,7 +1052,7 @@
       color: var(--color-text-secondary);
       text-decoration: none;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 12.5px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -1036,68 +1079,119 @@
         <img class="header-logo-img" src="https://cdn.binrc.com/images/logo_little.svg" alt="binrc logo">
         <span class="brand-name">binrc Open Source</span>
       </a>
+      
       <nav class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('projects-panel', this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
-          <span>Projects Matrix</span>
-        </button>
-        <button class="tab-btn" onclick="switchTab('helm-panel', this)">
+        <button id="tab-charts" class="tab-btn active" onclick="switchTab('charts-panel', this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-          <span>Helm Registry</span>
+          <span data-i18n="navCharts">Helm Charts</span>
         </button>
-        <button class="tab-btn" onclick="switchTab('standards-panel', this)">
+        <button id="tab-projects" class="tab-btn" onclick="switchTab('projects-panel', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+          <span data-i18n="navProjects">Source Projects</span>
+        </button>
+        <button id="tab-security" class="tab-btn" onclick="switchTab('standards-panel', this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-          <span>Security & Standards</span>
+          <span data-i18n="navSecurity">Security & Audits</span>
         </button>
       </nav>
+      
       <div class="navbar-actions">
+        <!-- Bilingual Language Selector Toggle -->
+        <div class="lang-toggle-container">
+          <button id="lang-btn-en" class="lang-toggle-btn active" onclick="setLanguage('en')">EN</button>
+          <button id="lang-btn-zh" class="lang-toggle-btn" onclick="setLanguage('zh')">中文</button>
+        </div>
         <a class="navbar-git-link" href="https://github.com/binrchq" target="_blank" title="Explore GitHub Organization">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
         </a>
       </div>
     </div>
   </div>
 
   <div class="app-container">
-    <!-- Page Header (Main title space) -->
+    <!-- Page Header (Main Registry Intro Block) -->
     <div class="page-header">
-      <div class="page-title-area">
-        <h1>Open Source Hub & Registry</h1>
-        <p>At binrc, we develop and maintain high-performance libraries, tools, and Kubernetes controllers to streamline networking, database workflows, and secure edge infrastructure.</p>
+      <div class="registry-hero-row">
+        <div class="page-title-area">
+          <h1 data-i18n="title">Open Source Registry</h1>
+          <p data-i18n="subtitle">At binrc, we develop and maintain high-performance libraries, tools, and Kubernetes controllers to streamline networking, database workflows, and secure edge infrastructure.</p>
+        </div>
+        
+        <!-- Stats -->
+        <div class="header-stats">
+          <div class="h-stat-item">
+            <span class="h-stat-val">1</span>
+            <span class="h-stat-lbl" data-i18n="statCharts">Active Charts</span>
+          </div>
+          <div class="h-stat-item">
+            <span class="h-stat-val">10</span>
+            <span class="h-stat-lbl" data-i18n="navProjects">Source Projects</span>
+          </div>
+          <div class="h-stat-item">
+            <span class="h-stat-val">A+</span>
+            <span class="h-stat-lbl">SecOps</span>
+          </div>
+        </div>
       </div>
-      
-      <!-- Mini integrated stats inline (No big cards) -->
-      <div class="header-stats">
-        <div class="h-stat-item">
-          <span class="h-stat-val">10</span>
-          <span class="h-stat-lbl">Projects</span>
+
+      <!-- Quick Registry command setup -->
+      <div class="registry-setup-block">
+        <div class="registry-setup-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+          <span data-i18n="registryLabel">Official Helm Registry URL</span>
         </div>
-        <div class="h-stat-item">
-          <span class="h-stat-val">v1.100</span>
-          <span class="h-stat-lbl">Core Rev</span>
-        </div>
-        <div class="h-stat-item">
-          <span class="h-stat-val">A+</span>
-          <span class="h-stat-lbl">SecOps</span>
+        <div class="registry-terminal">
+          <code id="helm-repo-code">helm repo add binrc https://charts.binrc.com
+helm repo update</code>
+          <button class="registry-copy-btn" onclick="copyText(this, 'helm-repo-code')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span data-i18n="copy">Copy</span>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- PANEL 1: Projects Matrix -->
-    <div id="projects-panel" class="tab-panel active">
+    <!-- PANEL 1: Helm Charts Registry (Main Tab) -->
+    <div id="charts-panel" class="tab-panel active">
       <div class="projects-split-layout">
         <!-- List Column (Left) -->
         <div class="projects-list-column">
           <div class="matrix-controls">
             <div class="search-row">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input type="text" id="project-search" class="search-input" placeholder="Filter projects..." oninput="filterProjects()">
+              <input type="text" id="chart-search" class="search-input" placeholder="Filter charts..." oninput="filterChartsList()" data-i18n-placeholder="searchChartsPlaceholder">
+            </div>
+          </div>
+
+          <div class="repo-cards-grid" id="charts-list-container">
+            <!-- Dynamically Rendered Helm Charts List -->
+          </div>
+        </div>
+
+        <!-- Details Column (Right) -->
+        <div class="projects-console-column">
+          <div class="console-panel" id="chart-detail-panel">
+            <!-- Dynamically Populated Chart Detailed Info -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 2: Source Projects (Git Repos list) -->
+    <div id="projects-panel" class="tab-panel">
+      <div class="projects-split-layout">
+        <!-- List Column (Left) -->
+        <div class="projects-list-column">
+          <div class="matrix-controls">
+            <div class="search-row">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="project-search" class="search-input" placeholder="Filter projects..." oninput="filterProjectsList()" data-i18n-placeholder="searchPlaceholder">
             </div>
             <div class="filter-group">
-              <button class="filter-btn active" onclick="setLanguageFilter('all', this)">All</button>
-              <button class="filter-btn" onclick="setLanguageFilter('Go', this)">Go</button>
-              <button class="filter-btn" onclick="setLanguageFilter('TypeScript', this)">TS</button>
-              <button class="filter-btn" onclick="setLanguageFilter('Shell', this)">Shell</button>
+              <button class="filter-btn active" id="f-all" onclick="setLanguageFilter('all', this)">All</button>
+              <button class="filter-btn" id="f-go" onclick="setLanguageFilter('Go', this)">Go</button>
+              <button class="filter-btn" id="f-ts" onclick="setLanguageFilter('TypeScript', this)">TS</button>
+              <button class="filter-btn" id="f-shell" onclick="setLanguageFilter('Shell', this)">Shell</button>
             </div>
           </div>
 
@@ -1115,154 +1209,14 @@
       </div>
     </div>
 
-    <!-- PANEL 2: Helm Registry -->
-    <div id="helm-panel" class="tab-panel">
-      <div class="section-card">
-        <div class="section-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
-          <span>Helm Registry Index / 镜像源目录</span>
-        </div>
-        
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-          <p style="color:var(--color-text-secondary); font-size:13.5px; max-width:600px; line-height:1.5;">Search and dynamically configure your Helm charts. Click on options in the command builder below to customize and copy deployment instructions.</p>
-          <div class="search-row" style="max-width: 280px; width: 100%;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" class="search-input" placeholder="Filter charts..." oninput="filterCharts(this.value)">
-          </div>
-        </div>
-
-        <div class="chart-grid" id="charts-grid-list">
-          <!-- HeadCNI Chart -->
-          <div class="chart-card" data-name="headcni">
-            <div class="chart-card-header">
-              <h3 class="chart-card-title">headcni-helm</h3>
-              <span class="chart-card-version">v1.0.0</span>
-            </div>
-            
-            <div class="chart-tags">
-              <span class="tag tag-blue">k8s 1.20+</span>
-              <span class="tag tag-success">Tailscale v1.100.0</span>
-            </div>
-            
-            <p class="chart-desc">Kubernetes Container Network Interface (CNI) plugin integrating Headscale and Tailscale for WireGuard pod fabrics.</p>
-            
-            <ul class="chart-features">
-              <li>Zero Trust network encryption with WireGuard</li>
-              <li>Optimized default MTU (1400) for hybrid environments</li>
-              <li>Custom routing tables and firewall marks</li>
-              <li>Integrated Prometheus metrics (9001/metrics)</li>
-            </ul>
-
-            <div class="chart-links">
-              <a class="chart-link" href="https://github.com/binrchq/Charts/tree/main/charts/headcni" target="_blank">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                <span>Chart Source</span>
-              </a>
-              <a class="chart-link" href="https://github.com/binrchq/Charts/issues" target="_blank">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                <span>Issues</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Future placeholder -->
-          <div class="chart-card coming-soon-card" data-name="placeholder" style="border: 1.5px dashed var(--color-border); opacity: 0.6; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 8px; min-height: 180px; background: transparent;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            <h3 style="font-family: 'Plus Jakarta Sans', sans-serif; color: var(--color-text-muted); font-size:14px; font-weight:700;">More Charts Coming Soon</h3>
-            <p class="chart-desc" style="max-width: 220px;">We are migrating additional platform services. Stay tuned!</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Configurator -->
-      <div class="section-card">
-        <div class="section-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          <span>Helm Command Builder / 动态命令生成器</span>
-        </div>
-        
-        <div class="interactive-configurator">
-          <!-- Options Form -->
-          <div class="config-options">
-            <div class="option-row">
-              <label for="helm-release-name">Release Name</label>
-              <input type="text" id="helm-release-name" class="form-input" value="headcni" oninput="updateHelmCommand()">
-            </div>
-            
-            <div class="option-row">
-              <label for="helm-namespace">Namespace</label>
-              <input type="text" id="helm-namespace" class="form-input" value="kube-system" oninput="updateHelmCommand()">
-            </div>
-
-            <div class="option-row">
-              <label for="helm-mtu">MTU Setting</label>
-              <input type="text" id="helm-mtu" class="form-input" value="1400" oninput="updateHelmCommand()">
-            </div>
-
-            <div class="checkbox-row" style="margin-top: 6px;">
-              <input type="checkbox" id="check-dns" onchange="updateHelmCommand()">
-              <label for="check-dns">Accept Headscale DNS / 接受 DNS 配置</label>
-            </div>
-
-            <div class="checkbox-row">
-              <input type="checkbox" id="check-metrics" checked onchange="updateHelmCommand()">
-              <label for="check-metrics">Enable Prometheus Metrics / 开启指标监控</label>
-            </div>
-          </div>
-
-          <!-- Rendered Console Output -->
-          <div class="configurator-output-area">
-            <label style="font-size:11px; font-weight:700; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:4px;">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-              <span>Generated Installation Command</span>
-            </label>
-            
-            <!-- Install CLI Command Console -->
-            <div class="console-terminal-container" style="flex: 1; display:flex; flex-direction:column; min-height:160px;">
-              <div class="terminal-header">
-                <div class="terminal-window-dots">
-                  <span class="terminal-window-dot" style="background:#ef4444;"></span>
-                  <span class="terminal-window-dot" style="background:#f59e0b;"></span>
-                  <span class="terminal-window-dot" style="background:#10b981;"></span>
-                </div>
-                <span class="terminal-title">Helm CLI compiler</span>
-              </div>
-              <div class="console-terminal-body" style="flex:1; padding: 12px 14px;">
-                <code id="rendered-helm-code" style="color:#20e091; font-weight:500;">helm install headcni binrc/headcni --namespace kube-system</code>
-                <button class="terminal-copy-btn" title="Copy Command" onclick="copyText(this, 'rendered-helm-code')">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Custom Values yaml snippet -->
-            <div class="console-terminal-container" style="height: 100px;">
-              <div class="terminal-header">
-                <span class="terminal-title" style="margin-left: 0;">values.yaml overlay preview</span>
-              </div>
-              <div class="console-terminal-body" style="padding: 8px 12px;">
-                <code id="rendered-values-yaml" style="color: #cbd5e1; font-size: 11px; line-height:1.3;">config:
-  network:
-    mtu: 1400
-  tailscale:
-    acceptDNS: false
-  monitoring:
-    enabled: true</code>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- PANEL 3: Security & Standards -->
     <div id="standards-panel" class="tab-panel">
       <div class="section-card">
         <div class="section-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-          <span>SecOps & Compliance / 安全与合规准则</span>
+          <span data-i18n="secopsTitle">SecOps & Compliance Standards</span>
         </div>
-        <p style="color:var(--color-text-secondary); font-size:13.5px; line-height:1.6;">
+        <p style="color:var(--color-text-secondary); font-size:13.5px; line-height:1.6;" data-i18n="secopsDesc">
           At binrc, security is never an afterthought. Every package we deploy, maintain, or publish undergoes automated vulnerability sweeps and static configuration analysis before hitting production registries.
         </p>
 
@@ -1270,23 +1224,23 @@
           <div style="border: 1px solid var(--color-border); padding:16px; border-radius:var(--radius-md); background:var(--color-bg-page); display:flex; flex-direction:column; gap:6px;">
             <div style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:13.5px;">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-              <span>1. Audited Packages</span>
+              <span data-i18n="secCheck1">1. Audited Packages</span>
             </div>
-            <p style="font-size:12px; color:var(--color-text-secondary); line-height: 1.4;">Every dependency is locked and verified against CVE registries. All Helm packages are cryptographically signed to prevent tampered payloads.</p>
+            <p style="font-size:12px; color:var(--color-text-secondary); line-height: 1.4;" data-i18n="secCheck1Desc">Every dependency is locked and verified against CVE registries. All Helm packages are cryptographically signed to prevent tampered payloads.</p>
           </div>
           <div style="border: 1px solid var(--color-border); padding:16px; border-radius:var(--radius-md); background:var(--color-bg-page); display:flex; flex-direction:column; gap:6px;">
             <div style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:13.5px;">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zM9 7a3 3 0 0 1 6 0v3H9V7z"></path></svg>
-              <span>2. Least Privilege</span>
+              <span data-i18n="secCheck2">2. Least Privilege</span>
             </div>
-            <p style="font-size:12px; color:var(--color-text-secondary); line-height: 1.4;">CNI and networking charts are tailored to run with precise security context settings. Privileged execution is scoped purely to necessary network setups.</p>
+            <p style="font-size:12px; color:var(--color-text-secondary); line-height: 1.4;" data-i18n="secCheck2Desc">CNI and networking charts are tailored to run with precise security context settings. Privileged execution is scoped purely to necessary network setups.</p>
           </div>
           <div style="border: 1px solid var(--color-border); padding:16px; border-radius:var(--radius-md); background:var(--color-bg-page); display:flex; flex-direction:column; gap:6px;">
             <div style="display:flex; align-items:center; gap:6px; font-weight:700; font-size:13.5px;">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-              <span>3. GitOps Automation</span>
+              <span data-i18n="secCheck3">3. GitOps Automation</span>
             </div>
-            <p style="font-size:12px; color:var(--color-text-secondary); line-height: 1.4;">Configuration schemas are strictly validated via automated Git linting pipelines before release onto the charts repository.</p>
+            <p style="font-size:12px; color:var(--color-text-secondary); line-height: 1.4;" data-i18n="secCheck3Desc">Configuration schemas are strictly validated via automated Git linting pipelines before release onto the charts repository.</p>
           </div>
         </div>
       </div>
@@ -1294,9 +1248,9 @@
       <div class="section-card">
         <div class="section-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-          <span>Repository Standards Reference / 版本管理维护</span>
+          <span data-i18n="standardsRef">Repository Standards Reference</span>
         </div>
-        <p style="color:var(--color-text-secondary); font-size:13.5px;">We enforce strict quality control and test routines. The automated check scripts reside inside the repository:</p>
+        <p style="color:var(--color-text-secondary); font-size:13.5px;" data-i18n="standardsDesc">We enforce strict quality control and test routines. The automated check scripts reside inside the repository:</p>
         
         <div class="console-terminal-container">
           <div class="terminal-header">
@@ -1321,17 +1275,17 @@
       <div class="section-card">
         <div class="section-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          <span>Compliance Audit Simulator / 合规验证模拟器</span>
+          <span data-i18n="auditTitle">Compliance Audit Simulator</span>
         </div>
-        <p style="color:var(--color-text-secondary); font-size:13.5px; line-height:1.5;">Click the button below to run a security context audit simulation on the active repositories and packages in the binrc cluster.</p>
+        <p style="color:var(--color-text-secondary); font-size:13.5px; line-height:1.5;" data-i18n="auditDesc">Click the button below to run a security context audit simulation on the active repositories and packages in the binrc cluster.</p>
         <div>
           <button id="run-audit-btn" class="secops-run-btn" onclick="runComplianceAudit()">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <span>Run Safety Audit</span>
+            <span data-i18n="runAuditBtn">Run Safety Audit</span>
           </button>
         </div>
         <div class="secops-simulator-console" id="secops-console-output">
-          &gt; Console ready. Click "Run Safety Audit" to start the compliance check trace...
+          <!-- Populated by script -->
         </div>
       </div>
     </div>
@@ -1346,11 +1300,162 @@
       <span class="footer-nav-divider">·</span>
       <a class="footer-nav-link" href="https://binrc.com" target="_blank">binrc.com</a>
     </div>
-    <p>© 2026 binrc. All rights reserved. Licensed under MIT.</p>
+    <p data-i18n="copyright">© 2026 binrc. All rights reserved. Licensed under MIT.</p>
     <div class="geek-code" title="Binary Message">01101000011001010110110001101111</div>
   </footer>
 
   <script>
+    // I18n translation system
+    const locales = {
+      en: {
+        navCharts: "Helm Charts",
+        navProjects: "Source Projects",
+        navSecurity: "Security & Audits",
+        title: "Open Source Registry",
+        subtitle: "At binrc, we develop and maintain high-performance libraries, tools, and Kubernetes controllers to streamline networking, database workflows, and secure edge infrastructure.",
+        statCharts: "Active Charts",
+        registryLabel: "Official Helm Registry URL",
+        searchPlaceholder: "Filter projects...",
+        searchChartsPlaceholder: "Filter charts...",
+        stars: "GitHub Stars",
+        forks: "Forks",
+        issues: "Open Issues",
+        installTitle: "Install Command",
+        featuresTitle: "Core Features",
+        sourceRepo: "GitHub Repository",
+        issuesTracker: "Issues Tracker",
+        license: "License",
+        version: "Chart Version",
+        appVersion: "App Version",
+        category: "Category",
+        connectedProject: "Source Project",
+        chartSource: "Chart Source",
+        helmConfigurator: "Helm Command Builder",
+        releaseName: "Release Name",
+        namespace: "Namespace",
+        mtuSetting: "MTU Setting",
+        dnsOption: "Accept Headscale DNS configuration",
+        metricsOption: "Enable Prometheus metrics monitoring",
+        installCommandLabel: "Generated Installation Command",
+        valuesPreviewLabel: "values.yaml overlay preview",
+        secopsTitle: "SecOps & Compliance Standards",
+        secopsDesc: "At binrc, security is never an afterthought. Every package we deploy, maintain, or publish undergoes automated vulnerability sweeps and static configuration analysis before hitting production registries.",
+        secCheck1: "1. Audited Packages",
+        secCheck1Desc: "Every dependency is locked and verified against CVE registries. All Helm packages are cryptographically signed to prevent tampered payloads.",
+        secCheck2: "2. Least Privilege",
+        secCheck2Desc: "CNI and networking charts are tailored to run with precise security context settings. Privileged execution is scoped purely to necessary network setups.",
+        secCheck3: "3. GitOps Automation",
+        secCheck3Desc: "Configuration schemas are strictly validated via automated Git linting pipelines before release onto the charts repository.",
+        standardsRef: "Repository Standards Reference",
+        standardsDesc: "We enforce strict quality control and test routines. The automated check scripts reside inside the repository:",
+        auditTitle: "Compliance Audit Simulator",
+        auditDesc: "Click the button below to run a security context audit simulation on the active repositories and packages in the binrc cluster.",
+        runAuditBtn: "Run Safety Audit",
+        auditConsoleReady: "> Console ready. Click \"Run Safety Audit\" to start the compliance check trace...",
+        copied: "Copied!",
+        copy: "Copy",
+        copyright: "© 2026 binrc. All rights reserved. Licensed under MIT.",
+        noProjects: "No projects match search.",
+        noCharts: "No charts match search.",
+        pConnectedNotice: "This project is distributed as a Helm chart:",
+        linkToChartBtn: "Go to Helm Chart"
+      },
+      zh: {
+        navCharts: "Helm 镜像包",
+        navProjects: "原生项目",
+        navSecurity: "安全与审计",
+        title: "开源软件源与注册表",
+        subtitle: "在 binrc，我们开发并维护高性能的库、工具和 Kubernetes 控制器，以简化网络、数据库工作流和安全边缘基础设施。",
+        statCharts: "活跃 Charts",
+        registryLabel: "官方 Helm 软件源地址",
+        searchPlaceholder: "过滤原生项目...",
+        searchChartsPlaceholder: "过滤镜像包...",
+        stars: "GitHub 星标",
+        forks: "分支数",
+        issues: "待解决问题",
+        installTitle: "安装与部署命令",
+        featuresTitle: "核心功能特性",
+        sourceRepo: "GitHub 源代码仓库",
+        issuesTracker: "问题反馈中心",
+        license: "开源协议",
+        version: "Chart 版本",
+        appVersion: "应用版本",
+        category: "分类目录",
+        connectedProject: "原生开发项目",
+        chartSource: "Chart 源码",
+        helmConfigurator: "Helm 命令动态生成器",
+        releaseName: "发布名称 (Release)",
+        namespace: "命名空间 (Namespace)",
+        mtuSetting: "MTU 传输单元设置",
+        dnsOption: "接受 Headscale DNS 解析配置",
+        metricsOption: "开启 Prometheus 指标监控",
+        installCommandLabel: "生成的安装与部署命令",
+        valuesPreviewLabel: "values.yaml 参数覆写预览",
+        secopsTitle: "SecOps 安全与合规准则",
+        secopsDesc: "在 binrc，安全并非事后补救。我们部署、维护或发布的每一个软件包在进入生产注册表之前，都会经历自动化的漏洞扫描与静态配置评估。",
+        secCheck1: "1. 依赖库漏洞扫描",
+        secCheck1Desc: "每一个第三方库均被锁定并与外部 CVE 注册库进行自动比对。发布出的全部 Helm 资源均进行了加密 GPG 签名以防篡改。",
+        secCheck2: "2. 最小特权安全上下文",
+        secCheck2Desc: "CNI 与网络配置包被严格收缩在最小安全上下文中运行。特权执行仅被授予执行必要物理网卡配置的基础容器中。",
+        secCheck3: "3. GitOps 流水线化自动化",
+        secCheck3Desc: "全部 YAML 配置模式会在推送到公共 Pages 软件源前，在自动化 CI 流水线中进行严格的校验测试与 Lint 语法格式评估。",
+        standardsRef: "代码源校验规范",
+        standardsDesc: "我们对发布周期执行极严的控制规范，其自动化校验流程均可在项目源码中进行参考：",
+        auditTitle: "合规性审计交互模拟器",
+        auditDesc: "点击下方按钮，对 binrc 集群中活跃的仓库和安装包执行自动化的安全合规性审计追溯模拟。",
+        runAuditBtn: "启动安全审计",
+        auditConsoleReady: "> 控制台就绪。点击“启动安全审计”开始执行合规性检查...",
+        copied: "已复制!",
+        copy: "复制",
+        copyright: "© 2026 binrc. 所有权利保留。基于 MIT 协议开源。",
+        noProjects: "未找到匹配的原生项目。",
+        noCharts: "未找到匹配的 Helm 镜像包。",
+        pConnectedNotice: "此项目已打包并在 Helm 软件源发布：",
+        linkToChartBtn: "前往 Helm 镜像包"
+      }
+    };
+
+    let activeLang = 'en';
+
+    function setLanguage(lang) {
+      activeLang = lang;
+      
+      // Update toggle buttons active state
+      document.getElementById('lang-btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('lang-btn-zh').classList.toggle('active', lang === 'zh');
+      
+      // Translate all static nodes with data-i18n attributes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (locales[lang][key]) {
+          el.innerText = locales[lang][key];
+        }
+      });
+
+      // Translate placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (locales[lang][key]) {
+          el.setAttribute('placeholder', locales[lang][key]);
+        }
+      });
+
+      // Reset SecOps Console placeholder if not running
+      const runBtn = document.getElementById('run-audit-btn');
+      if (!runBtn.disabled) {
+        document.getElementById('secops-console-output').innerText = locales[lang].auditConsoleReady;
+      }
+
+      // Re-render data panels to apply languages instantly
+      renderChartsList();
+      renderDetailsPanelChart();
+      
+      renderProjectList();
+      renderDetailsPanelProject();
+      
+      updateHelmCommand();
+    }
+
     // Projects Data Source
     const projectsData = {
       roma: {
@@ -1359,21 +1464,32 @@
         stars: "1.2k",
         forks: "185",
         issues: "4",
-        descCN: "基于 Go 语言的 AI 驱动、超轻量级跳板机/堡垒机服务，提供安全、智能的远程接入与通道审计。",
-        descEN: "An AI-powered, ultra-lightweight jump server (bastion host) built with Go. Provides secure remote access with native AI integration.",
-        features: [
-          "AI-assisted command autocomplete and anomaly detection",
-          "Ultra-lightweight binary with zero external dependencies",
-          "Native SSH/SFTP proxying and terminal session recording",
-          "Role-based access control (RBAC) and Multi-Factor Auth (MFA)"
-        ],
+        desc: {
+          zh: "基于 Go 语言的 AI 驱动、超轻量级跳板机/堡垒机服务，提供安全、智能的远程接入与通道审计。",
+          en: "An AI-powered, ultra-lightweight jump server (bastion host) built with Go. Provides secure remote access with native AI integration."
+        },
+        features: {
+          zh: [
+            "AI 辅助命令智能自动补全与异动扫描",
+            "超轻量静态编译，无外部二进制依赖",
+            "原生的 SSH/SFTP 连接代理与终端会话录像审计",
+            "完备的 RBAC 角色权限控制以及双因子 MFA 动态认证"
+          ],
+          en: [
+            "AI-assisted command autocomplete and anomaly detection",
+            "Ultra-lightweight binary with zero external dependencies",
+            "Native SSH/SFTP proxying and terminal session recording",
+            "Role-based access control (RBAC) and Multi-Factor Auth (MFA)"
+          ]
+        },
         install: {
           "Go Install": "go install github.com/binrchq/roma@latest",
           "Git Clone": "git clone https://github.com/binrchq/roma.git\\ncd roma && go build -o roma main.go",
           "Docker": "docker pull ghcr.io/binrchq/roma:latest"
         },
         github: "https://github.com/binrchq/roma",
-        issues: "https://github.com/binrchq/roma/issues"
+        issues: "https://github.com/binrchq/roma/issues",
+        isHelm: false
       },
       headcni: {
         name: "headcni",
@@ -1381,20 +1497,32 @@
         stars: "980",
         forks: "142",
         issues: "8",
-        descCN: "结合 Headscale 与 Tailscale 功能的 Kubernetes CNI 插件，通过 WireGuard 提供模块化的 Pod 加密覆盖网络。",
-        descEN: "Kubernetes CNI plugin combining Headscale and Tailscale functions for modular, scalable networks using WireGuard encryption.",
-        features: [
-          "Secure Pod-to-Pod overlay network powered by Tailscale/WireGuard",
-          "Full integration with Headscale coordination server",
-          "Supports network policies and custom routing configurations",
-          "Prometheus metrics exporter on port 9001"
-        ],
+        desc: {
+          zh: "结合 Headscale 与 Tailscale 功能的 Kubernetes CNI 插件，通过 WireGuard 提供模块化的 Pod 加密覆盖网络。",
+          en: "Kubernetes CNI plugin combining Headscale and Tailscale functions for modular, scalable networks using WireGuard encryption."
+        },
+        features: {
+          zh: [
+            "由 Tailscale/WireGuard 驱动的安全 Pod-to-Pod 覆盖网络",
+            "与 Headscale 协调服务器深度集成",
+            "支持网络策略 (Network Policies) 和自定义路由设置",
+            "9001 端口集成 Prometheus 指标监控"
+          ],
+          en: [
+            "Secure Pod-to-Pod overlay network powered by Tailscale/WireGuard",
+            "Full integration with Headscale coordination server",
+            "Supports network policies and custom routing configurations",
+            "Prometheus metrics exporter on port 9001"
+          ]
+        },
         install: {
           "Helm Install": "helm repo add binrc https://charts.binrc.com\\nhelm install headcni binrc/headcni",
           "Git Clone": "git clone https://github.com/binrchq/headcni.git"
         },
         github: "https://github.com/binrchq/headcni",
-        issues: "https://github.com/binrchq/headcni/issues"
+        issues: "https://github.com/binrchq/headcni/issues",
+        isHelm: true,
+        helmChartName: "headcni"
       },
       KubePVCWarmer: {
         name: "KubePVCWarmer",
@@ -1402,20 +1530,31 @@
         stars: "430",
         forks: "58",
         issues: "2",
-        descCN: "Kubernetes 原生的 PVC 预热解决方案，通过智能缓存和 OverlayFS 技术加速容器启动。",
-        descEN: "Kubernetes-native PVC pre-warming solution using smart caching and OverlayFS to accelerate container start times.",
-        features: [
-          "Pre-warms persistent volume claims before Pod scheduling",
-          "Uses OverlayFS to avoid unnecessary copy overhead",
-          "Integrates as a native Kubernetes Operator",
-          "Supports major CSI providers (AWS EBS, GCP PD, Ceph, NFS)"
-        ],
+        desc: {
+          zh: "Kubernetes 原生的 PVC 预热解决方案，通过智能缓存和 OverlayFS 技术加速容器启动。",
+          en: "Kubernetes-native PVC pre-warming solution using smart caching and OverlayFS to accelerate container start times."
+        },
+        features: {
+          zh: [
+            "在 Pod 调度前，提前在节点对 Persistent Volume Claims 缓存预热",
+            "直接使用 OverlayFS 挂载，彻底免去数据全量拷贝耗时",
+            "采用 Kubernetes 原生 Operator 架设与调度",
+            "兼容各种云环境 CSI 驱动 (AWS EBS, GCP PD, Ceph, NFS)"
+          ],
+          en: [
+            "Pre-warms persistent volume claims before Pod scheduling",
+            "Uses OverlayFS to avoid unnecessary copy overhead",
+            "Integrates as a native Kubernetes Operator",
+            "Supports major CSI providers (AWS EBS, GCP PD, Ceph, NFS)"
+          ]
+        },
         install: {
           "kubectl Apply": "kubectl apply -f https://raw.githubusercontent.com/binrchq/KubePVCWarmer/main/deploy/operator.yaml",
           "Git Clone": "git clone https://github.com/binrchq/KubePVCWarmer.git"
         },
         github: "https://github.com/binrchq/KubePVCWarmer",
-        issues: "https://github.com/binrchq/KubePVCWarmer/issues"
+        issues: "https://github.com/binrchq/KubePVCWarmer/issues",
+        isHelm: false
       },
       mtconsole: {
         name: "mtconsole",
@@ -1423,20 +1562,31 @@
         stars: "195",
         forks: "22",
         issues: "1",
-        descCN: "简洁易用的无需登录的机房网络维护终端界面程序，专为边缘服务器 and 节点现场网络维护设计。",
-        descEN: "Clean and easy-to-use datacentre network maintenance terminal program requiring no login, designed for local node troubleshooting.",
-        features: [
-          "No login required for local network metrics retrieval",
-          "Read-only console to prevent accidental configuration drift",
-          "Interactive CLI interface using bubbles/bubbletea",
-          "Displays real-time interfaces, routes, and DNS status"
-        ],
+        desc: {
+          zh: "简洁易用的无需登录的机房网络维护终端界面程序，专为边缘服务器和节点现场网络维护设计。",
+          en: "Clean and easy-to-use datacentre network maintenance terminal program requiring no login, designed for local node troubleshooting."
+        },
+        features: {
+          zh: [
+            "无需登录即可拉取本地基础网络层指标数据",
+            "只读安全终端控制台，防止误触操作导致配置漂移",
+            "基于 Bubbletea TUI 框架构建的交互式操作界面",
+            "实时查询接口、系统路由、及 DNS 可用性状态"
+          ],
+          en: [
+            "No login required for local network metrics retrieval",
+            "Read-only console to prevent accidental configuration drift",
+            "Interactive CLI interface using bubbles/bubbletea",
+            "Displays real-time interfaces, routes, and DNS status"
+          ]
+        },
         install: {
           "Go Install": "go install github.com/binrchq/mtconsole@latest",
           "Git Clone": "git clone https://github.com/binrchq/mtconsole.git"
         },
         github: "https://github.com/binrchq/mtconsole",
-        issues: "https://github.com/binrchq/mtconsole/issues"
+        issues: "https://github.com/binrchq/mtconsole/issues",
+        isHelm: false
       },
       sysinfokeeper: {
         name: "sysinfokeeper",
@@ -1444,20 +1594,31 @@
         stars: "320",
         forks: "41",
         issues: "3",
-        descCN: "硬件资产自动盘点与变更追踪工具，使用 SQLite 本地数据库并自动执行 30 天变更保留。",
-        descEN: "Linux/Unix CLI that inventories hardware, tracks changes, and stores history in SQLite with automatic 30-day retention.",
-        features: [
-          "Detailed hardware inventory (CPU, RAM, Disks, Network cards)",
-          "Tracks configuration and hardware changes between runs",
-          "Stores historical data locally in SQLite",
-          "Automatic data retention management (30 days)"
-        ],
+        desc: {
+          zh: "硬件资产自动盘点与变更追踪工具，使用 SQLite 本地数据库并自动执行 30 天变更保留。",
+          en: "Linux/Unix CLI that inventories hardware, tracks changes, and stores history in SQLite with automatic 30-day retention."
+        },
+        features: {
+          zh: [
+            "自动化对服务器 CPU、RAM、硬盘及网卡等核心资产盘点",
+            "每次运行比对基线变更，记录资产升级与变动轨迹",
+            "本地化免配置 SQLite 数据持久化存储",
+            "内置自动的数据清扫逻辑，默认支持 30 天周期历史存储"
+          ],
+          en: [
+            "Detailed hardware inventory (CPU, RAM, Disks, Network cards)",
+            "Tracks configuration and hardware changes between runs",
+            "Stores historical data locally in SQLite",
+            "Automatic data retention management (30 days)"
+          ]
+        },
         install: {
           "Go Install": "go install github.com/binrchq/sysinfokeeper@latest",
           "Git Clone": "git clone https://github.com/binrchq/sysinfokeeper.git"
         },
         github: "https://github.com/binrchq/sysinfokeeper",
-        issues: "https://github.com/binrchq/sysinfokeeper/issues"
+        issues: "https://github.com/binrchq/sysinfokeeper/issues",
+        isHelm: false
       },
       "database-clis": {
         name: "Database CLIs",
@@ -1465,21 +1626,32 @@
         stars: "850",
         forks: "95",
         issues: "5",
-        descCN: "基于 Go 语言构建的轻量级数据库命令行工具集，统一常用数据库的即时查询与交互管理。",
-        descEN: "A comprehensive suite of lightweight CLI utilities for clickhouse, mysql, elasticsearch, mssql, mongodb, redis, and postgres.",
-        features: [
-          "Dedicated clients for MySQL, Redis, PG, MongoDB, MSSQL, ClickHouse, ES",
-          "Rich history management and autocomplete in terminal",
-          "Color-coded tabular output and query formatting",
-          "Zero external runtime dependencies, standalone static binaries"
-        ],
+        desc: {
+          zh: "基于 Go 语言构建的轻量级数据库命令行工具集，统一常用数据库的即时查询与交互管理。",
+          en: "A comprehensive suite of lightweight CLI utilities for clickhouse, mysql, elasticsearch, mssql, mongodb, redis, and postgres."
+        },
+        features: {
+          zh: [
+            "分别发布针对 MySQL, Redis, PG, MongoDB, MSSQL, ClickHouse, ES 的独立工具",
+            "原生集成了交互式自动联想与历史命令复用",
+            "颜色语法区分的高性能表格化列布局，适合在终端中浏览数据",
+            "静态编译无任何 runtime 依赖，即拿即用"
+          ],
+          en: [
+            "Dedicated clients for MySQL, Redis, PG, MongoDB, MSSQL, ClickHouse, ES",
+            "Rich history management and autocomplete in terminal",
+            "Color-coded tabular output and query formatting",
+            "Zero external runtime dependencies, standalone static binaries"
+          ]
+        },
         install: {
           "Redis CLI": "go install github.com/binrchq/redis-cli@latest",
           "MySQL CLI": "go install github.com/binrchq/mysql-cli@latest",
           "ClickHouse CLI": "go install github.com/binrchq/clickhouse-cli@latest"
         },
         github: "https://github.com/binrchq",
-        issues: "https://github.com/binrchq/redis-cli/issues"
+        issues: "https://github.com/binrchq/redis-cli/issues",
+        isHelm: false
       },
       snowflakeid: {
         name: "snowflakeid",
@@ -1487,19 +1659,30 @@
         stars: "280",
         forks: "30",
         issues: "0",
-        descCN: "高性能 Snowflake 唯一 ID 生成器，针对全局分布式环境优化，生成支持 Base32 编码的有序字符串。",
-        descEN: "High-performance Go implementation of Snowflake ID generator with custom headers and Base32-encoded ordered strings.",
-        features: [
-          "Thread-safe lock-free high-performance ID generation",
-          "Supports Base32 and custom alphabet encoding",
-          "Compact 64-bit representation with millisecond precision",
-          "Compatible with distributed coordination settings"
-        ],
+        desc: {
+          zh: "高性能 Snowflake 唯一 ID 生成器，针对全局分布式环境优化，生成支持 Base32 编码的有序字符串。",
+          en: "High-performance Go implementation of Snowflake ID generator with custom headers and Base32-encoded ordered strings."
+        },
+        features: {
+          zh: [
+            "线程安全的无锁化原子算法，满足极致吞吐量需求",
+            "支持 Base32 编码及自定义字典映射，规避非安全字符",
+            "紧凑的 64 位整型承载，支持毫秒级高精度反解析",
+            "天然适配容器化集群分布式自动分配 node_id"
+          ],
+          en: [
+            "Thread-safe lock-free high-performance ID generation",
+            "Supports Base32 and custom alphabet encoding",
+            "Compact 64-bit representation with millisecond precision",
+            "Compatible with distributed coordination settings"
+          ]
+        },
         install: {
           "Go Get": "go get github.com/binrchq/snowflakeid"
         },
         github: "https://github.com/binrchq/snowflakeid",
-        issues: ""
+        issues: "",
+        isHelm: false
       },
       yamlc: {
         name: "yamlc",
@@ -1507,18 +1690,28 @@
         stars: "150",
         forks: "18",
         issues: "1",
-        descCN: "支持多种注释风格和灵活配置参数的 Golang YAML 结构体与配置文件生成器。",
-        descEN: "A powerful Go YAML generator supporting multiple comment styles and flexible struct configurations.",
-        features: [
-          "Custom yaml generation from struct tags",
-          "Retains formatting and comment blocks on modification",
-          "Supports custom tag mappings and snake_case transformations"
-        ],
+        desc: {
+          zh: "支持多种注释风格和灵活配置参数的 Golang YAML 结构体与配置文件生成器。",
+          en: "A powerful Go YAML generator supporting multiple comment styles and flexible struct configurations."
+        },
+        features: {
+          zh: [
+            "利用 struct 结构体 tags 参数全自动输出带有格式的 yaml 代码",
+            "在修改配置文件时，原地增量解析并安全地保留原有的注释行",
+            "支持自定义标签映射与驼峰/蛇形变量名转换"
+          ],
+          en: [
+            "Custom yaml generation from struct tags",
+            "Retains formatting and comment blocks on modification",
+            "Supports custom tag mappings and snake_case transformations"
+          ]
+        },
         install: {
           "Go Get": "go get github.com/binrchq/yamlc"
         },
         github: "https://github.com/binrchq/yamlc",
-        issues: ""
+        issues: "",
+        isHelm: false
       },
       outformat: {
         name: "outformat",
@@ -1526,19 +1719,30 @@
         stars: "110",
         forks: "12",
         issues: "0",
-        descCN: "轻量级 Golang 输出格式化工具库，支持将任意结构体转换为 JSON, JSON-Lines, 表格等格式输出。",
-        descEN: "Lightweight Golang output formatting utility library supporting human-readable, json, json-lines, table output.",
-        features: [
-          "Format structural outputs in terminal",
-          "Support standard Table formatting with auto-column width",
-          "JSON and JSON-Lines (NDJSON) streaming support",
-          "Lightweight footprint with zero dependencies"
-        ],
+        desc: {
+          zh: "轻量级 Golang 输出格式化工具库，支持将任意结构体转换为 JSON, JSON-Lines, 表格等格式输出。",
+          en: "Lightweight Golang output formatting utility library supporting human-readable, json, json-lines, table output."
+        },
+        features: {
+          zh: [
+            "极其轻量的依赖包大小，支持对复杂嵌套的结构化数据优雅打印",
+            "终端环境下自动列宽比对的高性能文本表格格式化输出",
+            "原生集成对流式 JSON 以及 json-lines (NDJSON) 输出格式",
+            "一键式方法包装，无需繁复的初始化构建"
+          ],
+          en: [
+            "Format structural outputs in terminal",
+            "Support standard Table formatting with auto-column width",
+            "JSON and JSON-Lines (NDJSON) streaming support",
+            "Lightweight footprint with zero dependencies"
+          ]
+        },
         install: {
           "Go Get": "go get github.com/binrchq/outformat"
         },
         github: "https://github.com/binrchq/outformat",
-        issues: ""
+        issues: "",
+        isHelm: false
       },
       "auth-sdk": {
         name: "auth-sdk",
@@ -1546,28 +1750,72 @@
         stars: "340",
         forks: "45",
         issues: "2",
-        descCN: "用于接入 binrc 统一身份认证中心的 TypeScript / JavaScript 客户端 SDK 开发包。",
-        descEN: "Official SDK and utility library for integrating applications with the binrc authentication and SSO management center.",
-        features: [
-          "Lightweight OAuth2 / OIDC client library",
-          "Automatic silent token renewal and storage adapters",
-          "Full TypeScript typings and browser/node compatibility",
-          "Built-in token validation and scope checking"
-        ],
+        desc: {
+          zh: "用于接入 binrc 统一身份认证中心的 TypeScript / JavaScript 客户端 SDK 开发包。",
+          en: "Official SDK and utility library for integrating applications with the binrc authentication and SSO management center."
+        },
+        features: {
+          zh: [
+            "极简标准的 OAuth2 / OIDC 安全协议封装库",
+            "内置支持静默的 access_token 自动续签与自定义隔离存储适配器",
+            "完美的 TypeScript 类型支持，支持同构运行在 Node.js 和浏览器侧",
+            "提供 JWT token 解密与权限 Scope 范围拦截校验辅助函数"
+          ],
+          en: [
+            "Lightweight OAuth2 / OIDC client library",
+            "Automatic silent token renewal and storage adapters",
+            "Full TypeScript typings and browser/node compatibility",
+            "Built-in token validation and scope checking"
+          ]
+        },
         install: {
           "NPM": "npm install @binrc/auth-sdk",
           "Yarn": "yarn add @binrc/auth-sdk",
           "PNPM": "pnpm add @binrc/auth-sdk"
         },
         github: "https://github.com/binrchq/auth-sdk",
-        issues: "https://github.com/binrchq/auth-sdk/issues"
+        issues: "https://github.com/binrchq/auth-sdk/issues",
+        isHelm: false
       }
     };
 
-    let activeProjectId = 'roma';
-    let activeInstallTab = '';
-    let currentLangFilter = 'all';
+    // Helm Charts Data Source
+    const chartsData = {
+      headcni: {
+        name: "headcni",
+        displayName: "headcni-helm",
+        version: "1.0.0",
+        appVersion: "1.0.0",
+        license: "MIT",
+        category: "Networking",
+        desc: {
+          zh: "整合 Headscale 和 Tailscale 的 Kubernetes 容器网络插件 (CNI)，通过 WireGuard 自动建立 Pod 间的加密覆盖网。",
+          en: "Kubernetes Container Network Interface (CNI) plugin integrating Headscale and Tailscale for WireGuard encrypted pod fabrics."
+        },
+        features: {
+          zh: [
+            "使用 WireGuard 实现零信任集群网络加密，对容器透明",
+            "针对混合物理网络环境优化 CNI 的默认 MTU (1400) 设置",
+            "支持底层容器自定义路由表注入与防火墙特权标记 (FWMARK)",
+            "集成 Prometheus 指标监控端点 (9001/metrics)"
+          ],
+          en: [
+            "Zero Trust network encryption with WireGuard",
+            "Optimized default MTU (1400) for hybrid environments",
+            "Custom routing tables and firewall marks",
+            "Integrated Prometheus metrics (9001/metrics)"
+          ]
+        },
+        sourceProject: "headcni", // Refers to projectsData key
+        github: "https://github.com/binrchq/Charts/tree/main/charts/headcni"
+      }
+    };
 
+    let activeChartId = 'headcni';
+    let activeProjectId = 'roma';
+    
+    let activeProjectInstallTab = '';
+    
     // Tab switching logic
     function switchTab(panelId, btn) {
       document.querySelectorAll('.tab-panel').forEach(panel => {
@@ -1581,7 +1829,219 @@
       btn.classList.add('active');
     }
 
-    // Projects Filter Logic
+    // Connect Link: Go directly to Helm tab and select a specific chart
+    function goToChartTab(chartId) {
+      activeChartId = chartId;
+      switchTab('charts-panel', document.getElementById('tab-charts'));
+      renderChartsList();
+      renderDetailsPanelChart();
+    }
+
+    // Connect Link: Go directly to Source Projects tab and select a specific repo
+    function goToProjectTab(projectId) {
+      activeProjectId = projectId;
+      switchTab('projects-panel', document.getElementById('tab-projects'));
+      renderProjectList();
+      renderDetailsPanelProject();
+    }
+
+    // ==========================================
+    // CHART TAB CONTROLS (TAB 1)
+    // ==========================================
+    function filterChartsList() {
+      renderChartsList();
+    }
+
+    function renderChartsList() {
+      const listContainer = document.getElementById('charts-list-container');
+      const searchQuery = document.getElementById('chart-search').value.toLowerCase().trim();
+      listContainer.innerHTML = '';
+
+      let matchesFound = false;
+
+      Object.keys(chartsData).forEach(key => {
+        const chart = chartsData[key];
+        const nameMatch = chart.displayName.toLowerCase().includes(searchQuery) || chart.name.toLowerCase().includes(searchQuery);
+        const descMatch = chart.desc[activeLang].toLowerCase().includes(searchQuery);
+        
+        if (nameMatch || descMatch) {
+          matchesFound = true;
+          const isActive = (key === activeChartId);
+          const card = document.createElement('div');
+          card.className = `repo-compact-card \${isActive ? 'active' : ''}`;
+          card.onclick = () => selectChart(key);
+
+          card.innerHTML = `
+            <div class="repo-compact-header">
+              <span class="repo-compact-name">\${chart.displayName}</span>
+              <span class="repo-compact-badge">Helm</span>
+            </div>
+            <p class="repo-compact-desc">\${chart.desc[activeLang]}</p>
+            <div class="repo-compact-stats">
+              <span class="repo-compact-stat">
+                <span>Version: \${chart.version}</span>
+              </span>
+            </div>
+          `;
+          listContainer.appendChild(card);
+        }
+      });
+
+      if (!matchesFound) {
+        listContainer.innerHTML = `
+          <div style="padding: 24px; text-align: center; color: var(--color-text-muted); border: 1px dashed var(--color-border); border-radius: var(--radius-md); font-size: 13px;">
+            \${locales[activeLang].noCharts}
+          </div>
+        `;
+      }
+    }
+
+    function selectChart(key) {
+      activeChartId = key;
+      renderChartsList();
+      renderDetailsPanelChart();
+    }
+
+    function renderDetailsPanelChart() {
+      const chart = chartsData[activeChartId];
+      const detailPanel = document.getElementById('chart-detail-panel');
+      if (!chart) {
+        detailPanel.innerHTML = '';
+        return;
+      }
+
+      // Compile chart features list
+      let featuresHtml = '';
+      chart.features[activeLang].forEach(feat => {
+        featuresHtml += `
+          <li class="console-feature-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>\${feat}</span>
+          </li>
+        `;
+      });
+
+      const langData = locales[activeLang];
+
+      detailPanel.innerHTML = `
+        <div class="console-header">
+          <div class="console-title-row">
+            <h2 class="console-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+              <span>\${chart.displayName}</span>
+            </h2>
+            <span class="tag tag-blue">Helm Chart</span>
+          </div>
+          <p class="console-desc" style="font-weight: 500; margin-top: 6px; color: var(--color-text-primary);">\${chart.desc[activeLang]}</p>
+        </div>
+
+        <div class="chart-metadata-grid">
+          <div class="chart-meta-item">
+            <span class="chart-meta-lbl">\${langData.version}</span>
+            <span class="chart-meta-val">\${chart.version}</span>
+          </div>
+          <div class="chart-meta-item">
+            <span class="chart-meta-lbl">\${langData.appVersion}</span>
+            <span class="chart-meta-val">\${chart.appVersion}</span>
+          </div>
+          <div class="chart-meta-item">
+            <span class="chart-meta-lbl">\${langData.license}</span>
+            <span class="chart-meta-val">\${chart.license}</span>
+          </div>
+          <div class="chart-meta-item">
+            <span class="chart-meta-lbl">\${langData.category}</span>
+            <span class="chart-meta-val">\${chart.category}</span>
+          </div>
+        </div>
+
+        <!-- Helm interactive command builder integrated inside Chart details -->
+        <div class="console-features">
+          <span class="console-features-title">\${langData.helmConfigurator}</span>
+          <div class="interactive-configurator">
+            <div class="config-options">
+              <div class="option-row">
+                <label for="helm-release-name">\${langData.releaseName}</label>
+                <input type="text" id="helm-release-name" class="form-input" value="headcni" oninput="updateHelmCommand()">
+              </div>
+              <div class="option-row">
+                <label for="helm-namespace">\${langData.namespace}</label>
+                <input type="text" id="helm-namespace" class="form-input" value="kube-system" oninput="updateHelmCommand()">
+              </div>
+              <div class="option-row">
+                <label for="helm-mtu">\${langData.mtuSetting}</label>
+                <input type="text" id="helm-mtu" class="form-input" value="1400" oninput="updateHelmCommand()">
+              </div>
+              <div class="checkbox-row" style="margin-top: 18px;">
+                <input type="checkbox" id="check-dns" onchange="updateHelmCommand()">
+                <label for="check-dns">\${langData.dnsOption}</label>
+              </div>
+              <div class="checkbox-row">
+                <input type="checkbox" id="check-metrics" checked onchange="updateHelmCommand()">
+                <label for="check-metrics">\${langData.metricsOption}</label>
+              </div>
+            </div>
+
+            <div class="configurator-output-area">
+              <label style="font-size:10px; font-weight:700; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:4px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                <span>\${langData.installCommandLabel}</span>
+              </label>
+              <div class="console-terminal-container" style="display:flex; flex-direction:column; min-height:120px;">
+                <div class="terminal-header">
+                  <div class="terminal-window-dots">
+                    <span class="terminal-window-dot" style="background:#ef4444;"></span>
+                    <span class="terminal-window-dot" style="background:#f59e0b;"></span>
+                    <span class="terminal-window-dot" style="background:#10b981;"></span>
+                  </div>
+                  <span class="terminal-title">Helm Compile</span>
+                </div>
+                <div class="console-terminal-body">
+                  <code id="rendered-helm-code" style="color:#20e091; font-weight:500;">helm install headcni binrc/headcni --namespace kube-system</code>
+                  <button class="terminal-copy-btn" title="Copy Command" onclick="copyText(this, 'rendered-helm-code')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="console-terminal-container" style="height: 100px;">
+                <div class="terminal-header">
+                  <span class="terminal-title" style="margin-left: 0;">\${langData.valuesPreviewLabel}</span>
+                </div>
+                <div class="console-terminal-body" style="padding: 8px 12px;">
+                  <code id="rendered-values-yaml" style="color: #cbd5e1; font-size: 11px; line-height:1.3;">config: ...</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="console-features">
+          <span class="console-features-title">\${langData.featuresTitle}</span>
+          <ul class="console-features-list">
+            \${featuresHtml}
+          </ul>
+        </div>
+
+        <div class="console-links-row">
+          <!-- Connects to original developer source codebase project -->
+          <a class="console-link" style="color: var(--color-info); font-weight: 700;" onclick="goToProjectTab('\${chart.sourceProject}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+            <span>\${langData.connectedProject}: \${chart.sourceProject}</span>
+          </a>
+          
+          <a class="console-link" href="\${chart.github}" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            <span>\${langData.chartSource}</span>
+          </a>
+        </div>
+      `;
+      
+      updateHelmCommand();
+    }
+
+    // ==========================================
+    // SOURCE PROJECTS TAB CONTROLS (TAB 2)
+    // ==========================================
     function setLanguageFilter(lang, btn) {
       currentLangFilter = lang;
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1589,7 +2049,10 @@
       renderProjectList();
     }
 
-    // Render Compact Repo Cards
+    function filterProjectsList() {
+      renderProjectList();
+    }
+
     function renderProjectList() {
       const listContainer = document.getElementById('projects-list-container');
       const searchQuery = document.getElementById('project-search').value.toLowerCase().trim();
@@ -1601,7 +2064,7 @@
         const proj = projectsData[key];
         const langMatch = (currentLangFilter === 'all' || proj.lang === currentLangFilter);
         const nameMatch = proj.name.toLowerCase().includes(searchQuery);
-        const descMatch = (proj.descCN.toLowerCase().includes(searchQuery) || proj.descEN.toLowerCase().includes(searchQuery));
+        const descMatch = proj.desc[activeLang].toLowerCase().includes(searchQuery);
         
         if (langMatch && (nameMatch || descMatch)) {
           matchesFound = true;
@@ -1615,7 +2078,7 @@
               <span class="repo-compact-name">\${proj.name}</span>
               <span class="repo-compact-badge">\${proj.lang}</span>
             </div>
-            <p class="repo-compact-desc">\${proj.descCN}</p>
+            <p class="repo-compact-desc">\${proj.desc[activeLang]}</p>
             <div class="repo-compact-stats">
               <span class="repo-compact-stat">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
@@ -1634,49 +2097,47 @@
       if (!matchesFound) {
         listContainer.innerHTML = `
           <div style="padding: 24px; text-align: center; color: var(--color-text-muted); border: 1px dashed var(--color-border); border-radius: var(--radius-md); font-size: 13px;">
-            No projects match search.
+            \${locales[activeLang].noProjects}
           </div>
         `;
       }
     }
 
-    // Select Project Details
     function selectProject(key) {
       activeProjectId = key;
       const proj = projectsData[key];
-      
-      // Select first install command by default
       const installKeys = Object.keys(proj.install);
-      activeInstallTab = installKeys[0];
-
-      // Re-render project list to highlight active card
+      activeProjectInstallTab = installKeys[0];
+      
       renderProjectList();
-      renderDetailsPanel();
+      renderDetailsPanelProject();
     }
 
-    // Render detailed panel
-    function renderDetailsPanel() {
+    function renderDetailsPanelProject() {
       const proj = projectsData[activeProjectId];
       const detailPanel = document.getElementById('project-detail-panel');
-      if (!proj) return;
+      if (!proj) {
+        detailPanel.innerHTML = '';
+        return;
+      }
 
       // Compile installation tabs
       const installKeys = Object.keys(proj.install);
       let tabsHtml = '';
       installKeys.forEach(tabName => {
-        const isActive = (tabName === activeInstallTab);
+        const isActive = (tabName === activeProjectInstallTab);
         tabsHtml += `
-          <button class="console-terminal-tab \${isActive ? 'active' : ''}" onclick="setInstallTab('\${tabName}')">
+          <button class="console-terminal-tab \${isActive ? 'active' : ''}" onclick="setProjectInstallTab('\${tabName}')">
             \${tabName}
           </button>
         `;
       });
 
-      const currentCommand = proj.install[activeInstallTab] || '';
+      const currentCommand = proj.install[activeProjectInstallTab] || '';
 
-      // Compile features list
+      // Features
       let featuresHtml = '';
-      proj.features.forEach(feat => {
+      proj.features[activeLang].forEach(feat => {
         featuresHtml += `
           <li class="console-feature-item">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -1685,15 +2146,25 @@
         `;
       });
 
-      // Issues link if present
+      const langData = locales[activeLang];
+
+      // Connection back to Chart Tab if this project is distributed as a Helm package
+      const chartNoticeHtml = proj.isHelm
+        ? `<div style="background: var(--color-info-light); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: var(--radius-sm); padding: 12px; font-size:12.5px; display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
+            <span style="font-weight:600; color:var(--color-info);">\${langData.pConnectedNotice} <strong>\${proj.helmChartName}</strong></span>
+            <button class="filter-btn active" style="flex:none; padding:4px 10px;" onclick="goToChartTab('\${proj.helmChartName}')">\${langData.linkToChartBtn}</button>
+           </div>`
+        : '';
+
       const issuesLinkHtml = proj.issues 
         ? `<a class="console-link" href="\${proj.issues}" target="_blank">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-            <span>Issues Tracker</span>
+            <span>\${langData.issuesTracker}</span>
            </a>`
         : '';
 
       detailPanel.innerHTML = `
+        \${chartNoticeHtml}
         <div class="console-header">
           <div class="console-title-row">
             <h2 class="console-title">
@@ -1702,22 +2173,21 @@
             </h2>
             <span class="tag tag-success">\${proj.lang}</span>
           </div>
-          <p class="console-desc" style="font-weight: 600; margin-top: 6px;">\${proj.descCN}</p>
-          <p class="console-desc">\${proj.descEN}</p>
+          <p class="console-desc" style="font-weight: 500; margin-top: 6px; color: var(--color-text-primary);">\${proj.desc[activeLang]}</p>
         </div>
 
         <div class="console-metrics-row">
           <div class="console-metric-card">
             <span class="console-metric-val">\${proj.stars}</span>
-            <span class="console-metric-lbl">GitHub Stars</span>
+            <span class="console-metric-lbl">\${langData.stars}</span>
           </div>
           <div class="console-metric-card">
             <span class="console-metric-val">\${proj.forks}</span>
-            <span class="console-metric-lbl">Forks</span>
+            <span class="console-metric-lbl">\${langData.forks}</span>
           </div>
           <div class="console-metric-card">
             <span class="console-metric-val">\${proj.issues}</span>
-            <span class="console-metric-lbl">Open Issues</span>
+            <span class="console-metric-lbl">\${langData.issues}</span>
           </div>
         </div>
 
@@ -1738,13 +2208,13 @@
           <div class="console-terminal-body">
             <code id="project-install-code">\${escapeHtml(currentCommand)}</code>
             <button class="terminal-copy-btn" title="Copy Command" onclick="copyText(this, 'project-install-code')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
           </div>
         </div>
 
         <div class="console-features">
-          <span class="console-features-title">Core Features / 功能特性</span>
+          <span class="console-features-title">\${langData.featuresTitle}</span>
           <ul class="console-features-list">
             \${featuresHtml}
           </ul>
@@ -1753,58 +2223,38 @@
         <div class="console-links-row">
           <a class="console-link" href="\${proj.github}" target="_blank">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-            <span>GitHub Repository</span>
+            <span>\${langData.sourceRepo}</span>
           </a>
           \${issuesLinkHtml}
         </div>
       `;
     }
 
-    // Set installation tab
-    function setInstallTab(tabName) {
-      activeInstallTab = tabName;
-      renderDetailsPanel();
+    function setProjectInstallTab(tabName) {
+      activeProjectInstallTab = tabName;
+      renderDetailsPanelProject();
     }
 
-    // Escape html
-    function escapeHtml(text) {
-      return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    // Filter Helm Chart Index list
-    function filterCharts(query) {
-      const q = query.toLowerCase().trim();
-      const cards = document.querySelectorAll('#charts-grid-list .chart-card');
-      
-      cards.forEach(card => {
-        const name = card.getAttribute('data-name');
-        const text = card.textContent.toLowerCase();
-        
-        if (name === 'placeholder') return;
-        
-        if (text.includes(q)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    // Interactive Helm command compiler
+    // ==========================================
+    // CONFIGURATOR INPUT SYNC & COMPILERS
+    // ==========================================
     function updateHelmCommand() {
-      const releaseName = document.getElementById('helm-release-name').value.trim() || 'headcni';
-      const namespace = document.getElementById('helm-namespace').value.trim() || 'kube-system';
-      const mtu = document.getElementById('helm-mtu').value.trim() || '1400';
-      const dnsChecked = document.getElementById('check-dns').checked;
-      const metricsChecked = document.getElementById('check-metrics').checked;
-
-      let cmd = `helm install \dots \${releaseName} binrc/headcni \\\n  --namespace \${namespace}`;
+      // Dynamic calculations inside selected chart
+      const nameInput = document.getElementById('helm-release-name');
+      const namespaceInput = document.getElementById('helm-namespace');
+      const mtuInput = document.getElementById('helm-mtu');
+      const dnsInput = document.getElementById('check-dns');
+      const metricsInput = document.getElementById('check-metrics');
       
+      if (!nameInput) return; // Tab not rendered yet
+
+      const releaseName = nameInput.value.trim() || 'headcni';
+      const namespace = namespaceInput.value.trim() || 'kube-system';
+      const mtu = mtuInput.value.trim() || '1400';
+      const dnsChecked = dnsInput.checked;
+      const metricsChecked = metricsInput.checked;
+
+      let cmd = '';
       if (mtu !== '1400') {
         cmd = `helm install \${releaseName} binrc/headcni \\\n  --namespace \${namespace} \\\n  --set config.tailscale.mtu=\${mtu} \\\n  --set config.network.mtu=\${mtu}`;
       } else {
@@ -1841,7 +2291,7 @@
       navigator.clipboard.writeText(text).then(() => {
         const originalHtml = btn.innerHTML;
         btn.classList.add('copied');
-        btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> \${locales[activeLang].copied}`;
         setTimeout(() => {
           btn.classList.remove('copied');
           btn.innerHTML = originalHtml;
@@ -1850,23 +2300,42 @@
     }
 
     // SecOps compliance audit simulator script
-    const auditSteps = [
-      { text: "Executing Helm Registry safety trace...", delay: 500, type: "info" },
-      { text: "Fetching repository metadata schemas for target charts...", delay: 600, type: "info" },
-      { text: "[CHECK 1/4] Scanning dependencies against known CVE databases...", delay: 800, type: "info" },
-      { text: "  -> Checked 12 transient dependencies for Chart headcni-1.0.0.tgz", delay: 300, type: "sub" },
-      { text: "  -> [OK] 0 vulnerabilities detected.", delay: 400, type: "success" },
-      { text: "[CHECK 2/4] Validating Helm Chart digital signature tags...", delay: 700, type: "info" },
-      { text: "  -> GPG Key ID: 0x9EC091E0 (binrc security ops authority)", delay: 300, type: "sub" },
-      { text: "  -> [OK] Cryptographic signature matches chart checksum.", delay: 400, type: "success" },
-      { text: "[CHECK 3/4] Evaluating Pod Security Context constraints...", delay: 900, type: "info" },
-      { text: "  -> Verified allowPrivilegeEscalation=false, readOnlyRootFilesystem=true", delay: 400, type: "sub" },
-      { text: "  -> [OK] Least privilege parameters comply with Kubernetes Baseline policy.", delay: 300, type: "success" },
-      { text: "[CHECK 4/4] Triggering automated dynamic lint parsing verification...", delay: 800, type: "info" },
-      { text: "  -> [OK] YAML structure parsed successfully without trailing indices.", delay: 300, type: "success" },
-      { text: "----------------------------------------------------------------", delay: 200, type: "sub" },
-      { text: "[SUCCESS] Audit complete. Compliance Score: A+ (100/100). Valid registry publisher.", delay: 500, type: "success" }
-    ];
+    const auditSteps = {
+      en: [
+        { text: "Executing Helm Registry safety trace...", delay: 500, type: "info" },
+        { text: "Fetching repository metadata schemas for target charts...", delay: 600, type: "info" },
+        { text: "[CHECK 1/4] Scanning dependencies against known CVE databases...", delay: 800, type: "info" },
+        { text: "  -> Checked 12 transient dependencies for Chart headcni-1.0.0.tgz", delay: 300, type: "sub" },
+        { text: "  -> [OK] 0 vulnerabilities detected.", delay: 400, type: "success" },
+        { text: "[CHECK 2/4] Validating Helm Chart digital signature tags...", delay: 700, type: "info" },
+        { text: "  -> GPG Key ID: 0x9EC091E0 (binrc security ops authority)", delay: 300, type: "sub" },
+        { text: "  -> [OK] Cryptographic signature matches chart checksum.", delay: 400, type: "success" },
+        { text: "[CHECK 3/4] Evaluating Pod Security Context constraints...", delay: 900, type: "info" },
+        { text: "  -> Verified allowPrivilegeEscalation=false, readOnlyRootFilesystem=true", delay: 400, type: "sub" },
+        { text: "  -> [OK] Least privilege parameters comply with Kubernetes Baseline policy.", delay: 300, type: "success" },
+        { text: "[CHECK 4/4] Triggering automated lint parsing verification...", delay: 800, type: "info" },
+        { text: "  -> [OK] YAML structure parsed successfully without trailing indices.", delay: 300, type: "success" },
+        { text: "----------------------------------------------------------------", delay: 200, type: "sub" },
+        { text: "[SUCCESS] Audit complete. Compliance Score: A+ (100/100). Valid registry publisher.", delay: 500, type: "success" }
+      ],
+      zh: [
+        { text: "开始执行 Helm 镜像仓库安全链路追踪...", delay: 500, type: "info" },
+        { text: "正在拉取目标 Chart 的结构体元数据模型架构...", delay: 600, type: "info" },
+        { text: "[检查 1/4] 扫描第三方依赖库漏洞库 (CVE 数据库)...", delay: 800, type: "info" },
+        { text: "  -> 已对 headcni-1.0.0.tgz 中 12 个传递性依赖包进行比对", delay: 300, type: "sub" },
+        { text: "  -> [安全] 未检测到已知安全漏洞与 CVE 缺陷风险。", delay: 400, type: "success" },
+        { text: "[检查 2/4] 验证 Helm Chart 文件数字签名标签...", delay: 700, type: "info" },
+        { text: "  -> GPG 密钥 ID: 0x9EC091E0 (binrc 安全运维授权机构)", delay: 300, type: "sub" },
+        { text: "  -> [匹配] 加密证书签名与物理安装包 Checksum 完美匹配。", delay: 400, type: "success" },
+        { text: "[检查 3/4] 安全隔离评估与 Pod 特权上下文核验...", delay: 900, type: "info" },
+        { text: "  -> 安全属性 allowPrivilegeEscalation=false, readOnlyRootFilesystem=true 符合规范", delay: 400, type: "sub" },
+        { text: "  -> [通过] 容器运行特权上下文完全符合 Kubernetes Baseline 基线规范限制。", delay: 300, type: "success" },
+        { text: "[检查 4/4] 执行 Helm Lint YAML 配置语法结构自动化测试...", delay: 800, type: "info" },
+        { text: "  -> [通过] YAML 语法校验解析成功，不存在空格多余或对齐缩进错误。", delay: 300, type: "success" },
+        { text: "----------------------------------------------------------------", delay: 200, type: "sub" },
+        { text: "[完工] 安全合规审计成功通过。合规等级评分: A+ (100/100)。验证软件源发布商。", delay: 500, type: "success" }
+      ]
+    };
 
     function runComplianceAudit() {
       const btn = document.getElementById('run-audit-btn');
@@ -1875,15 +2344,16 @@
       btn.disabled = true;
       consoleOutput.innerHTML = '';
       
+      const steps = auditSteps[activeLang];
       let stepIndex = 0;
       
       function printStep() {
-        if (stepIndex >= auditSteps.length) {
+        if (stepIndex >= steps.length) {
           btn.disabled = false;
           return;
         }
         
-        const step = auditSteps[stepIndex];
+        const step = steps[stepIndex];
         const line = document.createElement('div');
         line.style.marginBottom = '6px';
         
@@ -1906,10 +2376,16 @@
       printStep();
     }
 
-    // Initialize Page
-    renderProjectList();
-    selectProject('roma');
-    updateHelmCommand();
+    // Initialize Page on DOM Loaded
+    document.addEventListener("DOMContentLoaded", () => {
+      // Determine user language
+      let defaultLang = 'en';
+      const userLang = navigator.language || navigator.userLanguage;
+      if (userLang && userLang.toLowerCase().indexOf('zh') > -1) {
+        defaultLang = 'zh';
+      }
+      setLanguage(defaultLang);
+    });
   </script>
 </body>
 </html>
