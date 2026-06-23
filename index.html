@@ -17,37 +17,37 @@
     }
 
     :root {
-      /* -- Surface: cool ink, not pure black -- */
-      --ink-950: #0a0e13;
-      --ink-900: #10161e;
-      --ink-850: #141b25;
-      --ink-800: #18212c;
-      --ink-700: #212c39;
-      --ink-600: #2c3947;
+      /* -- Surface: white/light slate -- */
+      --ink-950: #f8fafc; /* Page Background */
+      --ink-900: #ffffff; /* Card / Block Background */
+      --ink-850: #f1f5f9; /* Selected Card / subtle background */
+      --ink-800: #e2e8f0; /* Hover / Border */
+      --ink-700: #cbd5e1; /* Stronger Border */
+      --ink-600: #94a3b8; /* Very Strong Border */
 
       /* -- Text -- */
-      --paper-50: #e9eef0;
-      --paper-200: #c3ccd1;
-      --mist-400: #7c8a96;
-      --mist-500: #5d6b78;
-      --mist-600: #455260;
+      --paper-50: #0f172a; /* Main Text Color (dark slate) */
+      --paper-200: #334155; /* Secondary Text */
+      --mist-400: #475569; /* Muted/Tertiary Text */
+      --mist-500: #64748b;
+      --mist-600: #94a3b8;
 
-      /* -- Signal: binrc green, used sparingly -- */
-      --signal-500: #29dd8a;
-      --signal-400: #5aeaa8;
-      --signal-glow: rgba(41, 221, 138, 0.16);
-      --signal-dim: rgba(41, 221, 138, 0.08);
+      /* -- Signal: binrc green (used sparingly, keeping it slightly darker for readability on white bg) -- */
+      --signal-500: #10b981; /* #29dd8a is too bright for light theme, use #10b981 */
+      --signal-400: #059669;
+      --signal-glow: rgba(16, 185, 129, 0.12);
+      --signal-dim: rgba(16, 185, 129, 0.06);
 
-      /* -- Secondary accent: amber, for version/meta distinction -- */
-      --amber-500: #e3ad3f;
-      --amber-dim: rgba(227, 173, 63, 0.1);
+      /* -- Secondary accent: amber -- */
+      --amber-500: #d97706; /* dark amber */
+      --amber-dim: rgba(217, 119, 6, 0.08);
 
-      /* -- Tertiary: blue-slate, for source/code links -- */
-      --azure-500: #5b9bd9;
-      --azure-dim: rgba(91, 155, 217, 0.1);
+      /* -- Tertiary: blue-slate -- */
+      --azure-500: #2563eb; /* dark blue */
+      --azure-dim: rgba(37, 99, 235, 0.08);
 
       /* -- Danger -- */
-      --danger-500: #e25c5c;
+      --danger-500: #dc2626;
 
       --radius-xs: 3px;
       --radius-sm: 6px;
@@ -68,15 +68,15 @@
     }
 
     html {
-      color-scheme: dark;
+      color-scheme: light;
     }
 
     body {
       font-family: var(--font-sans);
       background-color: var(--ink-950);
       background-image:
-        radial-gradient(circle at 12% 0%, rgba(41, 221, 138, 0.05) 0%, transparent 38%),
-        radial-gradient(circle at 88% 18%, rgba(91, 155, 217, 0.04) 0%, transparent 40%);
+        radial-gradient(circle at 12% 0%, rgba(16, 185, 129, 0.03) 0%, transparent 38%),
+        radial-gradient(circle at 88% 18%, rgba(37, 99, 235, 0.03) 0%, transparent 40%);
       color: var(--paper-50);
       line-height: 1.5;
       min-height: 100vh;
@@ -93,8 +93,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+        linear-gradient(rgba(15, 23, 42, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.015) 1px, transparent 1px);
       background-size: 42px 42px;
       pointer-events: none;
       z-index: -1;
@@ -1712,29 +1712,6 @@ helm repo update</span></code>
         </div>
       </div>
 
-      <div class="section-card">
-        <div class="section-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-          </svg>
-          <span data-i18n="auditTitle">Compliance Audit Simulator</span>
-        </div>
-        <p style="color:var(--mist-400); font-size:13px; line-height:1.55;" data-i18n="auditDesc">Click the
-          button
-          below to run a security context audit simulation on the active repositories and packages in the
-          binrc
-          cluster.</p>
-        <div>
-          <button id="run-audit-btn" class="secops-run-btn" onclick="runComplianceAudit()">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-            <span data-i18n="runAuditBtn">Run Safety Audit</span>
-          </button>
-        </div>
-        <div class="secops-simulator-console" id="secops-console-output"></div>
-      </div>
     </div>
 
     <!-- PANEL 4: API Hub -->
@@ -1968,10 +1945,6 @@ helm repo update</span></code>
         }
       });
 
-      const runBtn = document.getElementById('run-audit-btn');
-      if (!runBtn.disabled) {
-        document.getElementById('secops-console-output').innerText = locales[lang].auditConsoleReady;
-      }
 
       renderChartsList();
       renderDetailsPanelChart();
