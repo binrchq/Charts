@@ -1815,8 +1815,8 @@ helm repo update</code>
 
     let activeChartId = 'headcni';
     let activeProjectId = 'roma';
-    
-    let activeProjectInstallTab = '';
+    let currentLangFilter = 'all';
+    let activeProjectInstallTab = 'Go Install';
     
     // Tab switching logic
     function switchTab(panelId, btn) {
@@ -2125,6 +2125,9 @@ helm repo update</code>
 
       // Compile installation tabs
       const installKeys = Object.keys(proj.install);
+      if (!activeProjectInstallTab || !installKeys.includes(activeProjectInstallTab)) {
+        activeProjectInstallTab = installKeys[0] || '';
+      }
       let tabsHtml = '';
       installKeys.forEach(tabName => {
         const isActive = (tabName === activeProjectInstallTab);
