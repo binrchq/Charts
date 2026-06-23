@@ -1,0 +1,14 @@
+# Ignore source folders that belong to the main branch
+/charts/
+/docs/
+/scripts/
+/.github/
+
+# Ignore local editor configurations
+.vscode/
+.idea/
+.DS_Store
+
+# Ignore temporary and log files
+*.tmp
+*.log
