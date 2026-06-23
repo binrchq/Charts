@@ -102,31 +102,31 @@ spec:
             magicDNS:
               enabled: {{ .Values.config.dns.magicDNS.enabled | default true }}
               nameservers:
-{{- if .Values.config.dns.magicDNS.nameservers }}
-{{- range .Values.config.dns.magicDNS.nameservers }}
-                - {{ . }}
-{{- end }}
-{{- else }}
-                - "8.8.8.8"
-                - "8.8.4.4"
-{{- end }}
+          {{- if .Values.config.dns.magicDNS.nameservers }}
+          {{- range .Values.config.dns.magicDNS.nameservers }}
+              - {{ . }}
+          {{- end }}
+          {{- else }}
+              - "8.8.8.8"
+              - "8.8.4.4"
+          {{- end }}
               searchDomains:
-{{- if .Values.config.dns.magicDNS.searchDomains }}
-{{- range .Values.config.dns.magicDNS.searchDomains }}
-                - {{ . }}
-{{- end }}
-{{- else }}
-                - "cluster.local"
-{{- end }}
+          {{- if .Values.config.dns.magicDNS.searchDomains }}
+          {{- range .Values.config.dns.magicDNS.searchDomains }}
+              - {{ . }}
+          {{- end }}
+          {{- else }}
+              - "cluster.local"
+          {{- end }}
               options:
-{{- if .Values.config.dns.magicDNS.options }}
-{{- range .Values.config.dns.magicDNS.options }}
-                - {{ . }}
-{{- end }}
-{{- else }}
-                - "ndots:5"
-                - "timeout:2"
-{{- end }}
+          {{- if .Values.config.dns.magicDNS.options }}
+          {{- range .Values.config.dns.magicDNS.options }}
+              - {{ . }}
+          {{- end }}
+          {{- else }}
+              - "ndots:5"
+              - "timeout:2"
+          {{- end }}
             custom:
               enabled: false
               nameservers: []
@@ -140,7 +140,7 @@ spec:
           - name: {{ .name }}
             priority: {{ .priority }}
             enabled: {{ .enabled }}
-            config: {{ .config }}
+            config: {{- .config | nindent 14 }}
           {{- end }}
           {{- end }}
           monitoring:

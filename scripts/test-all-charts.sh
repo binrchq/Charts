@@ -23,10 +23,10 @@ for chart_dir in "$REPO_ROOT/charts"/*; do
     # Lint
     if helm lint "$chart_dir"; then
         echo "✓ $chart_name: lint 通过"
-        ((PASSED++))
+        PASSED=$((PASSED + 1))
     else
         echo "✗ $chart_name: lint 失败"
-        ((FAILED++))
+        FAILED=$((FAILED + 1))
     fi
 
     echo ""
