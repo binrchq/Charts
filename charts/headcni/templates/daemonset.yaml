@@ -110,7 +110,7 @@ spec:
               - "8.8.8.8"
               - "8.8.4.4"
           {{- end }}
-              searchDomains:
+            searchDomains:
           {{- if .Values.config.dns.magicDNS.searchDomains }}
           {{- range .Values.config.dns.magicDNS.searchDomains }}
               - {{ . }}
@@ -118,7 +118,7 @@ spec:
           {{- else }}
               - "cluster.local"
           {{- end }}
-              options:
+            options:
           {{- if .Values.config.dns.magicDNS.options }}
           {{- range .Values.config.dns.magicDNS.options }}
               - {{ . }}
