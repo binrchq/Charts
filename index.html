@@ -2081,6 +2081,7 @@ helm repo update</code>
 
     const apisData = {
       avatarOne: {
+        project: "avatar",
         name: "GET /avatar/one",
         method: "GET",
         path: "/avatar/one",
@@ -2107,6 +2108,7 @@ helm repo update</code>
         }
       },
       avatarGenerate: {
+        project: "avatar",
         name: "POST /avatar/generate",
         method: "POST",
         path: "/avatar/generate",
@@ -2139,6 +2141,7 @@ helm repo update</code>
         }
       },
       avatarJson: {
+        project: "avatar",
         name: "GET /avatar/json",
         method: "GET",
         path: "/avatar/json",
@@ -2178,6 +2181,7 @@ helm repo update</code>
         }
       },
       avatarBatch: {
+        project: "avatar",
         name: "POST /avatar/batch",
         method: "POST",
         path: "/avatar/batch",
@@ -2217,6 +2221,7 @@ helm repo update</code>
         }
       },
       avatarSave: {
+        project: "avatar",
         name: "POST /avatar/save",
         method: "POST",
         path: "/avatar/save",
@@ -2254,6 +2259,7 @@ helm repo update</code>
         }
       },
       avatarSaveBatch: {
+        project: "avatar",
         name: "POST /avatar/save/batch",
         method: "POST",
         path: "/avatar/save/batch",
@@ -2291,6 +2297,7 @@ helm repo update</code>
         }
       },
       avatarTest: {
+        project: "avatar",
         name: "GET /test",
         method: "GET",
         path: "/test",
@@ -2313,6 +2320,83 @@ helm repo update</code>
             "success": true,
             "message": "Service is healthy",
             "timestamp": Date.now()
+          };
+        }
+      },
+      ipseekCurrent: {
+        project: "ipseek.cc",
+        name: "GET /",
+        method: "GET",
+        path: "/",
+        baseUrl: "https://ipseek.cc",
+        desc: {
+          zh: "获取发起请求的当前客户端公网 IP 地理位置、ISP 运营商及 ASN 路由等归属信息。",
+          en: "Get the geolocation, ISP carrier, and ASN routing info of the requesting client's public IP."
+        },
+        params: [],
+        codeGenerator: (params) => {
+          return {
+            "cURL": `curl -sL "https://ipseek.cc"`,
+            "Go": `package main\n\nimport (\n\t"fmt"\n\t"io"\n\t"net/http"\n)\n\nfunc main() {\n\tresp, _ := http.Get("https://ipseek.cc")\n\tdefer resp.Body.Close()\n\tbody, _ := io.ReadAll(resp.Body)\n\tfmt.Println(string(body))\n}`,
+            "Python": `import requests\n\nresponse = requests.get("https://ipseek.cc")\nprint(response.json())`,
+            "JavaScript": `fetch("https://ipseek.cc")\n  .then(res => res.json())\n  .then(data => console.log(data));`
+          };
+        },
+        response: (params) => {
+          return {
+            "ip": "113.89.234.245",
+            "asn": "4134",
+            "isp": "电信",
+            "continent": "亚洲",
+            "country": "中国",
+            "province": "广东",
+            "city": "深圳",
+            "area": "",
+            "additional": "电信网络",
+            "latitude": 22.5455,
+            "longitude": 114.0683,
+            "postal_code": "",
+            "cidr": "113.89.232.0/22"
+          };
+        }
+      },
+      ipseekQuery: {
+        project: "ipseek.cc",
+        name: "GET /?ip={ip_address}",
+        method: "GET",
+        path: "/",
+        baseUrl: "https://ipseek.cc",
+        desc: {
+          zh: "查询指定 IPv4/IPv6 地址的地理定位、运营商网络及自治系统 ASN 数据。",
+          en: "Inspect geolocation, carrier ISP, and routing ASN parameters of a specific IPv4/IPv6 address."
+        },
+        params: [
+          { name: "ip_address", type: "string", req: true, val: "223.5.5.5", desc: { zh: "目标查询的 IPv4 / IPv6 公网地址", en: "Target IP routing string to inspect." } }
+        ],
+        codeGenerator: (params) => {
+          const u = `https://ipseek.cc?ip=${params.ip_address}`;
+          return {
+            "cURL": `curl -sL "${u}"`,
+            "Go": `package main\n\nimport (\n\t"fmt"\n\t"io"\n\t"net/http"\n)\n\nfunc main() {\n\tresp, _ := http.Get("${u}")\n\tdefer resp.Body.Close()\n\tbody, _ := io.ReadAll(resp.Body)\n\tfmt.Println(string(body))\n}`,
+            "Python": `import requests\n\nresponse = requests.get("${u}")\nprint(response.json())`,
+            "JavaScript": `fetch("${u}")\n  .then(res => res.json())\n  .then(data => console.log(data));`
+          };
+        },
+        response: (params) => {
+          return {
+            "ip": params.ip_address || "223.5.5.5",
+            "asn": "37963",
+            "isp": "阿里云",
+            "continent": "亚洲",
+            "country": "中国",
+            "province": "浙江",
+            "city": "杭州",
+            "area": "",
+            "additional": "阿里巴巴anycast公共DNS",
+            "latitude": 30.2943,
+            "longitude": 120.1663,
+            "postal_code": "",
+            "cidr": `${params.ip_address || "223.5.5.5"}/32`
           };
         }
       }
@@ -2988,31 +3072,66 @@ helm repo update</code>
 
       let matchesFound = false;
 
+      // Group APIs by project
+      const groupedApis = {};
       Object.keys(apisData).forEach(key => {
         const api = apisData[key];
-        const nameMatch = api.name.toLowerCase().includes(searchQuery);
-        const descMatch = api.desc[activeLang].toLowerCase().includes(searchQuery);
+        const projName = api.project || "Other";
+        if (!groupedApis[projName]) {
+          groupedApis[projName] = [];
+        }
+        groupedApis[projName].push({ key, api });
+      });
 
-        if (nameMatch || descMatch) {
-          matchesFound = true;
-          const isActive = (key === activeApiId);
-          const card = document.createElement('div');
-          card.className = `repo-compact-card ${isActive ? 'active' : ''}`;
-          card.onclick = () => selectApi(key);
+      Object.keys(groupedApis).forEach(projName => {
+        let projHasMatches = false;
+        const tempContainer = document.createElement('div');
+        tempContainer.style.marginBottom = '16px';
+        
+        // Add project header
+        const header = document.createElement('div');
+        header.style = 'font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-secondary); margin: 12px 0 8px 4px; display: flex; align-items: center; gap: 6px; opacity: 0.8;';
+        
+        let icon = '';
+        if (projName.toLowerCase().includes('avatar')) {
+          icon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
+        } else {
+          icon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
+        }
+        
+        header.innerHTML = `${icon} <span>${projName}</span>`;
+        tempContainer.appendChild(header);
 
-          card.innerHTML = `
-            <div class="repo-compact-header">
-              <span class="repo-compact-name">${api.name}</span>
-              <span class="api-method-badge">${api.method}</span>
-            </div>
-            <p class="repo-compact-desc">${api.desc[activeLang]}</p>
-            <div class="repo-compact-stats">
-              <span style="font-family: var(--font-mono); font-size: 10.5px; color: var(--color-accent); font-weight: 500;">
-                ${api.path}
-              </span>
-            </div>
-          `;
-          listContainer.appendChild(card);
+        groupedApis[projName].forEach(({ key, api }) => {
+          const nameMatch = api.name.toLowerCase().includes(searchQuery);
+          const descMatch = api.desc[activeLang].toLowerCase().includes(searchQuery);
+
+          if (nameMatch || descMatch) {
+            matchesFound = true;
+            projHasMatches = true;
+            const isActive = (key === activeApiId);
+            const card = document.createElement('div');
+            card.className = `repo-compact-card ${isActive ? 'active' : ''}`;
+            card.onclick = () => selectApi(key);
+
+            card.innerHTML = `
+              <div class="repo-compact-header">
+                <span class="repo-compact-name">${api.name}</span>
+                <span class="api-method-badge">${api.method}</span>
+              </div>
+              <p class="repo-compact-desc">${api.desc[activeLang]}</p>
+              <div class="repo-compact-stats">
+                <span style="font-family: var(--font-mono); font-size: 10.5px; color: var(--color-accent); font-weight: 500;">
+                  ${api.path}
+                </span>
+              </div>
+            `;
+            tempContainer.appendChild(card);
+          }
+        });
+
+        if (projHasMatches) {
+          listContainer.appendChild(tempContainer);
         }
       });
 
