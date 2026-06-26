@@ -8,8 +8,8 @@
 # =============================================================================
 image:
   # Image repository address
-  # Type: string | Required: true | Example: "binrc/headcni:1.0.3"
-  repository: "binrc/headcni:1.0.3" # cni daemon image
+  # Type: string | Required: true | Example: "binrc/headcni:1.0.4"
+  repository: "binrc/headcni:1.0.4" # cni daemon image
   # Image pull policy: Always, IfNotPresent, Never
   # Type: string | Default: "IfNotPresent"
   pullPolicy: IfNotPresent
