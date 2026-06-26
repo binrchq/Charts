@@ -41,10 +41,7 @@ spec:
           # 2. Prepare configuration in container
           mkdir -p /opt/headcni/config
           mkdir -p /opt/headcni/templates
-          
-          # Copy template files
-          cp /etc/headcni/headcni-daemon.env /opt/headcni/config/
-          
+
           # Create configuration file
           cat > /opt/headcni/config/daemon.yaml <<EOF
           # HeadCNI Daemon Configuration
@@ -140,7 +137,7 @@ spec:
           - name: {{ .name }}
             priority: {{ .priority }}
             enabled: {{ .enabled }}
-            config: {{- .config | nindent 14 }}
+            config: {{ .config | toJson }}
           {{- end }}
           {{- end }}
           monitoring:
@@ -292,6 +289,8 @@ spec:
           value: "{{ .Values.config.network.podCIDR | default "" }}"
         - name: SERVICE_CIDR
           value: "{{ .Values.config.network.serviceCIDR | default "" }}"
+        - name: TS_DEBUG_MTU
+          value: "{{ .Values.config.tailscale.mtu | default 1280 }}"
 
         {{- if .Values.config.headscale.authKey }}
         - name: HEADSCALE_AUTH_KEY

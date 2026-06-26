@@ -9,8 +9,8 @@
 image:
   # Image repository address
   # Type: string | Required: true | Example: "binrc/headcni:1.0.2"
-  repository: "binrc/headcni:1.0.2" # cni daemon image
-  cniPluginRepository: "binrc/headcni-plugin:1.0.2" # cni plugin image
+  repository: "binrc/headcni:1.0.3" # cni daemon image
+  cniPluginRepository: "binrc/headcni-plugin:1.0.3" # cni plugin image
   # Image pull policy: Always, IfNotPresent, Never
   # Type: string | Default: "IfNotPresent"
   pullPolicy: IfNotPresent
