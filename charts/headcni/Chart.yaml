@@ -2,8 +2,8 @@ apiVersion: v2
 name: headcni
 description: A Kubernetes CNI plugin that integrates Headscale and Tailscale
 type: application
-version: 1.0.5
-appVersion: "1.0.5"
+version: 1.0.6
+appVersion: "1.0.6"
 keywords:
   - cni
   - kubernetes
