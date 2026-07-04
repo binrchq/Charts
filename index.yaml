@@ -12,8 +12,40 @@ entries:
       helm.sh/chart-notes: HeadCNI is a Kubernetes CNI plugin that integrates Headscale
         and Tailscale
     apiVersion: v2
+    appVersion: 1.0.7
+    created: "2026-07-04T20:20:21.596809521+08:00"
+    description: A Kubernetes CNI plugin that integrates Headscale and Tailscale
+    digest: 9038af054f8a3a4b5f18cff5cb2b19ce537e4e9342c5dd55b177dc9eec269bcf
+    home: https://github.com/binrchq/headcni
+    keywords:
+    - cni
+    - kubernetes
+    - tailscale
+    - headscale
+    - networking
+    maintainers:
+    - email: hello@binrc.com
+      name: binrc Team
+    name: headcni
+    sources:
+    - https://github.com/binrchq/headcni
+    type: application
+    urls:
+    - https://charts.binrc.com/headcni-1.0.7.tgz
+    version: 1.0.7
+  - annotations:
+      artifacthub.io/category: networking
+      artifacthub.io/license: MIT
+      artifacthub.io/operator: "true"
+      artifacthub.io/packageReadmeURL: https://github.com/binrchq/headcni-helm/blob/main/README.md
+      artifacthub.io/prerequisites: Kubernetes 1.20+
+      helm.sh/chart-description: HeadCNI is a Kubernetes CNI plugin that integrates
+        Headscale and Tailscale
+      helm.sh/chart-notes: HeadCNI is a Kubernetes CNI plugin that integrates Headscale
+        and Tailscale
+    apiVersion: v2
     appVersion: 1.0.6
-    created: "2026-06-30T00:34:12.564572202+08:00"
+    created: "2026-07-04T20:20:21.594713261+08:00"
     description: A Kubernetes CNI plugin that integrates Headscale and Tailscale
     digest: 87429d6375597994f89a40a018a548f4ab6fac50f80ea926178598979c813cce
     home: https://github.com/binrchq/headcni
@@ -45,7 +77,7 @@ entries:
         and Tailscale
     apiVersion: v2
     appVersion: 1.0.5
-    created: "2026-06-30T00:34:12.562803152+08:00"
+    created: "2026-07-04T20:20:21.592691141+08:00"
     description: A Kubernetes CNI plugin that integrates Headscale and Tailscale
     digest: b745ee085ce1782bb4b6e18801c418c13b96297909489ecdd851bfc48740a073
     home: https://github.com/binrchq/headcni
@@ -77,7 +109,7 @@ entries:
         and Tailscale
     apiVersion: v2
     appVersion: 1.0.4
-    created: "2026-06-30T00:34:12.561457686+08:00"
+    created: "2026-07-04T20:20:21.590662976+08:00"
     description: A Kubernetes CNI plugin that integrates Headscale and Tailscale
     digest: 68cecaf4c470ad892ab516ed4da4c458efe2918515713b70856c190a6ea04692
     home: https://github.com/binrchq/headcni
@@ -109,7 +141,7 @@ entries:
         and Tailscale
     apiVersion: v2
     appVersion: 1.0.3
-    created: "2026-06-30T00:34:12.560069212+08:00"
+    created: "2026-07-04T20:20:21.588646157+08:00"
     description: A Kubernetes CNI plugin that integrates Headscale and Tailscale
     digest: ef8c53933fc0f88a957e288ea77f50f975ab4c46635d7abd8fe9551e509a6249
     home: https://github.com/binrchq/headcni
@@ -141,7 +173,7 @@ entries:
         and Tailscale
     apiVersion: v2
     appVersion: 1.0.2
-    created: "2026-06-30T00:34:12.558706442+08:00"
+    created: "2026-07-04T20:20:21.586642813+08:00"
     description: A Kubernetes CNI plugin that integrates Headscale and Tailscale
     digest: 0305e7b6087c95d24485af22a708cbded6b7fb6673485db4d3fddac80513012a
     home: https://github.com/binrchq/headcni
@@ -173,7 +205,7 @@ entries:
         and Tailscale
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-06-30T00:34:12.557338941+08:00"
+    created: "2026-07-04T20:20:21.584539539+08:00"
     description: A Kubernetes CNI plugin that integrates Headscale and Tailscale
     digest: 4e8f632dcfd5d9773403239124dec785a3636370f0e72446cd69fc4bad621c1b
     home: https://github.com/binrchq/headcni
@@ -193,4 +225,4 @@ entries:
     urls:
     - https://charts.binrc.com/headcni-1.0.0.tgz
     version: 1.0.0
-generated: "2026-06-30T00:34:12.554670928+08:00"
+generated: "2026-07-04T20:20:21.580636788+08:00"
