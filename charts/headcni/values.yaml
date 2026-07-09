@@ -9,7 +9,7 @@
 image:
   # Image repository address
   # Type: string | Required: true | Example: "binrc/headcni:1.0.4"
-  repository: "binrc/headcni:1.0.6" # cni daemon image
+  repository: "binrc/headcni:1.0.8" # cni daemon image
   # Image pull policy: Always, IfNotPresent, Never
   # Type: string | Default: "IfNotPresent"
   pullPolicy: IfNotPresent
@@ -74,7 +74,7 @@ config:
       prefix: "headcni-pod" # Hostname prefix
       type: "hostname" # Hostname type: hostname or fqdn
 
-    mtu: 1400 # Maximum Transmission Unit (1400 for mixed environment, 1420 for datacenter, 1280 for conservative)
+    mtu: 1280 # Maximum Transmission Unit (与现网 headcni01 隧道一致)
     acceptDNS: false # Accept DNS settings from HeadScale
     overrideLocalDNS: false # Override local DNS settings
 
@@ -101,7 +101,7 @@ config:
     podCIDR: "10.42.0.0/16" # Base Pod CIDR for the cluster (controlled by k8s/k3s)
     podCIDRSubnet: "/24" # Subnet for the Pod CIDR
     serviceCIDR: "10.43.0.0/16" # Service CIDR for Kubernetes services
-    mtu: 1230 # Network interface MTU
+    mtu: 1280 # Network interface MTU
     enableIPv6: false # Enable IPv6 support
     enableNetworkPolicy: true # Enable network policy support
 
