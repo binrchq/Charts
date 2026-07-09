@@ -2399,8 +2399,8 @@ helm repo update</span></code>
       headcni: {
         name: "headcni",
         displayName: "headcni-helm",
-        version: "1.0.7",
-        appVersion: "1.0.7",
+        version: "1.0.8",
+        appVersion: "1.0.8",
         license: "MIT",
         category: "Networking",
         desc: {
@@ -2410,13 +2410,13 @@ helm repo update</span></code>
         features: {
           zh: [
             "使用 WireGuard 实现零信任集群网络加密，对容器透明",
-            "针对混合物理网络环境优化 CNI 的默认 MTU (1400) 设置",
+            "针对混合物理网络环境优化 CNI 的默认 MTU (1280) 设置",
             "支持底层容器自定义路由表注入与防火墙特权标记 (FWMARK)",
             "集成 Prometheus 指标监控端点 (9001/metrics)"
           ],
           en: [
             "Zero Trust network encryption with WireGuard",
-            "Optimized default MTU (1400) for hybrid environments",
+            "Optimized default MTU (1280) for hybrid environments",
             "Custom routing tables and firewall marks",
             "Integrated Prometheus metrics (9001/metrics)"
           ]
@@ -2906,7 +2906,7 @@ helm repo update</span></code>
               </div>
               <div class="option-row">
                 <label for="helm-mtu">${langData.mtuSetting}</label>
-                <input type="text" id="helm-mtu" class="form-input" value="1400" oninput="updateHelmCommand()">
+                <input type="text" id="helm-mtu" class="form-input" value="1280" oninput="updateHelmCommand()">
               </div>
               <div class="checkbox-row" style="margin-top: 18px;">
                 <input type="checkbox" id="check-dns" onchange="updateHelmCommand()">
@@ -3190,12 +3190,12 @@ helm repo update</span></code>
 
       const releaseName = nameInput.value.trim() || 'headcni';
       const namespace = namespaceInput.value.trim() || 'kube-system';
-      const mtu = mtuInput.value.trim() || '1400';
+      const mtu = mtuInput.value.trim() || '1280';
       const dnsChecked = dnsInput.checked;
       const metricsChecked = metricsInput.checked;
 
       let cmd = '';
-      if (mtu !== '1400') {
+      if (mtu !== '1280') {
         cmd = `helm install ${releaseName} binrc/headcni \\\n  --namespace ${namespace} \\\n  --set config.tailscale.mtu=${mtu} \\\n  --set config.network.mtu=${mtu}`;
       } else {
         cmd = `helm install ${releaseName} binrc/headcni \\\n  --namespace ${namespace}`;
