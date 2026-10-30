@@ -97,14 +97,15 @@ config:
   # - name: netns name (/var/run/netns/<name>) | Type: string | Default: "headcni"
   # - hostVeth: host side veth name | Type: string | Default: "hcni0"
   # - peerVeth: netns side veth name | Type: string | Default: "hcni1"
-  # - peerCIDR: link subnet between host and netns | Type: string | Default: "169.254.10.0/30"
+  # - peerCIDR: link subnet between host and netns | Type: string | Default: "10.255.255.0/30"
+  #   注意：不要用 169.254.0.0/16（链路本地），tailscaled 会判定 network is down
   # - tunPort: tailscaled listen port inside netns | Type: integer | Default: 41641
   netns:
     enabled: true # Enable netns isolation for tailscaled
     name: "headcni" # netns name
     hostVeth: "hcni0" # host side veth
     peerVeth: "hcni1" # netns side veth
-    peerCIDR: "169.254.10.0/30" # peer link subnet
+    peerCIDR: "10.255.255.0/30" # peer link subnet
     tunPort: 41641 # tailscaled port inside netns
 
   # =============================================================================

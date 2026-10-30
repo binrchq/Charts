@@ -301,7 +301,7 @@ spec:
         - name: HEADCNI_NETNS_PEER_VETH
           value: {{ .Values.config.netns.peerVeth | default "hcni1" | quote }}
         - name: HEADCNI_NETNS_PEER_CIDR
-          value: {{ .Values.config.netns.peerCIDR | default "169.254.10.0/30" | quote }}
+          value: {{ .Values.config.netns.peerCIDR | default "10.255.255.0/30" | quote }}
         - name: HEADCNI_NETNS_TUN_PORT
           value: {{ .Values.config.netns.tunPort | default 41641 | quote }}
         {{- end }}
