@@ -41,7 +41,10 @@ spec:
           # 2. Prepare configuration in container
           mkdir -p /opt/headcni/config
           mkdir -p /opt/headcni/templates
-
+          
+          # Copy template files
+          cp /etc/headcni/headcni-daemon.env /opt/headcni/config/
+          
           # Create configuration file
           cat > /opt/headcni/config/daemon.yaml <<EOF
           # HeadCNI Daemon Configuration
@@ -236,6 +239,29 @@ spec:
           runAsNonRoot: false
           runAsUser: 0
           privileged: true
+      - name: setup-headcni-plugin
+        image: "{{ .Values.image.cniPluginRepository }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+          - name: TARGETOS
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.labels['kubernetes.io/os']
+          - name: TARGETARCH
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.labels['kubernetes.io/arch']
+          - name: CNI_BIN_DIR
+            value: "/opt/cni/bin"
+        volumeMounts:
+        - name: host-cni-bin
+          mountPath: /opt/cni/bin
+        command: ["/entrypoint.sh"]
+        args: ["install"]
+        securityContext:
+          runAsNonRoot: false
+          runAsUser: 0
+          privileged: true
       containers:
       - name: headcni-daemon
         image: "{{ .Values.image.repository }}"
@@ -266,8 +292,15 @@ spec:
           value: "{{ .Values.config.network.podCIDR | default "" }}"
         - name: SERVICE_CIDR
           value: "{{ .Values.config.network.serviceCIDR | default "" }}"
-        - name: TS_DEBUG_MTU
-          value: "{{ .Values.config.tailscale.mtu | default 1280 }}"
+        {{- if .Values.config.netns.enabled }}
+        # netns 隔离：tailscaled 子进程通过 ip netns exec 运行在 /var/run/netns/<name>
+        - name: HEADCNI_NETNS_NAME
+          value: {{ .Values.config.netns.name | default "headcni" | quote }}
+        - name: HEADCNI_NETNS_HOST_VETH
+          value: {{ .Values.config.netns.hostVeth | default "hcni0" | quote }}
+        - name: HEADCNI_NETNS_PEER_VETH
+          value: {{ .Values.config.netns.peerVeth | default "hcni1" | quote }}
+        {{- end }}
 
         {{- if .Values.config.headscale.authKey }}
         - name: HEADSCALE_AUTH_KEY
@@ -314,6 +347,12 @@ spec:
         - name: headcni-data
           mountPath: /var/lib/headcni
           readOnly: false
+        # Network namespaces directory - tailscaled runs in its own netns.
+        # Bidirectional propagation is required so that the bind mount created by
+        # `ip netns add` inside this container is visible (and survives) on the host.
+        - name: netns
+          mountPath: /var/run/netns
+          mountPropagation: Bidirectional
         # iptables lock file (for iptables-wrapper)
         - name: xtables-lock
           mountPath: /run/xtables.lock
@@ -389,6 +428,11 @@ spec:
       - name: headcni-data
         hostPath:
           path: /var/lib/headcni
+          type: DirectoryOrCreate
+      # Network namespaces directory (tailscaled isolation)
+      - name: netns
+        hostPath:
+          path: /var/run/netns
           type: DirectoryOrCreate
       # iptables lock file (for iptables-wrapper)
       - name: xtables-lock

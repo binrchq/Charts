@@ -2,10 +2,10 @@
 
 <div align="center">
 
-![HeadCNI](https://img.shields.io/badge/HeadCNI-v1.0.0-blue?style=for-the-badge&logo=kubernetes)
+![HeadCNI](https://img.shields.io/badge/HeadCNI-v1.1.0-blue?style=for-the-badge&logo=kubernetes)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-1.20+-326CE5?style=for-the-badge&logo=kubernetes)
 ![Helm](https://img.shields.io/badge/Helm-3.0+-0F1689?style=for-the-badge&logo=helm)
-![Tailscale](https://img.shields.io/badge/Tailscale-v1.100.0-FF6B6B?style=for-the-badge&logo=tailscale)
+![Tailscale](https://img.shields.io/badge/Tailscale-v1.104.4-FF6B6B?style=for-the-badge&logo=tailscale)
 ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
 **Production-ready Kubernetes CNI plugin powered by Tailscale v1.100.0**

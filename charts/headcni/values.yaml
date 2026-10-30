@@ -8,8 +8,9 @@
 # =============================================================================
 image:
   # Image repository address
-  # Type: string | Required: true | Example: "binrc/headcni:1.0.4"
-  repository: "binrc/headcni:1.0.10" # cni daemon image
+  # Type: string | Required: true | Example: "binrc/headcni:latest"
+  repository: "binrc/headcni:1.1.0" # cni plugin image
+  cniPluginRepository: "binrc/headcni-plugin:1.1.0" # cni plugin image
   # Image pull policy: Always, IfNotPresent, Never
   # Type: string | Default: "IfNotPresent"
   pullPolicy: IfNotPresent
@@ -48,6 +49,7 @@ config:
   # Tailscale client configuration
   #
   # REQUIRED PARAMETERS:
+  # - mode: Operation mode: "host" or "daemon" | Type: string | Required: true
   # - url: HeadScale server URL | Type: string | Required: true
   #
   # OPTIONAL PARAMETERS:
@@ -63,7 +65,7 @@ config:
   # - interfaceName: Tailscale interface name | Type: string | Default: "headcni01"
   # - tags: Node tags for access control | Type: array
   tailscale:
-    # mode parameter removed - only daemon mode supported
+    mode: "daemon" # Operation mode: host or daemon
     url: "https://headscale.example.com:8080" # HeadScale server URL for daemon mode
 
     socket:
@@ -74,7 +76,7 @@ config:
       prefix: "headcni-pod" # Hostname prefix
       type: "hostname" # Hostname type: hostname or fqdn
 
-    mtu: 1280 # Maximum Transmission Unit (与现网 headcni01 隧道一致)
+    mtu: 1280 # Maximum Transmission Unit
     acceptDNS: false # Accept DNS settings from HeadScale
     overrideLocalDNS: false # Override local DNS settings
 
@@ -83,6 +85,27 @@ config:
     tags: # Node tags for access control
       - "tag:control-server"
       - "tag:headcni"
+
+  # =============================================================================
+  # 2.3.1 Network Namespace Isolation
+  # =============================================================================
+  # tailscaled 运行在独立 netns 中，与宿主机自带的 tailscaled 完全隔离：
+  # 不再需要修改 fwmark / 路由表号 / ip rule 优先级 / iptables 链名，
+  # 也不会互相污染端点枚举（避免 disco 握手失败、永远走 DERP）。
+  #
+  # - enabled: Enable netns isolation | Type: boolean | Default: true
+  # - name: netns name (/var/run/netns/<name>) | Type: string | Default: "headcni"
+  # - hostVeth: host side veth name | Type: string | Default: "hcni0"
+  # - peerVeth: netns side veth name | Type: string | Default: "hcni1"
+  # - peerCIDR: link subnet between host and netns | Type: string | Default: "169.254.10.0/30"
+  # - tunPort: tailscaled listen port inside netns | Type: integer | Default: 41641
+  netns:
+    enabled: true # Enable netns isolation for tailscaled
+    name: "headcni" # netns name
+    hostVeth: "hcni0" # host side veth
+    peerVeth: "hcni1" # netns side veth
+    peerCIDR: "169.254.10.0/30" # peer link subnet
+    tunPort: 41641 # tailscaled port inside netns
 
   # =============================================================================
   # 2.4 Network Configuration
@@ -101,7 +124,7 @@ config:
     podCIDR: "10.42.0.0/16" # Base Pod CIDR for the cluster (controlled by k8s/k3s)
     podCIDRSubnet: "/24" # Subnet for the Pod CIDR
     serviceCIDR: "10.43.0.0/16" # Service CIDR for Kubernetes services
-    mtu: 1280 # Network interface MTU
+    mtu: 1230 # Network interface MTU
     enableIPv6: false # Enable IPv6 support
     enableNetworkPolicy: true # Enable network policy support
 
