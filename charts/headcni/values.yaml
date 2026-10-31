@@ -9,7 +9,7 @@
 image:
   # Image repository address
   # Type: string | Required: true | Example: "binrc/headcni:latest"
-  repository: "binrc/headcni:1.1.0" # cni plugin image
+  repository: "binrc/headcni:1.1.3" # cni plugin image
   cniPluginRepository: "binrc/headcni-plugin:1.1.0" # cni plugin image
   # Image pull policy: Always, IfNotPresent, Never
   # Type: string | Default: "IfNotPresent"
