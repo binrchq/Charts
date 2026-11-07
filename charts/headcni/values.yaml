@@ -9,10 +9,13 @@
 image:
   # Image repository address
   # Type: string | Required: true | Example: "binrc/headcni:1.0.4"
-  repository: "binrc/headcni:1.0.11" # cni daemon image
+  repository: "registry.cn-hongkong.aliyuncs.com/binrc/headcni:1.0.12" # cni daemon image
   # Image pull policy: Always, IfNotPresent, Never
   # Type: string | Default: "IfNotPresent"
   pullPolicy: IfNotPresent
+  # Image pull secrets (private registry). Leave empty for Docker Hub public images.
+  pullSecrets:
+    - name: ali-hk-registry-secret
 
 # =============================================================================
 # 2. Core Configuration

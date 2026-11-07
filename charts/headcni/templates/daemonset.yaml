@@ -20,6 +20,10 @@ spec:
       # Use host PID namespace for process management
       hostPID: true
       serviceAccountName: {{ include "headcni.serviceAccountName" . }}
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       # Set restart policy
       restartPolicy: Always
       # Termination grace period - increased for Tailscale graceful shutdown
